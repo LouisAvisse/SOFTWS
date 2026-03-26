@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-primary: theme('colors.zinc.900');
+  --brand-accent: theme('colors.zinc.700');
+  --brand-muted: theme('colors.zinc.500');
+  --brand-surface: theme('colors.zinc.50');
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+  body {
+    @apply bg-white text-zinc-900 font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  * {
+    @apply border-zinc-200;
+  }
+}
+
+@layer utilities {
+  .section-padding {
+    @apply py-24 lg:py-32;
+  }
+  .container-max {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
