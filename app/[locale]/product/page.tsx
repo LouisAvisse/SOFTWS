@@ -1,3 +1,4 @@
+import React from 'react';
 import { getTranslations } from 'next-intl/server';
 import { Brain, Navigation, BarChart3, MessageSquare, Sparkles, FileText, Search, Map, Star, Zap, Shield, TrendingUp, Users } from 'lucide-react';
 
@@ -5,7 +6,7 @@ import { PRODUCT_ILLUSTRATIONS, type ProductSlug } from '@/lib/content/products'
 import { HeroSplit } from '@/components/sections/HeroSplit';
 import { ThreePillars } from '@/components/sections/ThreePillars';
 import { BentoGrid } from '@/components/sections/BentoGrid';
-import { StickyScroll } from '@/components/sections/StickyScroll';
+import { AlternatingSteps } from '@/components/sections/AlternatingSteps';
 import { DarkCard } from '@/components/sections/DarkCard';
 import { FeatureGrid } from '@/components/sections/FeatureGrid';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
@@ -49,15 +50,20 @@ export default async function ProductOverviewPage({
   const whyChooseRaw = t.raw('whyChoose.items') as WhyItemRaw[];
   const faqItems = t.raw('faq.items') as FAQRaw[];
 
-  // Assembled pillars
+  // Assembled pillars — render icons as ReactNode so they're serializable
+  const pillarIconNodes = [
+    <Brain key="brain" className="w-5 h-5 text-white" />,
+    <Navigation key="nav" className="w-5 h-5 text-white" />,
+    <BarChart3 key="chart" className="w-5 h-5 text-white" />,
+  ];
   const pillars: [
-    { icon: typeof Brain; title: string; body: string },
-    { icon: typeof Navigation; title: string; body: string },
-    { icon: typeof BarChart3; title: string; body: string },
+    { icon: React.ReactNode; title: string; body: string },
+    { icon: React.ReactNode; title: string; body: string },
+    { icon: React.ReactNode; title: string; body: string },
   ] = [
-    { icon: PILLAR_ICONS[0], title: pillarsRaw[0]?.title ?? '', body: pillarsRaw[0]?.body ?? '' },
-    { icon: PILLAR_ICONS[1], title: pillarsRaw[1]?.title ?? '', body: pillarsRaw[1]?.body ?? '' },
-    { icon: PILLAR_ICONS[2], title: pillarsRaw[2]?.title ?? '', body: pillarsRaw[2]?.body ?? '' },
+    { icon: pillarIconNodes[0], title: pillarsRaw[0]?.title ?? '', body: pillarsRaw[0]?.body ?? '' },
+    { icon: pillarIconNodes[1], title: pillarsRaw[1]?.title ?? '', body: pillarsRaw[1]?.body ?? '' },
+    { icon: pillarIconNodes[2], title: pillarsRaw[2]?.title ?? '', body: pillarsRaw[2]?.body ?? '' },
   ];
 
   // Bento items
@@ -117,7 +123,7 @@ export default async function ProductOverviewPage({
 
       {/* 3 — Learning Loop */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="text-center mb-14">
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               How Learning Works
@@ -137,7 +143,7 @@ export default async function ProductOverviewPage({
 
       {/* 4 — Feature Bento (8 products) */}
       <section className="pt-24 lg:pt-32 pb-0 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn>
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               The Platform
@@ -150,12 +156,12 @@ export default async function ProductOverviewPage({
       </section>
       <BentoGrid items={bentoItems} columns={3} />
 
-      {/* 5 — How Soft Works (StickyScroll) */}
-      <StickyScroll headline={t('howItWorks.headline')} steps={steps} />
+      {/* 5 — How Soft Works */}
+      <AlternatingSteps headline={t('howItWorks.headline')} steps={steps} />
 
       {/* 6 — Static vs Adaptive Comparison */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="max-w-2xl mb-12">
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               Why It Works
@@ -184,7 +190,7 @@ export default async function ProductOverviewPage({
 
       {/* 8 — Analytics Dashboard */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="text-center mb-14">
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               Analytics

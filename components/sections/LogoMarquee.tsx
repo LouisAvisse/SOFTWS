@@ -13,52 +13,42 @@ interface LogoMarqueeProps {
 function LogoItem({ logo }: { logo: Logo }) {
   if (logo.svg) {
     return (
-      <div className="flex items-center justify-center h-8 px-6 text-zinc-300 grayscale opacity-60 hover:opacity-100 transition-opacity flex-shrink-0">
+      <div className="flex items-center justify-center h-8 px-8 text-zinc-400 grayscale opacity-60 flex-shrink-0">
         {logo.svg}
       </div>
     );
   }
   return (
-    <span className="flex items-center h-8 px-6 font-semibold text-zinc-300 opacity-60 hover:opacity-100 transition-opacity flex-shrink-0 whitespace-nowrap select-none">
+    <span className="flex items-center h-8 px-10 font-semibold text-zinc-400 opacity-60 flex-shrink-0 whitespace-nowrap select-none text-sm tracking-wide">
       {logo.name}
     </span>
   );
 }
 
 export function LogoMarquee({ headline, logos }: LogoMarqueeProps) {
-  const doubled = [...logos, ...logos];
-
   return (
-    <section className="bg-zinc-50 py-14 overflow-hidden" aria-label="Trusted by leading companies">
-      <div className="container mx-auto mb-8">
+    <section className="bg-white py-10 border-y border-zinc-100" aria-label="Trusted by leading companies">
+      <div className="max-w-[1050px] mx-auto px-6 mb-5">
         <p className="text-xs font-semibold tracking-widest uppercase text-zinc-400 text-center">
           {headline}
         </p>
       </div>
 
-      {/* Row 1 — left */}
-      <div
-        className="relative flex overflow-hidden mb-4"
-        style={{
-          maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-        }}
-      >
-        <div className="flex animate-marquee" aria-hidden="true">
-          {doubled.map((logo, i) => <LogoItem key={i} logo={logo} />)}
-        </div>
-      </div>
-
-      {/* Row 2 — right (reverse via negative translate-x start) */}
-      <div
-        className="relative flex overflow-hidden"
-        style={{
-          maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-        }}
-      >
-        <div className="flex animate-marquee [animation-direction:reverse]" aria-hidden="true">
-          {doubled.map((logo, i) => <LogoItem key={i} logo={logo} />)}
+      <div className="max-w-[1050px] mx-auto px-6 overflow-hidden">
+        <div
+          className="relative"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+          }}
+        >
+          <div
+            className="flex animate-marquee motion-reduce:animate-none hover:[animation-play-state:paused]"
+            aria-hidden="true"
+          >
+            {logos.map((logo, i) => <LogoItem key={`a-${i}`} logo={logo} />)}
+            {logos.map((logo, i) => <LogoItem key={`b-${i}`} logo={logo} />)}
+          </div>
         </div>
       </div>
     </section>

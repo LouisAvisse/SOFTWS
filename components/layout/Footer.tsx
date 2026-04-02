@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+import { FooterColumnsReveal, FooterColumn, FooterBrandReveal } from '@/components/motion/FooterReveal';
 
 // ─── B-Corp badge SVG ─────────────────────────────────────────────────────────
 
@@ -40,10 +41,10 @@ export async function Footer() {
     <footer className="bg-zinc-950 text-zinc-400">
       {/* Main grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <FooterColumnsReveal className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
 
           {/* Col 1 — Brand */}
-          <div className="flex flex-col gap-4">
+          <FooterBrandReveal className="flex flex-col gap-4">
             <div>
               <Link href="/" className="text-white font-bold text-xl tracking-tight">
                 Soft
@@ -51,10 +52,10 @@ export async function Footer() {
               <p className="mt-2 text-sm leading-relaxed">{t('tagline')}</p>
             </div>
             <BCorp />
-          </div>
+          </FooterBrandReveal>
 
           {/* Col 2 — Product */}
-          <div>
+          <FooterColumn>
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-4">
               Product
             </p>
@@ -68,10 +69,10 @@ export async function Footer() {
               <FooterLink href="/product/conversation-intelligence">Conversation Intelligence</FooterLink>
               <FooterLink href="/product/role-readiness-builder">Role Readiness Builder</FooterLink>
             </ul>
-          </div>
+          </FooterColumn>
 
           {/* Col 3 — Solutions */}
-          <div>
+          <FooterColumn>
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-4">
               Solutions
             </p>
@@ -87,10 +88,10 @@ export async function Footer() {
               <FooterLink href="/industries/franchise-retail">Franchise & Retail</FooterLink>
               <FooterLink href="/industries/education">Education</FooterLink>
             </ul>
-          </div>
+          </FooterColumn>
 
           {/* Col 4 — Company */}
-          <div>
+          <FooterColumn>
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-4">
               Company
             </p>
@@ -109,8 +110,8 @@ export async function Footer() {
                 support@soft.eu
               </a>
             </div>
-          </div>
-        </div>
+          </FooterColumn>
+        </FooterColumnsReveal>
       </div>
 
       {/* Bottom bar */}

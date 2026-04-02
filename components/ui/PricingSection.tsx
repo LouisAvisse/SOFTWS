@@ -26,7 +26,7 @@ interface Props {
 }
 
 export function PricingSection({ cards, billing }: Props) {
-  const [isAnnual, setIsAnnual] = useState(false);
+  const [isAnnual, setIsAnnual] = useState(true);
 
   return (
     <div className="space-y-10">

@@ -4,22 +4,45 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: 'bg-zinc-900 text-white hover:bg-zinc-800',
-        outline: 'border border-zinc-900 text-zinc-900 bg-transparent hover:bg-zinc-900 hover:text-white',
-        architectural: 'border border-zinc-900 text-zinc-900 bg-transparent hover:bg-zinc-900 hover:text-white',
-        ghost: 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900',
-        white: 'bg-white text-zinc-900 hover:bg-zinc-50',
-        'white-outline': 'border border-white/40 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20',
+        default: [
+          'relative text-white rounded-xl',
+          'bg-gradient-to-b from-zinc-700 to-zinc-900',
+          'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_1px_3px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.8)]',
+          'hover:from-zinc-600 hover:to-zinc-800 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_2px_8px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.7)]',
+          'active:from-zinc-800 active:to-zinc-900 active:shadow-[inset_0_1px_3px_rgba(0,0,0,0.3),0_0_0_1px_rgba(0,0,0,0.8)]',
+        ].join(' '),
+        outline: 'border border-zinc-900 text-zinc-900 bg-transparent hover:bg-zinc-900 hover:text-white rounded-xl',
+        architectural: [
+          'relative text-zinc-800 rounded-xl',
+          'bg-gradient-to-b from-white to-zinc-50',
+          'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),inset_0_-1px_0_0_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.06),0_0_0_1px_rgba(0,0,0,0.1)]',
+          'hover:from-zinc-50 hover:to-zinc-100 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6),inset_0_-1px_0_0_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.12)]',
+          'active:from-zinc-100 active:to-zinc-100 active:shadow-[inset_0_1px_3px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.1)]',
+        ].join(' '),
+        ghost: 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 rounded-xl',
+        white: [
+          'relative text-zinc-900 rounded-xl',
+          'bg-gradient-to-b from-white to-zinc-50',
+          'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.9),inset_0_-1px_0_0_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.08),0_0_0_1px_rgba(255,255,255,0.6)]',
+          'hover:from-zinc-50 hover:to-zinc-100 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),0_2px_8px_rgba(0,0,0,0.1),0_0_0_1px_rgba(255,255,255,0.5)]',
+          'active:from-zinc-100 active:to-zinc-100',
+        ].join(' '),
+        'white-outline': [
+          'relative text-white rounded-xl',
+          'bg-white/5 backdrop-blur-sm',
+          'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_0_1px_rgba(255,255,255,0.2)]',
+          'hover:bg-white/10 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_0_1px_rgba(255,255,255,0.3)]',
+        ].join(' '),
       },
       size: {
         sm: 'h-8 px-4 text-xs',
-        default: 'h-10 px-6',
-        lg: 'h-12 px-8 text-base',
-        xl: 'h-14 px-10 text-base',
+        default: 'h-10 px-5 text-sm',
+        lg: 'h-11 px-6 text-[0.9rem]',
+        xl: 'h-12 px-8 text-[0.95rem]',
         icon: 'h-10 w-10',
       },
     },

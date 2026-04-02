@@ -102,7 +102,7 @@ export default async function IndustryPage({
 
       {/* 2 — Industry Challenge */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 leading-[1.1]">
               {t('challenge.headline')}{' '}
@@ -129,7 +129,7 @@ export default async function IndustryPage({
 
       {/* 3 — Where Soft Creates Value */}
       <section className="py-24 lg:py-32 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="text-center mb-14 max-w-2xl mx-auto">
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900">
               {t('value.headline')}{' '}
@@ -158,10 +158,10 @@ export default async function IndustryPage({
 
       {/* 4 — Role-Based Tabs */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="mb-10">
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              Who It's For
+              Who It&apos;s For
             </p>
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900">
               Practice for Every Role.

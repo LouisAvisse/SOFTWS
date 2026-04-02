@@ -1,7 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface PricingCard {
@@ -30,7 +32,7 @@ function getDisplayPrice(price: string, isAnnual: boolean): { amount: string; su
 
 export function PricingGrid({ cards, isAnnual }: Props) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {cards.map((card) => {
         const display = getDisplayPrice(card.price, isAnnual);
         const isEnterprise = card.price === "Let's talk";
@@ -39,7 +41,7 @@ export function PricingGrid({ cards, isAnnual }: Props) {
           <div
             key={card.name}
             className={cn(
-              'relative bg-white border rounded-xl p-8 flex flex-col',
+              'relative bg-white border rounded-2xl p-6 lg:p-7 flex flex-col',
               card.recommended
                 ? 'border-zinc-900 shadow-lg'
                 : 'border-zinc-200',
@@ -80,20 +82,19 @@ export function PricingGrid({ cards, isAnnual }: Props) {
             </div>
 
             {/* CTA */}
-            <a
-              href={isEnterprise ? '/contact' : '/signup'}
-              className={cn(
-                'w-full text-center text-sm font-semibold py-2.5 px-4 transition-colors duration-150 mb-8',
-                card.recommended
-                  ? 'bg-zinc-900 text-white hover:bg-zinc-800'
-                  : 'border border-zinc-200 text-zinc-900 hover:border-zinc-400 hover:bg-zinc-50',
-              )}
-            >
-              {card.cta}
-            </a>
+            <div className="mb-8">
+              <Button
+                variant={card.recommended ? 'default' : 'architectural'}
+                size="default"
+                asChild
+                className="w-full justify-center"
+              >
+                <Link href={isEnterprise ? '/contact' : '/signup'}>{card.cta}</Link>
+              </Button>
+            </div>
 
             {/* Features */}
-            <ul className="space-y-3 mt-auto">
+            <ul className="space-y-3">
               {card.features.map((feature, i) => (
                 <li key={i} className="flex items-start gap-2.5">
                   <Check className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />

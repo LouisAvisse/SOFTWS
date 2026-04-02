@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Louis%20Avisse/Documents/repo%20clone/SOFTWS/app/layout.tsx"],"sourcesContent":["import type { ReactNode } from 'react';\n\n// Root layout: locale layout handles <html> and <body>.\n// Required by Next.js but delegates to app/[locale]/layout.tsx.\nexport default function RootLayout({ children }: { children: ReactNode }) {\n  return children;\n}\n"],"names":[],"mappings":";;;;AAIe,SAAS,WAAW,EAAE,QAAQ,EAA2B;IACtE,OAAO;AACT","debugId":null}}]
+}

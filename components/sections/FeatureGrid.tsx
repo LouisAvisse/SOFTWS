@@ -18,7 +18,7 @@ interface FeatureGridProps {
 export function FeatureGrid({ headline, features, columns = 3 }: FeatureGridProps) {
   return (
     <section className="py-24 lg:py-32 bg-white">
-      <div className="container mx-auto">
+      <div className="max-w-[1050px] mx-auto px-6">
         {headline && (
           <FadeIn className="mb-14">
             <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-zinc-900">

@@ -9,7 +9,7 @@ import { HeroSplit } from '@/components/sections/HeroSplit';
 import { LogoMarquee } from '@/components/sections/LogoMarquee';
 import { BentoGrid } from '@/components/sections/BentoGrid';
 import { FeatureGrid } from '@/components/sections/FeatureGrid';
-import { StickyScroll } from '@/components/sections/StickyScroll';
+import { AlternatingSteps } from '@/components/sections/AlternatingSteps';
 import { MetricScorecard } from '@/components/sections/MetricScorecard';
 import { DarkCard } from '@/components/sections/DarkCard';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
@@ -122,7 +122,7 @@ export default async function UseCasePage({
 
       {/* 4 — Feature Highlight + Feature Grid */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="mb-14 max-w-2xl">
             <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-zinc-900 mb-4">
               {t('featureHighlight.headline')}{' '}
@@ -136,9 +136,10 @@ export default async function UseCasePage({
       </section>
       <FeatureGrid features={features} columns={3} />
 
-      {/* 5 — Sticky Scroll */}
-      <StickyScroll
+      {/* 5 — Alternating Steps */}
+      <AlternatingSteps
         headline={t('stickyScroll.headline')}
+        headlineBold={t('stickyScroll.headlineBold')}
         intro={t('stickyScroll.intro')}
         steps={steps}
       />

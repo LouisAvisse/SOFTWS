@@ -6,7 +6,9 @@
       "Bash(npm audit:*)",
       "Bash(npm show:*)",
       "Bash(npx tsc:*)",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(npx next:*)",
+      "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\")"
     ]
   }
 }

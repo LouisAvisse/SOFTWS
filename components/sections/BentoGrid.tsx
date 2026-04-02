@@ -21,7 +21,7 @@ interface BentoGridProps {
 export function BentoGrid({ items, columns = 3, dark = false }: BentoGridProps) {
   return (
     <section className={cn('py-24 lg:py-32', dark ? 'bg-zinc-950' : 'bg-white')}>
-      <div className="container mx-auto">
+      <div className="max-w-[1050px] mx-auto px-6">
         <StaggerGroup
           className={cn(
             'grid gap-4',
@@ -32,7 +32,7 @@ export function BentoGrid({ items, columns = 3, dark = false }: BentoGridProps) 
             const Icon = item.icon;
             const spanClass = item.size === 'lg' ? 'md:col-span-2' : '';
             const cardClass = cn(
-              'group p-8 border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2',
+              'group p-8 border rounded-2xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2',
               dark
                 ? 'bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800 hover:-translate-y-0.5'
                 : 'bg-white border-zinc-200 hover:bg-zinc-50 hover:-translate-y-0.5',

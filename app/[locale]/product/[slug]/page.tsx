@@ -7,7 +7,7 @@ import { routing } from '@/i18n/routing';
 import { PRODUCT_SLUGS, PRODUCT_ILLUSTRATIONS, type ProductSlug } from '@/lib/content/products';
 import { HeroSplit } from '@/components/sections/HeroSplit';
 import { BentoGrid } from '@/components/sections/BentoGrid';
-import { StickyScroll } from '@/components/sections/StickyScroll';
+import { AlternatingSteps } from '@/components/sections/AlternatingSteps';
 import { MetricScorecard } from '@/components/sections/MetricScorecard';
 import { DarkCard } from '@/components/sections/DarkCard';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
@@ -94,7 +94,7 @@ export default async function ProductPage({
 
       {/* 2 — Why It Matters */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="max-w-3xl mx-auto text-center">
             <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 leading-[1.08] mb-6">
               {t('whyItMatters.headline')}{' '}
@@ -108,11 +108,11 @@ export default async function ProductPage({
       </section>
 
       {/* 3 — How It Works */}
-      <StickyScroll headline={t('howItWorks.headline')} steps={steps} />
+      <AlternatingSteps headline={t('howItWorks.headline')} steps={steps} />
 
       {/* 4 — Key Capabilities headline */}
       <section className="pt-24 lg:pt-32 pb-0 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="mb-2">
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               Capabilities

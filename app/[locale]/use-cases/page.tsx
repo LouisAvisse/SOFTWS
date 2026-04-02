@@ -84,7 +84,7 @@ export default async function UseCasesOverviewPage({
 
       {/* 2 — Bridge section */}
       <section className="py-24 lg:py-32 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-5xl mx-auto">
             <FadeIn direction="left">
               <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 leading-[1.08]">

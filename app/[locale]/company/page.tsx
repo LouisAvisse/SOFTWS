@@ -1,9 +1,10 @@
 import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
 import { Play, ArrowRight, Download, BookOpen, MapPin } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
 import { HeroSplit } from '@/components/sections/HeroSplit';
 import { BentoGrid } from '@/components/sections/BentoGrid';
-import { DarkCard } from '@/components/sections/DarkCard';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
@@ -73,7 +74,7 @@ export default async function CompanyPage({
 
       {/* 2 — Story Timeline */}
       <section className="py-24 lg:py-32 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <FadeIn>
               <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
@@ -95,7 +96,7 @@ export default async function CompanyPage({
 
       {/* 3 — Expertise */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="max-w-2xl mb-14">
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               Our Approach
@@ -122,7 +123,7 @@ export default async function CompanyPage({
 
       {/* 4 — Resource Hub */}
       <section className="pt-24 lg:pt-32 pb-0 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn>
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               Resources
@@ -138,7 +139,7 @@ export default async function CompanyPage({
 
       {/* 5 — Responsible AI */}
       <section className="py-24 lg:py-32 bg-zinc-950 overflow-hidden">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="max-w-2xl mb-10">
             <Badge variant="dark" className="mb-4">{t('responsibleAI.badge')}</Badge>
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-white mb-4">
@@ -167,7 +168,7 @@ export default async function CompanyPage({
 
       {/* 6 — Security */}
       <section className="py-24 lg:py-32 bg-zinc-950 border-t border-zinc-800">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="max-w-2xl">
             <div className="flex items-center gap-2 mb-4">
               <MapPin className="h-4 w-4 text-zinc-500" />
@@ -196,7 +197,7 @@ export default async function CompanyPage({
 
       {/* 7 — Partners */}
       <section className="py-24 lg:py-32 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="mb-14">
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               Ecosystem
@@ -232,7 +233,7 @@ export default async function CompanyPage({
 
       {/* 8 — Careers */}
       <section className="py-24 lg:py-32 bg-zinc-950">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <FadeIn>
               <p className="text-xs font-semibold tracking-widest uppercase text-zinc-600 mb-3">
@@ -245,12 +246,9 @@ export default async function CompanyPage({
               <p className="text-base text-zinc-400 leading-relaxed mb-8">
                 {t('careers.body')}
               </p>
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center px-6 py-3 bg-white text-zinc-900 text-sm font-semibold hover:bg-zinc-100 transition-colors"
-              >
-                {t('careers.cta')}
-              </a>
+              <Button variant="white" size="lg" asChild>
+                <Link href="/contact">{t('careers.cta')}</Link>
+              </Button>
             </FadeIn>
             <FadeIn direction="right">
               <LadderIllustration variant="dark" />

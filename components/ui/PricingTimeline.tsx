@@ -16,7 +16,7 @@ export function PricingTimeline({ nodes }: Props) {
   const xs = nodes.map((_, i) => 75 + i * (450 / (nodes.length - 1)));
 
   return (
-    <div ref={ref} className="w-full max-w-2xl mx-auto">
+    <div ref={ref} className="w-full max-w-[680px] mx-auto">
       <div className="relative">
         <svg viewBox={`0 0 ${W} 48`} className="w-full" aria-hidden="true">
           {/* Connecting line */}

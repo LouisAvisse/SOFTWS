@@ -6,7 +6,7 @@ import { HeroSplit } from '@/components/sections/HeroSplit';
 import { LogoMarquee } from '@/components/sections/LogoMarquee';
 import { ThreePillars } from '@/components/sections/ThreePillars';
 import { StickyScroll } from '@/components/sections/StickyScroll';
-import { TabSwitcher } from '@/components/sections/TabSwitcher';
+import { RolesShowcase } from '@/components/sections/RolesShowcase';
 import { MetricScorecard } from '@/components/sections/MetricScorecard';
 import { DarkCard } from '@/components/sections/DarkCard';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
@@ -16,7 +16,7 @@ import {
   CompassIllustration,
   ConstellationIllustration,
 } from '@/components/illustrations';
-import { ProductMockupCard } from '@/components/ui/ProductMockupCard';
+import { DashboardMockup } from '@/components/ui/DashboardMockup';
 
 // ─── Raw message types ────────────────────────────────────────────────────────
 
@@ -45,38 +45,6 @@ function StepVisual({ Icon }: { Icon: React.ElementType }) {
   );
 }
 
-function TabContent({ tab }: { tab: TabRaw }) {
-  const metrics = [
-    { label: tab.metric1Label, value: tab.metric1Value },
-    { label: tab.metric2Label, value: tab.metric2Value },
-  ];
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-      <p className="text-base text-zinc-600 leading-relaxed">{tab.body}</p>
-      <div className="bg-white border border-zinc-200 rounded-lg p-5">
-        <p className="text-xs font-semibold tracking-widest uppercase text-zinc-400 mb-4">
-          {tab.scenario}
-        </p>
-        <div className="space-y-4">
-          {metrics.map((m, i) => (
-            <div key={i}>
-              <div className="flex justify-between text-sm mb-1.5">
-                <span className="text-zinc-600">{m.label}</span>
-                <span className="font-mono text-zinc-900 font-semibold">{m.value}%</span>
-              </div>
-              <div className="h-1.5 bg-zinc-100 rounded-full">
-                <div
-                  className="h-1.5 bg-zinc-900 rounded-full"
-                  style={{ width: `${m.value}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -90,14 +58,18 @@ export default async function HomePage() {
   const enterpriseFeatures = t.raw('enterprise.features') as string[];
   const mockupData = t.raw('hero.mockup') as MockupData;
 
-  // Pillars
-  const pillarIcons = [Zap, ArrowUpRight, BarChart3] as const;
+  // Pillars — render icons as ReactNode so they're serializable to client components
+  const pillarIcons: ReactNode[] = [
+    <Zap key="zap" className="w-5 h-5 text-white" />,
+    <ArrowUpRight key="arrow" className="w-5 h-5 text-white" />,
+    <BarChart3 key="chart" className="w-5 h-5 text-white" />,
+  ];
   const pillarVisuals: ReactNode[] = [
     <div key="mic" className="h-28"><MicrophoneIllustration /></div>,
     <div key="compass" className="h-28"><CompassIllustration /></div>,
     <div key="constellation" className="h-28"><ConstellationIllustration /></div>,
   ];
-  type PillarShape = { icon: React.ElementType; title: string; body: string; visual: ReactNode };
+  type PillarShape = { icon: ReactNode; title: string; body: string; visual: ReactNode };
   const pillars = ([0, 1, 2] as const).map((i) => ({
     icon: pillarIcons[i],
     title: pillarItems[i].title,
@@ -114,11 +86,8 @@ export default async function HomePage() {
     visual: <StepVisual Icon={stepIcons[i]} />,
   }));
 
-  // Tabs
-  const tabs = tabItems.map((tab) => ({
-    label: tab.label,
-    content: <TabContent tab={tab} />,
-  }));
+  // Roles data (raw, passed directly to RolesShowcase)
+  const roles = tabItems;
 
   // Logo stubs
   const logos = [
@@ -134,10 +103,11 @@ export default async function HomePage() {
         headline={t('hero.headline')}
         headlineBold={t('hero.headlineBold')}
         subheadline={t('hero.subheadline')}
-        primaryCTA={{ text: t('hero.primaryCTA'), href: '/contact' }}
-        secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/signup' }}
+        primaryCTA={{ text: t('hero.primaryCTA'), href: '/signup' }}
+        secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/product' }}
         microcopy={t('hero.microcopy')}
-        visual={<ProductMockupCard data={mockupData} />}
+
+        visual={<DashboardMockup data={mockupData} />}
       />
 
       {/* 2 — Logo Marquee */}
@@ -146,23 +116,14 @@ export default async function HomePage() {
         logos={logos}
       />
 
-      {/* 3 — Value Proposition */}
-      <section className="py-24 lg:py-32 bg-white">
-        <div className="container mx-auto">
-          <FadeIn className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl lg:text-6xl font-bold tracking-tight text-zinc-900 leading-[1.08] mb-6">
-              {t('valueProposition.headline')}{' '}
-              <em className="italic">{t('valueProposition.headlineItalic')}</em>
-            </h2>
-            <p className="text-base lg:text-lg text-zinc-600 leading-relaxed max-w-xl mx-auto">
-              {t('valueProposition.body')}
-            </p>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* 4 — Three Pillars */}
-      <ThreePillars pillars={pillars} />
+      {/* 3+4 — Features Bento */}
+      <ThreePillars
+        sectionLabel="Features / Benefits"
+        sectionHeadline={t('valueProposition.headline')}
+        sectionHeadlineItalic={t('valueProposition.headlineItalic')}
+        sectionBody={t('valueProposition.body')}
+        pillars={pillars}
+      />
 
       {/* 5 — How It Works */}
       <StickyScroll
@@ -170,20 +131,12 @@ export default async function HomePage() {
         steps={steps}
       />
 
-      {/* 6 — Use Case Tabs */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
-          <FadeIn className="mb-12">
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              Who It&apos;s For
-            </p>
-            <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-zinc-900">
-              Built for Every Revenue Role
-            </h2>
-          </FadeIn>
-          <TabSwitcher tabs={tabs} />
-        </div>
-      </section>
+      {/* 6 — Roles Showcase */}
+      <RolesShowcase
+        eyebrow="Who It's For"
+        headline="Built for Every Revenue Role"
+        roles={roles}
+      />
 
       {/* 7 — Metrics */}
       <MetricScorecard

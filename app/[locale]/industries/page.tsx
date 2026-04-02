@@ -1,8 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 import { Landmark, Zap, Store, Heart, GraduationCap, Shield, Clock, Globe, Tag, BarChart3 } from 'lucide-react';
 
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { BentoGrid } from '@/components/sections/BentoGrid';
-import { CenteredCTA } from '@/components/sections/CenteredCTA';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
 import { IndustryMosaicIllustration } from '@/components/illustrations/IndustryMosaicIllustration';
@@ -57,7 +58,7 @@ export default async function IndustriesOverviewPage({
 
       {/* 2 — Centered intro */}
       <section className="py-24 lg:py-32 bg-white">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="max-w-3xl mx-auto text-center">
             <h2 className="text-4xl lg:text-6xl font-bold tracking-tight text-zinc-900 leading-[1.08] mb-6">
               {t('intro.headline')}{' '}
@@ -77,7 +78,7 @@ export default async function IndustriesOverviewPage({
 
       {/* 4 — Cross-Industry capabilities with drawing line */}
       <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="mb-4">
             <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
               Every Industry
@@ -110,7 +111,7 @@ export default async function IndustriesOverviewPage({
 
       {/* 5 — Dark CTA */}
       <section className="py-24 bg-zinc-950">
-        <div className="container mx-auto">
+        <div className="max-w-[1050px] mx-auto px-6">
           <FadeIn className="max-w-2xl mx-auto text-center">
             <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.1] mb-4">
               {t('cta.headline')}{' '}
@@ -120,18 +121,12 @@ export default async function IndustriesOverviewPage({
               {t('cta.body')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center px-6 py-3 bg-white text-zinc-900 text-sm font-semibold hover:bg-zinc-100 transition-colors duration-150"
-              >
-                {t('cta.primaryCTA')}
-              </a>
-              <a
-                href="/use-cases"
-                className="inline-flex items-center justify-center px-6 py-3 border border-zinc-700 text-zinc-300 text-sm font-semibold hover:border-zinc-500 hover:text-white transition-colors duration-150"
-              >
-                {t('cta.secondaryCTA')}
-              </a>
+              <Button variant="white" size="lg" asChild>
+                <Link href="/contact">{t('cta.primaryCTA')}</Link>
+              </Button>
+              <Button variant="white-outline" size="lg" asChild>
+                <Link href="/use-cases">{t('cta.secondaryCTA')}</Link>
+              </Button>
             </div>
           </FadeIn>
         </div>

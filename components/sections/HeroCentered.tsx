@@ -42,7 +42,7 @@ export function HeroCentered({
     <section className="relative overflow-hidden bg-white pt-40 pb-24 text-center">
       {backgroundVariant === 'mesh' && <MeshBackground />}
 
-      <div className="container mx-auto relative">
+      <div className="max-w-[1050px] mx-auto px-6 relative">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}

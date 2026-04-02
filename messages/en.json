@@ -5,18 +5,18 @@
     "industries": "Industries",
     "pricing": "Pricing",
     "company": "Company",
-    "bookDemo": "Book Demo",
+    "logIn": "Log in",
     "tryFree": "Try Free"
   },
   "home": {
     "hero": {
-      "label": "AI-POWERED SALES TRAINING",
-      "headline": "Stop Guessing. Start Practicing.",
-      "headlineBold": "AI-Powered Roleplay for Sales Teams.",
-      "subheadline": "Soft transforms static training into adaptive learning. Rehearse high-stakes conversations, get instant AI coaching, and master your pitch before the first call.",
-      "primaryCTA": "Book a Demo",
-      "secondaryCTA": "Try Soft for Free",
-      "microcopy": "No credit card required. Setup in 2 minutes.",
+      "label": "ISO 27001 · EU Compliant",
+      "headline": "Practice With AI.",
+      "headlineBold": "Sell With Confidence.",
+      "subheadline": "Realistic AI roleplay. Instant coaching feedback. Your reps show up prepared, not nervous.",
+      "primaryCTA": "Start Practicing Free",
+      "secondaryCTA": "See It in Action",
+      "microcopy": "No credit card · Setup in 2 minutes",
       "mockup": {
         "title": "Discovery Call Scorecard",
         "metric1Label": "Objection Handling",

@@ -9,7 +9,7 @@ import { routing } from '@/i18n/routing';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/motion/PageTransition';
-import { ScrollToTop } from '@/components/ui/ScrollToTop';
+
 import '@/app/globals.css';
 
 export function generateStaticParams() {
@@ -45,7 +45,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
             <PageTransition>{children}</PageTransition>
           </main>
           <Footer />
-          <ScrollToTop />
         </NextIntlClientProvider>
       </body>
     </html>
