@@ -23,6 +23,7 @@ const libreBaskerville = Libre_Baskerville({
   display: 'swap',
 });
 import { Navbar } from '@/components/layout/Navbar';
+import { TopScrim } from '@/components/layout/TopScrim';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/motion/PageTransition';
 
@@ -59,6 +60,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     >
       <body className="min-h-screen bg-canvas text-ink antialiased font-sans">
         <NextIntlClientProvider messages={messages}>
+          <TopScrim />
           <Navbar />
           <main>
             <PageTransition>{children}</PageTransition>

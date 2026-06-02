@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
@@ -11,13 +12,16 @@ interface Milestone {
 
 interface Props { milestones: Milestone[] }
 
+// B-Corp badge — black variant for the light timeline section.
 function BCorp() {
   return (
-    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-label="B-Corp Certified">
-      <rect x="1" y="1" width="34" height="34" rx="7" stroke="var(--ink-2)" strokeWidth="1.5" />
-      <text x="18" y="16" fontSize="12" fontWeight="700" fill="var(--ink-2)" textAnchor="middle" fontFamily="var(--font-host-grotesk)">B</text>
-      <text x="18" y="27" fontSize="7" fontWeight="500" fill="var(--muted)" textAnchor="middle" fontFamily="var(--font-host-grotesk)">CORP</text>
-    </svg>
+    <Image
+      src="/logo/bcorp/bcorp-black.svg"
+      alt="Certified B Corporation"
+      width={137}
+      height={200}
+      className="h-10 w-auto"
+    />
   );
 }
 

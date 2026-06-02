@@ -20,6 +20,21 @@ const rise = {
   }),
 };
 
+// Headline reveal: each word un-blurs and settles in, staggered left→right.
+const headlineContainer = {
+  hidden: {},
+  show: { transition: { delayChildren: 0.1, staggerChildren: 0.07 } },
+};
+const headlineWord = {
+  hidden: { opacity: 0, y: 6, filter: 'blur(12px)' },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.55, ease: EASE },
+  },
+};
+
 interface HeroVoiceProps {
   headline: string;
   subheadline: string;
@@ -52,8 +67,7 @@ export function HeroVoice({
         {/* ── Copy ── */}
         <div className="mx-auto max-w-4xl text-center">
           <motion.h1
-            custom={0}
-            variants={rise}
+            variants={headlineContainer}
             initial={initial}
             animate="show"
             className="mx-auto font-serif font-normal"
@@ -64,7 +78,16 @@ export function HeroVoice({
               letterSpacing: '-0.018em',
             }}
           >
-            {headline}
+            {headline.split(' ').map((w, i) => (
+              <motion.span
+                key={`${w}-${i}`}
+                variants={headlineWord}
+                className="inline-block"
+                style={{ marginRight: '0.22em', willChange: 'filter, transform, opacity' }}
+              >
+                {w}
+              </motion.span>
+            ))}
           </motion.h1>
 
           <motion.p

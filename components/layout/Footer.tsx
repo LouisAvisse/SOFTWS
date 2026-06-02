@@ -3,15 +3,17 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { FooterColumnsReveal, FooterColumn, FooterBrandReveal } from '@/components/motion/FooterReveal';
 
-// ─── B-Corp badge SVG ─────────────────────────────────────────────────────────
+// ─── B-Corp badge — white variant for the dark footer ─────────────────────────
 
 function BCorp() {
   return (
-    <svg width="28" height="32" viewBox="0 0 28 32" fill="none" aria-label="B Corp" className="text-body">
-      <rect x="1" y="1" width="26" height="30" rx="3" stroke="currentColor" strokeWidth="1.5" />
-      <text x="14" y="17" textAnchor="middle" fontFamily="inherit" fontSize="13" fontWeight="700" fill="currentColor">B</text>
-      <text x="14" y="26" textAnchor="middle" fontFamily="inherit" fontSize="5.5" fontWeight="500" fill="currentColor" letterSpacing="0.5">CORP</text>
-    </svg>
+    <Image
+      src="/logo/bcorp/bcorp-white.svg"
+      alt="Certified B Corporation"
+      width={137}
+      height={200}
+      className="h-14 w-auto"
+    />
   );
 }
 

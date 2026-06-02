@@ -1,13 +1,15 @@
 'use client';
 
-import { type ReactNode, useRef } from 'react';
+import { type ReactNode, useRef, useState, useEffect, useCallback } from 'react';
 import {
   motion,
   useScroll,
-  useTransform,
   useReducedMotion,
+  useMotionValueEvent,
 } from 'framer-motion';
+import { Mic, Video, Captions, PhoneOff } from 'lucide-react';
 import { FadeIn } from '@/components/motion/FadeIn';
+import { cn } from '@/lib/utils';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -27,49 +29,64 @@ interface StickyScrollProps {
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-const NUM = 4;
 
 // ─── Step visuals ────────────────────────────────────────────────────────────
 
 function RehearseVisual() {
   return (
-    <div className="bg-white rounded-xl border border-line/80 p-5 shadow-sm">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-8 h-8 rounded-full bg-ink flex items-center justify-center">
-          <span className="text-white text-[10px] font-bold">AI</span>
+    <div className="overflow-hidden rounded-xl border border-line/80 bg-white shadow-sm">
+      {/* Video stage — the AI persona on a live call */}
+      <div className="relative aspect-[4/3] bg-ink-deep">
+        {/* Top status row: live + timer */}
+        <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-3 py-2.5">
+          <div className="flex items-center gap-1.5 rounded-full bg-black/30 px-2 py-1 backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="text-[9px] font-mono font-medium text-white/80">LIVE</span>
+          </div>
+          <span className="rounded-full bg-black/30 px-2 py-1 text-[9px] font-mono text-white/70 backdrop-blur-sm">
+            02:34
+          </span>
         </div>
-        <div>
-          <p className="text-xs font-semibold text-ink-2">Enterprise Buyer</p>
-          <p className="text-[10px] text-faint">AI Persona</p>
-        </div>
-        <div className="ml-auto flex items-center gap-1.5">
-          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          <span className="text-[10px] text-faint font-mono">Live</span>
-        </div>
-      </div>
-      <div className="space-y-2.5">
-        <div className="bg-surface rounded-lg px-3 py-2 max-w-[88%]">
-          <p className="text-[11px] text-body leading-relaxed">&ldquo;We already have a vendor for this. Why should we switch?&rdquo;</p>
-        </div>
-        <div className="bg-ink rounded-lg px-3 py-2 max-w-[82%] ml-auto">
-          <p className="text-[11px] text-white leading-relaxed">&ldquo;Totally fair — most teams we work with had one too. The difference is...&rdquo;</p>
-        </div>
-        <div className="bg-surface rounded-lg px-3 py-2 max-w-[60%]">
-          <p className="text-[11px] text-faint italic">Typing...</p>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 pt-3 border-t border-mist mt-3">
-        <div className="w-6 h-6 rounded-full bg-red-50 flex items-center justify-center border border-red-200">
-          <div className="w-2 h-2 rounded-full bg-red-400" />
-        </div>
-        <div className="flex-1 h-5 bg-surface rounded border border-mist flex items-center px-2">
-          <div className="flex gap-px">
-            {[4, 8, 5, 10, 6, 12, 7, 9, 5, 11, 6, 8].map((h, i) => (
-              <div key={i} className="w-0.5 bg-edge rounded-full" style={{ height: `${h}px` }} />
+
+        {/* Main participant tile */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/[0.07] ring-2 ring-brand/70">
+            <span className="text-sm font-bold text-white">AI</span>
+          </div>
+          {/* Speaking indicator */}
+          <div className="flex h-3 items-end gap-[3px]">
+            {[5, 9, 6, 11, 7, 10, 6].map((h, i) => (
+              <span key={i} className="w-[3px] rounded-full bg-brand-light" style={{ height: `${h}px` }} />
             ))}
           </div>
         </div>
-        <span className="text-[10px] text-faint font-mono">02:34</span>
+
+        {/* Name tag */}
+        <div className="absolute bottom-2 left-2 z-10 rounded-md bg-black/35 px-2 py-1 backdrop-blur-sm">
+          <span className="text-[10px] font-medium text-white">Enterprise Buyer</span>
+          <span className="ml-1.5 text-[9px] text-white/50">AI Persona</span>
+        </div>
+
+        {/* Self-view PiP */}
+        <div className="absolute bottom-2 right-2 z-10 flex h-9 w-12 items-center justify-center rounded-md border border-white/10 bg-ink-2">
+          <span className="text-[8px] font-medium text-white/55">You</span>
+        </div>
+      </div>
+
+      {/* Call controls */}
+      <div className="flex items-center justify-center gap-2.5 px-4 py-3">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-mist text-ink-3">
+          <Mic className="h-3.5 w-3.5" strokeWidth={1.75} />
+        </span>
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-mist text-ink-3">
+          <Video className="h-3.5 w-3.5" strokeWidth={1.75} />
+        </span>
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-mist text-ink-3">
+          <Captions className="h-3.5 w-3.5" strokeWidth={1.75} />
+        </span>
+        <span className="flex h-7 w-9 items-center justify-center rounded-full bg-red-500 text-white">
+          <PhoneOff className="h-3.5 w-3.5" strokeWidth={2} />
+        </span>
       </div>
     </div>
   );
@@ -195,6 +212,63 @@ export function StickyScroll({ headline, intro, steps }: StickyScrollProps) {
     offset: ['start center', 'end center'],
   });
 
+  // Each step dot lights up the instant the scroll-fill line reaches it. Rather
+  // than snapshot dot positions on mount (which entrance animations make stale),
+  // we measure live on every scroll frame: the fill line's leading edge is
+  // `track.top + progress * track.height`, and a dot is active once that edge
+  // crosses the dot's real center. This always mirrors the fill exactly.
+  const NUM_STEPS = Math.min(steps.length, 4);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeCount, setActiveCount] = useState(0);
+  // The gauge stops exactly at the last step's dot instead of running to the
+  // container's bottom. Measured live so it follows layout / breakpoint changes.
+  const [lineHeight, setLineHeight] = useState<number | null>(null);
+
+  const recompute = useCallback((v: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const tr = track.getBoundingClientRect();
+    if (tr.height <= 0) return;
+
+    // Cap the track at the last dot's center.
+    const lastDot = dotRefs.current[NUM_STEPS - 1];
+    let span = tr.height;
+    if (lastDot) {
+      const dr = lastDot.getBoundingClientRect();
+      const h = dr.top + dr.height / 2 - tr.top;
+      if (h > 0) {
+        span = h;
+        setLineHeight((prev) => (prev != null && Math.abs(prev - h) < 0.5 ? prev : h));
+      }
+    }
+
+    const fillEdge = tr.top + v * span; // viewport-y of the fill's leading edge
+    let n = 0;
+    for (let i = 0; i < NUM_STEPS; i++) {
+      const d = dotRefs.current[i];
+      if (!d) continue;
+      const r = d.getBoundingClientRect();
+      const center = r.top + r.height / 2;
+      if (center <= fillEdge + 0.5) n++;
+    }
+    setActiveCount((c) => (c === n ? c : n));
+  }, [NUM_STEPS]);
+
+  useMotionValueEvent(scrollYProgress, 'change', recompute);
+
+  useEffect(() => {
+    const run = () => recompute(scrollYProgress.get());
+    run();
+    // Re-run once layout settles (entrance animations, font swap, late images).
+    const t = setTimeout(run, 400);
+    window.addEventListener('resize', run);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener('resize', run);
+    };
+  }, [recompute, scrollYProgress]);
+
   return (
     <section className="bg-canvas py-24 md:py-32 overflow-hidden" id="how-it-works">
       <div className="max-w-content mx-auto px-6">
@@ -213,13 +287,20 @@ export function StickyScroll({ headline, intro, steps }: StickyScrollProps) {
         {/* Vertical Stepper Container */}
         <div className="relative" ref={containerRef}>
           
-          {/* Static Background Track Line */}
-          <div className="absolute top-2 md:top-6 bottom-4 md:bottom-2 left-[15px] md:left-[39px] w-[1px] bg-line" />
-          
+          {/* Static Background Track Line — ends at the last step's dot */}
+          <div
+            ref={trackRef}
+            className="absolute top-2 md:top-6 left-[15px] md:left-[39px] w-[1px] bg-line"
+            style={lineHeight != null ? { height: lineHeight } : { bottom: '1rem' }}
+          />
+
           {/* Dynamic Scroll-Fill Track Line */}
           <motion.div
-            className="absolute top-2 md:top-6 bottom-4 md:bottom-2 left-[14px] md:left-[38px] w-[3px] rounded-full bg-brand origin-top"
-            style={{ scaleY: prefersReduced ? 1 : scrollYProgress }}
+            className="absolute top-2 md:top-6 left-[14px] md:left-[38px] w-[3px] rounded-full bg-brand origin-top"
+            style={{
+              scaleY: prefersReduced ? 1 : scrollYProgress,
+              ...(lineHeight != null ? { height: lineHeight } : { bottom: '1rem' }),
+            }}
           />
 
           <div className="flex flex-col gap-20 md:gap-32 relative z-10 pb-8">
@@ -235,8 +316,25 @@ export function StickyScroll({ headline, intro, steps }: StickyScrollProps) {
                   transition={{ duration: 0.8, ease: EASE }}
                   className="relative flex flex-col md:flex-row items-start md:items-center gap-10 md:gap-24 pl-12 md:pl-28"
                 >
-                  {/* Step Dot Ring */}
-                  <div className="absolute left-[11.5px] md:left-[35.5px] top-[14px] md:top-1/2 md:-translate-y-1/2 w-[8px] h-[8px] rounded-full bg-brand ring-[4px] ring-white outline outline-1 outline-brand/30 z-10" />
+                  {/* Step Dot — transparent until the scroll gauge crosses it, then brand */}
+                  {/* Soft blurred glow behind the dot (active only) */}
+                  {(prefersReduced || i < activeCount) && (
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-[1.5px] top-[4px] z-0 h-[28px] w-[28px] rounded-full bg-brand/40 blur-[7px] md:left-[25.5px] md:top-1/2 md:-translate-y-1/2"
+                    />
+                  )}
+                  <div
+                    ref={(el) => {
+                      dotRefs.current[i] = el;
+                    }}
+                    className={cn(
+                      'absolute left-[11.5px] top-[14px] z-10 h-[8px] w-[8px] rounded-full transition-all duration-300 md:left-[35.5px] md:top-1/2 md:-translate-y-1/2',
+                      prefersReduced || i < activeCount
+                        ? 'bg-brand'
+                        : 'bg-canvas ring-1 ring-edge',
+                    )}
+                  />
 
                   {/* Left: Text Structure */}
                   <div className="w-full md:w-[45%] text-left shrink-0">
