@@ -12,7 +12,9 @@ function BCorp() {
       alt="Certified B Corporation"
       width={137}
       height={200}
-      className="h-14 w-auto"
+      // self-start stops the flex column from stretching the badge to full
+      // width (which made it look centered); it now sits flush-left like the logo.
+      className="h-12 w-auto self-start"
     />
   );
 }

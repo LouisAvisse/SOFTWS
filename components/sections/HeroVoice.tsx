@@ -146,14 +146,16 @@ export function HeroVoice({
             </div>
           </div>
 
-          {/* Speaker in front, standing on the baseline, feet fading out. */}
+          {/* Speakers in front, standing on the baseline, feet fading out.
+              aspectRatio matches the source asset (882×1024 ≈ 0.861) so the
+              figures fill the box at full size instead of being letterboxed. */}
           <div className="absolute inset-0 flex items-end justify-center">
             <div
               className="relative h-full"
               style={{
-                aspectRatio: '0.522',
-                maskImage: 'linear-gradient(to bottom, black 86%, transparent 100%)',
-                WebkitMaskImage: 'linear-gradient(to bottom, black 86%, transparent 100%)',
+                aspectRatio: '0.861',
+                maskImage: 'linear-gradient(to bottom, black 88%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 88%, transparent 100%)',
               }}
             >
               <Image
@@ -161,7 +163,7 @@ export function HeroVoice({
                 alt={characterAlt}
                 fill
                 priority
-                sizes="(max-width: 768px) 60vw, 300px"
+                sizes="(max-width: 768px) 80vw, 460px"
                 className="object-contain object-bottom"
               />
             </div>

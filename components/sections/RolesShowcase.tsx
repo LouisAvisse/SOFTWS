@@ -265,7 +265,7 @@ export function RolesShowcase({ eyebrow, headline, roles, learnMoreLabel, avgLab
             leftover space) so there's no large gap between the heading and cards. */}
         <div
           className="flex flex-1 items-start justify-center px-6"
-          style={{ paddingTop: 'clamp(32px, 5vh, 72px)' }}
+          style={{ paddingTop: 'clamp(52px, 7vh, 96px)' }}
         >
           <div
             className="relative w-full max-w-2xl"
