@@ -44,9 +44,10 @@ function labelPos(node: { x: number; y: number; a: number }) {
 
 export function LearningLoop({ nodes, variant = 'light' }: Props) {
   const [hovered, setHovered] = useState<number | null>(null);
-  const s = variant === 'dark' ? '#e4e4e7' : '#18181b';
-  const faint = variant === 'dark' ? '#52525b' : '#d4d4d8';
-  const textColor = variant === 'dark' ? '#a1a1aa' : '#52525b';
+  const s = variant === 'dark' ? 'rgba(246,243,237,0.88)' : 'var(--ink-3)';
+  const accent = variant === 'dark' ? 'var(--brand-light)' : 'var(--brand)';
+  const faint = variant === 'dark' ? 'rgba(246,243,237,0.22)' : 'var(--edge)';
+  const textColor = variant === 'dark' ? 'rgba(246,243,237,0.6)' : 'var(--muted)';
 
   return (
     <svg
@@ -57,7 +58,7 @@ export function LearningLoop({ nodes, variant = 'light' }: Props) {
     >
       <defs>
         <marker id="ll-arrow-active" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
-          <path d="M 0 0 L 5 2.5 L 0 5 Z" fill={s} />
+          <path d="M 0 0 L 5 2.5 L 0 5 Z" fill={accent} />
         </marker>
         <marker id="ll-arrow-faint" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
           <path d="M 0 0 L 5 2.5 L 0 5 Z" fill={faint} />
@@ -72,8 +73,8 @@ export function LearningLoop({ nodes, variant = 'light' }: Props) {
           <path
             key={i}
             d={`M ${node.x},${node.y} A ${R},${R} 0 0,1 ${next.x},${next.y}`}
-            stroke={isActive ? s : faint}
-            strokeWidth={isActive ? 1.5 : 1}
+            stroke={isActive ? accent : faint}
+            strokeWidth={isActive ? 1.75 : 1}
             strokeLinecap="round"
             markerEnd={isActive ? 'url(#ll-arrow-active)' : 'url(#ll-arrow-faint)'}
             style={{ transition: 'stroke 0.15s, stroke-width 0.15s' }}
@@ -109,17 +110,17 @@ export function LearningLoop({ nodes, variant = 'light' }: Props) {
             fontSize="12"
             fontWeight={hovered === i ? '600' : '400'}
             fill={hovered === i ? s : textColor}
-            style={{ transition: 'fill 0.15s', fontFamily: 'var(--font-geist-sans)' }}
+            style={{ transition: 'fill 0.15s', fontFamily: 'var(--font-host-grotesk)' }}
           >
             {label}
           </text>
         );
       })}
 
-      {/* Traveling dot */}
+      {/* Traveling dot — the active learning moving through the loop */}
       <motion.circle
-        r={4}
-        fill={s}
+        r={5}
+        fill={accent}
         animate={{ cx: DOT_CX, cy: DOT_CY }}
         transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
       />

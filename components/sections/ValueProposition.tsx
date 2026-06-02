@@ -25,15 +25,15 @@ export function ValueProposition({
   };
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-white overflow-hidden">
-      <div className="max-w-[1050px] mx-auto px-6">
+    <section ref={ref} className="py-20 lg:py-28 bg-canvas overflow-hidden">
+      <div className="max-w-content mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center">
           {/* Label */}
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-4"
+            className="text-xs font-semibold tracking-widest uppercase text-muted mb-4"
           >
             {label}
           </motion.p>
@@ -43,11 +43,11 @@ export function ValueProposition({
             initial={{ scaleX: 0 }}
             animate={inView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="h-px bg-zinc-200 max-w-[120px] mx-auto mb-8 origin-left"
+            className="h-px bg-line max-w-[120px] mx-auto mb-8 origin-left"
           />
 
           {/* Headline — two-line clip reveal */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 leading-[1.08] mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl display-heading text-ink leading-[1.08] mb-6">
             {/* Line 1: "Static Training is Dead." */}
             <motion.span
               variants={clipReveal}
@@ -71,7 +71,7 @@ export function ValueProposition({
                 clipPath: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 },
                 scale: { duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.5 },
               }}
-              className="block italic"
+              className="block not-italic"
             >
               {headlineItalic}
             </motion.em>
@@ -86,7 +86,7 @@ export function ValueProposition({
               ease: [0.16, 1, 0.3, 1],
               delay: 0.7,
             }}
-            className="text-base lg:text-lg text-zinc-600 leading-relaxed max-w-xl mx-auto"
+            className="text-base lg:text-lg text-body leading-relaxed max-w-xl mx-auto"
           >
             {body}
           </motion.p>

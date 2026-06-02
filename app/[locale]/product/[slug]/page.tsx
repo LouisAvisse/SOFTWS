@@ -59,6 +59,7 @@ export default async function ProductPage({
   if (!(PRODUCT_SLUGS as readonly string[]).includes(slug)) notFound();
 
   const t = await getTranslations({ locale, namespace: `product.${slug as ProductSlug}` });
+  const tc = await getTranslations({ locale, namespace: 'common' });
 
   const stepItems = t.raw('howItWorks.steps') as StepRaw[];
   const capItems = t.raw('capabilities.items') as CapabilityRaw[];
@@ -93,14 +94,14 @@ export default async function ProductPage({
       />
 
       {/* 2 — Why It Matters */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 leading-[1.08] mb-6">
+            <h2 className="text-4xl lg:text-5xl display-heading text-ink leading-[1.08] mb-6">
               {t('whyItMatters.headline')}{' '}
-              <em className="italic">{t('whyItMatters.headlineBold')}</em>
+              <em className="not-italic">{t('whyItMatters.headlineBold')}</em>
             </h2>
-            <p className="text-base lg:text-lg text-zinc-600 leading-relaxed max-w-xl mx-auto">
+            <p className="text-base lg:text-lg text-body leading-relaxed max-w-xl mx-auto">
               {t('whyItMatters.body')}
             </p>
           </FadeIn>
@@ -111,13 +112,13 @@ export default async function ProductPage({
       <AlternatingSteps headline={t('howItWorks.headline')} steps={steps} />
 
       {/* 4 — Key Capabilities headline */}
-      <section className="pt-24 lg:pt-32 pb-0 bg-white">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="pt-24 lg:pt-32 pb-0 bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="mb-2">
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              Capabilities
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-3">
+              {tc('capabilities')}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-zinc-900">
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink">
               {t('capabilities.headline')}
             </h2>
           </FadeIn>

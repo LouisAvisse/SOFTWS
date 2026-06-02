@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Users, TrendingUp, Headphones, BookOpen } from 'lucide-react';
@@ -21,6 +22,8 @@ interface RolesShowcaseProps {
   eyebrow: string;
   headline: string;
   roles: RoleData[];
+  learnMoreLabel: string;
+  avgLabel: string;
 }
 
 // ─── Icons per role ──────────────────────────────────────────────────────────
@@ -37,12 +40,12 @@ function MetricBar({ label, value, delay }: { label: string; value: number; dela
   return (
     <div>
       <div className="flex items-center justify-between mb-1.5">
-        <span className="text-[13px] text-zinc-600">{label}</span>
-        <span className="text-[13px] font-mono font-semibold text-zinc-900">{value}%</span>
+        <span className="text-[13px] text-body">{label}</span>
+        <span className="text-[13px] font-mono font-semibold text-ink">{value}%</span>
       </div>
-      <div className="h-2 bg-zinc-100 rounded-full overflow-hidden">
+      <div className="h-2 bg-mist rounded-full overflow-hidden">
         <motion.div
-          className="h-full bg-zinc-900 rounded-full"
+          className="h-full bg-brand rounded-full"
           initial={{ width: 0 }}
           animate={{ width: `${value}%` }}
           transition={{ duration: 0.8, ease: EASE, delay }}
@@ -54,15 +57,15 @@ function MetricBar({ label, value, delay }: { label: string; value: number; dela
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export function RolesShowcase({ eyebrow, headline, roles }: RolesShowcaseProps) {
+export function RolesShowcase({ eyebrow, headline, roles, learnMoreLabel, avgLabel }: RolesShowcaseProps) {
   const [active, setActive] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const current = roles[active];
 
   return (
-    <section className="py-24 lg:py-32" style={{ background: '#FAFAF9' }}>
-      <div className="max-w-[1050px] mx-auto px-6" ref={ref}>
+    <section className="section-padding bg-canvas">
+      <div className="max-w-content mx-auto px-6" ref={ref}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -70,11 +73,11 @@ export function RolesShowcase({ eyebrow, headline, roles }: RolesShowcaseProps) 
           transition={{ duration: 0.5, ease: EASE }}
           className="text-center mb-12"
         >
-          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-400 mb-3">
+          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-faint mb-3">
             {eyebrow}
           </p>
           <h2
-            className="font-bold tracking-tight text-zinc-900"
+            className="display-heading text-ink"
             style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', lineHeight: 1.1 }}
           >
             {headline}
@@ -100,12 +103,12 @@ export function RolesShowcase({ eyebrow, headline, roles }: RolesShowcaseProps) 
                 className={cn(
                   'flex items-center gap-2 px-4 py-2.5 rounded-lg border whitespace-nowrap transition-all duration-200 flex-shrink-0',
                   isActive
-                    ? 'bg-white border-zinc-900 shadow-sm'
-                    : 'bg-white/60 border-zinc-200/80',
+                    ? 'bg-white border-ink shadow-sm'
+                    : 'bg-white/60 border-line/80',
                 )}
               >
-                <Icon className={cn('w-3.5 h-3.5 transition-colors', isActive ? 'text-zinc-900' : 'text-zinc-400')} />
-                <span className={cn('text-[13px] font-semibold transition-colors', isActive ? 'text-zinc-900' : 'text-zinc-500')}>
+                <Icon className={cn('w-3.5 h-3.5 transition-colors', isActive ? 'text-ink' : 'text-faint')} />
+                <span className={cn('text-[13px] font-semibold transition-colors', isActive ? 'text-ink' : 'text-muted')}>
                   {role.label}
                 </span>
               </button>
@@ -130,12 +133,12 @@ export function RolesShowcase({ eyebrow, headline, roles }: RolesShowcaseProps) 
                 className={cn(
                   'flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all duration-200',
                   isActive
-                    ? 'bg-white border-zinc-900 shadow-sm'
-                    : 'bg-white/60 border-zinc-200/80 hover:border-zinc-300 hover:bg-white',
+                    ? 'bg-white border-ink shadow-sm'
+                    : 'bg-white/60 border-line/80 hover:border-edge hover:bg-white',
                 )}
               >
-                <Icon className={cn('w-3.5 h-3.5 transition-colors', isActive ? 'text-zinc-900' : 'text-zinc-400')} />
-                <span className={cn('text-[13px] font-semibold transition-colors', isActive ? 'text-zinc-900' : 'text-zinc-500')}>
+                <Icon className={cn('w-3.5 h-3.5 transition-colors', isActive ? 'text-ink' : 'text-faint')} />
+                <span className={cn('text-[13px] font-semibold transition-colors', isActive ? 'text-ink' : 'text-muted')}>
                   {role.label}
                 </span>
               </button>
@@ -151,37 +154,37 @@ export function RolesShowcase({ eyebrow, headline, roles }: RolesShowcaseProps) 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="bg-white rounded-2xl border border-zinc-200 overflow-hidden"
+            className="bg-white rounded-2xl border border-line overflow-hidden"
           >
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Left: text */}
               <div className="p-8 lg:p-10 flex flex-col justify-center">
-                <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-400 mb-4">
+                <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-faint mb-4">
                   {current.label}
                 </p>
-                <p className="text-[15px] text-zinc-700 leading-relaxed mb-6" style={{ maxWidth: '38ch' }}>
+                <p className="text-[15px] text-ink-3 leading-relaxed mb-6" style={{ maxWidth: '38ch' }}>
                   {current.body}
                 </p>
-                <a
+                <Link
                   href="/use-cases"
-                  className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-zinc-900 hover:text-zinc-600 transition-colors group"
+                  className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-ink hover:text-body transition-colors group"
                 >
-                  Learn more
+                  {learnMoreLabel}
                   <span className="transition-transform group-hover:translate-x-0.5">&rarr;</span>
-                </a>
+                </Link>
               </div>
 
               {/* Right: metrics visualization */}
-              <div className="p-8 lg:p-10 border-t lg:border-t-0 lg:border-l border-zinc-100 bg-zinc-50/40">
+              <div className="p-8 lg:p-10 border-t lg:border-t-0 lg:border-l border-mist bg-surface/40">
                 <div className="flex items-center justify-between mb-6">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-zinc-400">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-faint">
                     {current.scenario}
                   </p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold font-mono text-zinc-900">
+                    <span className="text-2xl font-bold font-mono text-ink">
                       {Math.round((parseInt(current.metric1Value) + parseInt(current.metric2Value)) / 2)}
                     </span>
-                    <span className="text-xs text-zinc-400">avg</span>
+                    <span className="text-xs text-faint">{avgLabel}</span>
                   </div>
                 </div>
 

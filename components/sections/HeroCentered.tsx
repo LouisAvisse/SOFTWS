@@ -24,7 +24,7 @@ function MeshBackground() {
     >
       <defs>
         <pattern id="mesh-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="1" fill="currentColor" className="text-zinc-300" />
+          <circle cx="1" cy="1" r="1" fill="currentColor" className="text-edge" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#mesh-grid)" />
@@ -39,10 +39,10 @@ export function HeroCentered({
   scrollLabel = 'Scroll to explore',
 }: HeroCenteredProps) {
   return (
-    <section className="relative overflow-hidden bg-white pt-40 pb-24 text-center">
+    <section className="relative overflow-hidden bg-canvas pt-40 pb-24 text-center">
       {backgroundVariant === 'mesh' && <MeshBackground />}
 
-      <div className="max-w-[1050px] mx-auto px-6 relative">
+      <div className="max-w-content mx-auto px-6 relative">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -50,14 +50,14 @@ export function HeroCentered({
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{ willChange: 'transform, opacity' }}
           >
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-6">
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-6">
               {label}
             </p>
-            <h1 className="text-4xl lg:text-6xl font-bold tracking-tight text-zinc-900 leading-[1.08] mb-6">
+            <h1 className="text-4xl lg:text-6xl display-heading text-ink leading-[1.08] mb-6">
               {headline}{' '}
-              <span className="italic">{headlineBold}</span>
+              <span className="not-italic">{headlineBold}</span>
             </h1>
-            <p className="text-base lg:text-lg text-zinc-600 leading-relaxed mb-10 max-w-2xl mx-auto">
+            <p className="text-base lg:text-lg text-body leading-relaxed mb-10 max-w-2xl mx-auto">
               {subheadline}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
@@ -75,7 +75,7 @@ export function HeroCentered({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="mt-16 flex flex-col items-center gap-1 text-zinc-400 text-xs"
+            className="mt-16 flex flex-col items-center gap-1 text-faint text-xs"
           >
             <span className="tracking-widest uppercase">{scrollLabel}</span>
             <motion.div

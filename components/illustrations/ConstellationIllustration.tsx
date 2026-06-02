@@ -1,83 +1,71 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { AccentDefs, Glow, illoColors, SW_THIN, useIlloId, type IlloVariant } from './_shared';
 
-interface Props { variant?: 'light' | 'dark' }
+interface Props { variant?: IlloVariant }
 
-const MAJOR = [
-  { cx: 80, cy: 45 },
-  { cx: 190, cy: 40 },
-  { cx: 140, cy: 140 },
+const STARS = [
+  { x: 52, y: 60, r: 2 },
+  { x: 104, y: 38, r: 2.5 },
+  { x: 150, y: 96, r: 2 },
+  { x: 210, y: 56, r: 2.5 },
+  { x: 64, y: 140, r: 2 },
+  { x: 120, y: 158, r: 2 },
+  { x: 196, y: 146, r: 2.5 },
+  { x: 232, y: 110, r: 2 },
 ];
-const MINOR = [
-  { cx: 45, cy: 95 },
-  { cx: 115, cy: 70 },
-  { cx: 205, cy: 98 },
-  { cx: 165, cy: 65 },
-  { cx: 58, cy: 152 },
-  { cx: 218, cy: 152 },
+// faint links between stars
+const LINKS: [number, number][] = [
+  [0, 1], [1, 2], [2, 3], [2, 5], [4, 5], [5, 6], [6, 7], [3, 7],
 ];
-// [majorIdx|minorIdx, isMajor, ...same for second]
-const LINES: [number, boolean, number, boolean][] = [
-  [0, true, 4, false],   // A-E
-  [0, true, 0, false],   // A-D
-  [1, true, 3, false],   // B-G
-  [1, true, 2, false],   // B-F
-  [4, false, 1, false],  // E-G
-  [2, true, 4, false],   // C-H (draws itself)
-  [2, true, 5, false],   // C-I
-  [0, false, 4, false],  // D-H
-  [2, false, 5, false],  // F-I
-];
-
-function getPoint(idx: number, isMajor: boolean) {
-  return isMajor ? MAJOR[idx] : MINOR[idx];
-}
+// the focal node (accent) and the links that light up around it
+const HUB = { x: 150, y: 96 };
 
 export function ConstellationIllustration({ variant = 'light' }: Props) {
-  const s = variant === 'dark' ? '#e4e4e7' : '#18181b';
-  const faint = variant === 'dark' ? '#52525b' : '#a1a1aa';
+  const id = useIlloId();
+  const c = illoColors(variant);
+  const reduce = useReducedMotion();
 
   return (
-    <svg viewBox="0 0 260 200" fill="none" aria-hidden="true" className="w-full h-full">
-      {/* Connecting lines */}
-      {LINES.map(([ai, am, bi, bm], i) => {
-        const a = getPoint(ai, am);
-        const b = getPoint(bi, bm);
-        // Line C-H (index 5) draws itself
-        if (i === 5) {
-          return (
-            <motion.line key={i}
-              x1={a.cx} y1={a.cy} x2={b.cx} y2={b.cy}
-              stroke={faint} strokeWidth="1"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.4, 0.4, 0] }}
-              transition={{ duration: 4, repeat: Infinity, times: [0, 0.3, 0.7, 1],
-                ease: [0.42, 0, 0.58, 1] }}
-            />
-          );
-        }
-        return (
-          <line key={i} x1={a.cx} y1={a.cy} x2={b.cx} y2={b.cy}
-            stroke={faint} strokeWidth="1" opacity="0.4" />
-        );
-      })}
+    <svg viewBox="0 0 260 200" fill="none" aria-hidden="true" className="h-full w-full">
+      <AccentDefs id={id} variant={variant} />
+      <Glow id={id} cx={HUB.x} cy={HUB.y} r={46} />
 
-      {/* Minor stars */}
-      {MINOR.map((star, i) => (
-        <circle key={i} cx={star.cx} cy={star.cy} r="2" fill={s} opacity="0.7" />
-      ))}
-
-      {/* Major stars — pulsing */}
-      {MAJOR.map((star, i) => (
-        <motion.circle key={i}
-          cx={star.cx} cy={star.cy}
-          fill={s}
-          animate={{ r: [4.5, 5.5, 4.5] }}
-          transition={{ duration: 2, repeat: Infinity, delay: i * 0.7,
-            ease: [0.42, 0, 0.58, 1] }}
+      {/* Faint links */}
+      {LINKS.map(([a, b], i) => (
+        <line
+          key={i}
+          x1={STARS[a].x} y1={STARS[a].y} x2={STARS[b].x} y2={STARS[b].y}
+          stroke={c.inkFaint}
+          strokeWidth={SW_THIN}
         />
       ))}
+
+      {/* Accent links radiating from the hub */}
+      {[1, 2, 5, 6].map((idx, i) => (
+        <line
+          key={i}
+          x1={HUB.x} y1={HUB.y} x2={STARS[idx].x} y2={STARS[idx].y}
+          stroke={c.accent} strokeWidth={SW_THIN} opacity="0.75"
+        />
+      ))}
+
+      {/* Minor stars */}
+      {STARS.map((s, i) =>
+        i === 2 ? null : (
+          <circle key={i} cx={s.x} cy={s.y} r={s.r} fill={c.inkMid} />
+        ),
+      )}
+
+      {/* Hub node — brand-blue accent, gently pulsing */}
+      <motion.circle
+        cx={HUB.x} cy={HUB.y}
+        fill={`url(#${id}-accent)`}
+        animate={reduce ? undefined : { r: [6, 7.5, 6] }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+        style={{ r: 6.5 }}
+      />
     </svg>
   );
 }

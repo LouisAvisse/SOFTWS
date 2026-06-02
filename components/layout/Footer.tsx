@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { FooterColumnsReveal, FooterColumn, FooterBrandReveal } from '@/components/motion/FooterReveal';
@@ -6,7 +7,7 @@ import { FooterColumnsReveal, FooterColumn, FooterBrandReveal } from '@/componen
 
 function BCorp() {
   return (
-    <svg width="28" height="32" viewBox="0 0 28 32" fill="none" aria-label="B Corp" className="text-zinc-600">
+    <svg width="28" height="32" viewBox="0 0 28 32" fill="none" aria-label="B Corp" className="text-body">
       <rect x="1" y="1" width="26" height="30" rx="3" stroke="currentColor" strokeWidth="1.5" />
       <text x="14" y="17" textAnchor="middle" fontFamily="inherit" fontSize="13" fontWeight="700" fill="currentColor">B</text>
       <text x="14" y="26" textAnchor="middle" fontFamily="inherit" fontSize="5.5" fontWeight="500" fill="currentColor" letterSpacing="0.5">CORP</text>
@@ -21,9 +22,9 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
     <li>
       <Link
         href={href}
-        className="relative inline-block text-zinc-400 hover:text-zinc-200 text-sm transition-colors duration-200
+        className="relative inline-block text-faint hover:text-line text-sm transition-colors duration-200
           after:absolute after:bottom-0 after:left-0 after:h-px after:w-full
-          after:bg-zinc-400 after:scale-x-0 after:origin-left
+          after:bg-faint after:scale-x-0 after:origin-left
           after:transition-transform after:duration-200 hover:after:scale-x-100"
       >
         {children}
@@ -32,13 +33,23 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   );
 }
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type FooterColumnData = { title: string; links: { label: string; href: string }[] };
+type LegalLink = { label: string; href: string };
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 export async function Footer() {
   const t = await getTranslations('footer');
 
+  const productCol = t.raw('columns.product') as FooterColumnData;
+  const solutionsCol = t.raw('columns.solutions') as FooterColumnData;
+  const companyCol = t.raw('columns.company') as FooterColumnData;
+  const legalLinks = t.raw('legal') as LegalLink[];
+
   return (
-    <footer className="bg-zinc-950 text-zinc-400">
+    <footer className="bg-ink-deep text-faint">
       {/* Main grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <FooterColumnsReveal className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
@@ -46,8 +57,14 @@ export async function Footer() {
           {/* Col 1 — Brand */}
           <FooterBrandReveal className="flex flex-col gap-4">
             <div>
-              <Link href="/" className="text-white font-bold text-xl tracking-tight">
-                Soft
+              <Link href="/" className="inline-block">
+                <Image
+                  src="/logo/soft-logo-dark.svg"
+                  alt="Soft"
+                  width={3500}
+                  height={1084}
+                  className="h-7 w-auto"
+                />
               </Link>
               <p className="mt-2 text-sm leading-relaxed">{t('tagline')}</p>
             </div>
@@ -56,57 +73,43 @@ export async function Footer() {
 
           {/* Col 2 — Product */}
           <FooterColumn>
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-4">
-              Product
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-4">
+              {productCol.title}
             </p>
             <ul className="space-y-3">
-              <FooterLink href="/product/conversation-roleplay">Conversation Roleplay</FooterLink>
-              <FooterLink href="/product/pitch-practice">Pitch Practice</FooterLink>
-              <FooterLink href="/product/personalized-feedback">Personalized Feedback</FooterLink>
-              <FooterLink href="/product/adaptive-reinforcement">Adaptive Reinforcement</FooterLink>
-              <FooterLink href="/product/adaptive-journeys">Adaptive Journeys</FooterLink>
-              <FooterLink href="/product/skill-constellations">Skill Constellations</FooterLink>
-              <FooterLink href="/product/conversation-intelligence">Conversation Intelligence</FooterLink>
-              <FooterLink href="/product/role-readiness-builder">Role Readiness Builder</FooterLink>
+              {productCol.links.map((link) => (
+                <FooterLink key={link.href} href={link.href}>{link.label}</FooterLink>
+              ))}
             </ul>
           </FooterColumn>
 
           {/* Col 3 — Solutions */}
           <FooterColumn>
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-4">
-              Solutions
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-4">
+              {solutionsCol.title}
             </p>
             <ul className="space-y-3">
-              <FooterLink href="/use-cases/revenue-teams">Revenue Teams</FooterLink>
-              <FooterLink href="/use-cases/managers-and-leaders">Managers & Leaders</FooterLink>
-              <FooterLink href="/use-cases/customer-service">Customer Service</FooterLink>
-              <FooterLink href="/use-cases/learning-and-development">Learning & Development</FooterLink>
-              <FooterLink href="/use-cases/partner-enablement">Partner Enablement</FooterLink>
-              <FooterLink href="/industries/financial-services">Financial Services</FooterLink>
-              <FooterLink href="/industries/technology-saas">Technology & SaaS</FooterLink>
-              <FooterLink href="/industries/healthcare">Healthcare</FooterLink>
-              <FooterLink href="/industries/franchise-retail">Franchise & Retail</FooterLink>
-              <FooterLink href="/industries/education">Education</FooterLink>
+              {solutionsCol.links.map((link) => (
+                <FooterLink key={link.href} href={link.href}>{link.label}</FooterLink>
+              ))}
             </ul>
           </FooterColumn>
 
           {/* Col 4 — Company */}
           <FooterColumn>
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-4">
-              Company
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-4">
+              {companyCol.title}
             </p>
             <ul className="space-y-3">
-              <FooterLink href="/pricing">Pricing</FooterLink>
-              <FooterLink href="/company">About</FooterLink>
-              <FooterLink href="/blog">Blog</FooterLink>
-              <FooterLink href="/careers">Careers</FooterLink>
-              <FooterLink href="/contact">Contact</FooterLink>
+              {companyCol.links.map((link) => (
+                <FooterLink key={link.href} href={link.href}>{link.label}</FooterLink>
+              ))}
             </ul>
             <div className="mt-6 space-y-1">
-              <a href="mailto:sales@soft.eu" className="block text-sm text-zinc-500 hover:text-zinc-300 transition-colors">
+              <a href="mailto:sales@soft.eu" className="block text-sm text-muted hover:text-edge transition-colors">
                 sales@soft.eu
               </a>
-              <a href="mailto:support@soft.eu" className="block text-sm text-zinc-500 hover:text-zinc-300 transition-colors">
+              <a href="mailto:support@soft.eu" className="block text-sm text-muted hover:text-edge transition-colors">
                 support@soft.eu
               </a>
             </div>
@@ -115,19 +118,20 @@ export async function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-zinc-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-zinc-500">
+      <div className="border-t border-ink-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-muted">
           <span>{t('copyright')}</span>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="hover:text-zinc-300 transition-colors">Privacy Policy</Link>
-            <span className="text-zinc-700">·</span>
-            <Link href="/terms" className="hover:text-zinc-300 transition-colors">Terms</Link>
-            <span className="text-zinc-700">·</span>
-            <Link href="/eu-ai-act" className="hover:text-zinc-300 transition-colors">EU AI Act Compliance</Link>
+            {legalLinks.map((link, i) => (
+              <span key={link.href} className="flex items-center gap-4">
+                {i > 0 && <span className="text-ink-3">·</span>}
+                <Link href={link.href} className="hover:text-edge transition-colors">{link.label}</Link>
+              </span>
+            ))}
           </div>
           <span className="flex items-center gap-1.5">
             {t('dataHosting')}
-            <span role="img" aria-label="Germany">🇩🇪</span>
+            <span role="img" aria-label={t('germanyLabel')}>🇩🇪</span>
           </span>
         </div>
       </div>

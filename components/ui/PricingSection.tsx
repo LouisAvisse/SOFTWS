@@ -29,7 +29,7 @@ export function PricingSection({ cards, billing }: Props) {
   const [isAnnual, setIsAnnual] = useState(true);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       <div className="flex justify-center">
         <BillingToggle
           isAnnual={isAnnual}

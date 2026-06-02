@@ -7,6 +7,7 @@ import { routing } from '@/i18n/routing';
 import { USE_CASE_SLUGS, type UseCaseSlug } from '@/lib/content/use-cases';
 import { HeroSplit } from '@/components/sections/HeroSplit';
 import { LogoMarquee } from '@/components/sections/LogoMarquee';
+import { CLIENT_LOGOS } from '@/lib/content/clients';
 import { BentoGrid } from '@/components/sections/BentoGrid';
 import { FeatureGrid } from '@/components/sections/FeatureGrid';
 import { AlternatingSteps } from '@/components/sections/AlternatingSteps';
@@ -73,8 +74,13 @@ export default async function UseCasePage({
   const faqItems = t.raw('faq.items') as FAQRaw[];
   const enterpriseFeatures: string[] = [];
 
-  const logos = ['Veolia', 'Danone', 'TotalEnergies', 'Michelin', 'Sodexo', 'Edenred', 'Legrand', 'Bouygues']
-    .map((name) => ({ name }));
+  const logos = CLIENT_LOGOS.map((logo) => ({
+    name: logo.name,
+    svg: (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={logo.src} alt={logo.name} loading="lazy" decoding="async" className="h-7 w-auto object-contain" />
+    ),
+  }));
 
   const bentoGridItems = bentoItems.map((item) => ({
     title: item.title,
@@ -121,14 +127,14 @@ export default async function UseCasePage({
       <BentoGrid items={bentoGridItems} columns={3} />
 
       {/* 4 — Feature Highlight + Feature Grid */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="mb-14 max-w-2xl">
-            <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-zinc-900 mb-4">
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink mb-4">
               {t('featureHighlight.headline')}{' '}
-              <em className="italic">{t('featureHighlight.headlineBold')}</em>
+              <em className="not-italic">{t('featureHighlight.headlineBold')}</em>
             </h2>
-            <p className="text-base text-zinc-600 leading-relaxed">
+            <p className="text-base text-body leading-relaxed">
               {t('featureHighlight.body')}
             </p>
           </FadeIn>

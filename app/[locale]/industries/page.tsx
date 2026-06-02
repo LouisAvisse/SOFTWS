@@ -7,7 +7,7 @@ import { BentoGrid } from '@/components/sections/BentoGrid';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
 import { IndustryMosaicIllustration } from '@/components/illustrations/IndustryMosaicIllustration';
-import { HeroSplit } from '@/components/sections/HeroSplit';
+import { IndustryHero } from '@/components/sections/IndustryHero';
 import { DrawingLine } from '@/components/ui/DrawingLine';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -45,26 +45,28 @@ export default async function IndustriesOverviewPage({
 
   return (
     <>
-      {/* 1 — Hero */}
-      <HeroSplit
-        label="INDUSTRIES"
+      {/* 1 — Full illustrated hero (overview only) */}
+      <IndustryHero
+        variant="full"
+        eyebrow={t('hero.label')}
         headline={t('hero.headline')}
         headlineBold={t('hero.headlineBold')}
         subheadline={t('hero.subheadline')}
         primaryCTA={{ text: t('hero.primaryCTA'), href: '#industries' }}
         secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/contact' }}
+        icon={Globe}
         visual={<IndustryMosaicIllustration />}
       />
 
       {/* 2 — Centered intro */}
-      <section className="py-24 lg:py-32 bg-white">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl lg:text-6xl font-bold tracking-tight text-zinc-900 leading-[1.08] mb-6">
+            <h2 className="text-4xl lg:text-6xl display-heading text-ink leading-[1.08] mb-6">
               {t('intro.headline')}{' '}
-              <em className="italic">{t('intro.headlineBold')}</em>
+              <em className="not-italic">{t('intro.headlineBold')}</em>
             </h2>
-            <p className="text-base lg:text-lg text-zinc-500 leading-relaxed">
+            <p className="text-base lg:text-lg text-muted leading-relaxed">
               {t('intro.body')}
             </p>
           </FadeIn>
@@ -77,14 +79,14 @@ export default async function IndustriesOverviewPage({
       </div>
 
       {/* 4 — Cross-Industry capabilities with drawing line */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="mb-4">
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              Every Industry
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-3">
+              {t('crossIndustry.label')}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 mb-10">
-              Five Capabilities That Cross Every Sector.
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink mb-10">
+              {t('crossIndustry.headline')}
             </h2>
           </FadeIn>
 
@@ -98,9 +100,9 @@ export default async function IndustriesOverviewPage({
               return (
                 <StaggerItem key={i}>
                   <div className="flex flex-col gap-3">
-                    <Icon className="h-5 w-5 text-zinc-400" />
-                    <h3 className="text-sm font-semibold text-zinc-900">{item.title}</h3>
-                    <p className="text-xs text-zinc-500 leading-relaxed">{item.body}</p>
+                    <Icon className="h-5 w-5 text-faint" />
+                    <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
+                    <p className="text-xs text-muted leading-relaxed">{item.body}</p>
                   </div>
                 </StaggerItem>
               );
@@ -110,18 +112,18 @@ export default async function IndustriesOverviewPage({
       </section>
 
       {/* 5 — Dark CTA */}
-      <section className="py-24 bg-zinc-950">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="py-24 bg-ink-deep">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="max-w-2xl mx-auto text-center">
-            <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.1] mb-4">
+            <h2 className="text-4xl lg:text-5xl display-heading text-white leading-[1.1] mb-4">
               {t('cta.headline')}{' '}
-              <em className="italic text-zinc-400">{t('cta.headlineBold')}</em>
+              <em className="not-italic text-faint">{t('cta.headlineBold')}</em>
             </h2>
-            <p className="text-base text-zinc-400 leading-relaxed mb-10">
+            <p className="text-base text-faint leading-relaxed mb-10">
               {t('cta.body')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button variant="white" size="lg" asChild>
+              <Button size="lg" asChild>
                 <Link href="/contact">{t('cta.primaryCTA')}</Link>
               </Button>
               <Button variant="white-outline" size="lg" asChild>

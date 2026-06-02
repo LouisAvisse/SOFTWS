@@ -2,64 +2,59 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface Props { nodes: string[] }
 
-const W = 600;
-const Y = 20;
+/* "Coverage scale" — each stage is a 5×5 grid that fills with brand dots as the
+   deployment grows: one person (Individual) → the whole organisation
+   (Enterprise). The growing fill makes "individual → org-wide" legible. */
+
+const GRID = 5;
+const TOTAL = GRID * GRID; // 25 dots
+
+// Fraction of the org "covered" at each stage (grows left → right, full at end).
+const FILL_RATIO = [0.04, 0.24, 0.56, 1];
+
+function filledCount(i: number, total: number): number {
+  const r = FILL_RATIO[i] ?? (i + 1) / total;
+  return Math.max(1, Math.round(TOTAL * r));
+}
 
 export function PricingTimeline({ nodes }: Props) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
-
-  // Distribute nodes evenly with 12.5% padding on each side
-  const xs = nodes.map((_, i) => 75 + i * (450 / (nodes.length - 1)));
+  const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <div ref={ref} className="w-full max-w-[680px] mx-auto">
-      <div className="relative">
-        <svg viewBox={`0 0 ${W} 48`} className="w-full" aria-hidden="true">
-          {/* Connecting line */}
-          <motion.line
-            x1={xs[0]}
-            y1={Y}
-            x2={xs[xs.length - 1]}
-            y2={Y}
-            stroke="#e4e4e7"
-            strokeWidth="1.5"
-            initial={{ pathLength: 0 }}
-            animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
-            transition={{ duration: 1, ease: [0.42, 0, 0.58, 1] }}
-          />
-          {/* Nodes */}
-          {xs.map((x, i) => (
-            <motion.circle
-              key={i}
-              cx={x}
-              cy={Y}
-              r={6}
-              fill="#18181b"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-              transition={{ delay: 0.15 + i * 0.2, duration: 0.3, ease: [0.42, 0, 0.58, 1] }}
-            />
-          ))}
-          {/* Labels */}
-          {xs.map((x, i) => (
-            <text
-              key={i}
-              x={x}
-              y={44}
-              textAnchor="middle"
-              fontSize="11"
-              fill="#71717a"
-              fontFamily="var(--font-geist-sans)"
-            >
-              {nodes[i]}
-            </text>
-          ))}
-        </svg>
-      </div>
+    <div ref={ref} className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-8">
+      {nodes.map((node, i) => {
+        const last = i === nodes.length - 1;
+        const filled = filledCount(i, nodes.length);
+        return (
+          <motion.div
+            key={i}
+            className="flex flex-col items-start"
+            initial={{ opacity: 0, y: 14 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.08 * i, duration: 0.5, ease: [0.42, 0, 0.58, 1] }}
+          >
+            <div className="grid grid-cols-5 gap-2">
+              {Array.from({ length: TOTAL }).map((_, d) => (
+                <span
+                  key={d}
+                  className={cn(
+                    'h-2.5 w-2.5 rounded-full',
+                    d < filled ? 'bg-brand' : 'bg-edge/45',
+                  )}
+                />
+              ))}
+            </div>
+            <span className={cn('mt-5 text-sm font-semibold', last ? 'text-ink' : 'text-ink-3')}>
+              {node}
+            </span>
+          </motion.div>
+        );
+      })}
     </div>
   );
 }

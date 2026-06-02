@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface Props {
   isAnnual: boolean;
@@ -10,42 +11,45 @@ interface Props {
   saveLabel: string;
 }
 
+const OPTIONS = [
+  { value: false, key: 'monthly' as const },
+  { value: true, key: 'annual' as const },
+];
+
 export function BillingToggle({ isAnnual, onToggle, monthlyLabel, annualLabel, saveLabel }: Props) {
+  const labels = { monthly: monthlyLabel, annual: annualLabel };
+
   return (
-    <div className="relative inline-flex items-center">
-      <div className="flex items-center gap-1 bg-zinc-100 rounded-full p-1">
-        <button
-          onClick={() => onToggle(false)}
-          className={`relative px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 ${
-            !isAnnual ? 'bg-zinc-900 text-white' : 'text-zinc-500 hover:text-zinc-700'
-          }`}
-        >
-          {monthlyLabel}
-        </button>
-        <button
-          onClick={() => onToggle(true)}
-          className={`relative px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 ${
-            isAnnual ? 'bg-zinc-900 text-white' : 'text-zinc-500 hover:text-zinc-700'
-          }`}
-        >
-          {annualLabel}
-        </button>
+    <div className="inline-flex items-center gap-3">
+      <div className="inline-flex items-center gap-1 rounded-full border border-line bg-mist p-1">
+        {OPTIONS.map((opt) => {
+          const active = isAnnual === opt.value;
+          return (
+            <button
+              key={opt.key}
+              type="button"
+              onClick={() => onToggle(opt.value)}
+              className={cn(
+                'relative rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200',
+                active ? 'text-ink' : 'text-muted hover:text-ink-3',
+              )}
+            >
+              {active && (
+                <motion.span
+                  layoutId="billing-pill"
+                  className="absolute inset-0 rounded-full bg-white shadow-[0_1px_3px_rgba(20,18,16,0.12)]"
+                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                />
+              )}
+              <span className="relative z-10">{labels[opt.key]}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Save badge */}
-      <AnimatePresence>
-        {isAnnual && (
-          <motion.span
-            className="absolute -top-3 -right-2 bg-zinc-900 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: [0.42, 0, 0.58, 1] }}
-          >
-            {saveLabel}
-          </motion.span>
-        )}
-      </AnimatePresence>
+      <span className="inline-flex items-center rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">
+        {saveLabel}
+      </span>
     </div>
   );
 }

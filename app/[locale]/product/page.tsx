@@ -88,8 +88,8 @@ export default async function ProductOverviewPage({
       title: step.title,
       body: step.body,
       visual: (
-        <div className="bg-zinc-100 rounded-lg p-5 inline-flex items-center justify-center">
-          <Icon className="h-10 w-10 text-zinc-600" />
+        <div className="bg-mist rounded-lg p-5 inline-flex items-center justify-center">
+          <Icon className="h-10 w-10 text-body" />
         </div>
       ),
     };
@@ -122,16 +122,16 @@ export default async function ProductOverviewPage({
       <ThreePillars pillars={pillars} />
 
       {/* 3 — Learning Loop */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="text-center mb-14">
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              How Learning Works
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-3">
+              {t('learningLoop.label')}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 mb-3">
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink mb-3">
               {t('learningLoop.headline')}
             </h2>
-            <p className="text-base text-zinc-500 max-w-md mx-auto">
+            <p className="text-base text-muted max-w-md mx-auto">
               {t('learningLoop.headlineBold')}
             </p>
           </FadeIn>
@@ -142,14 +142,14 @@ export default async function ProductOverviewPage({
       </section>
 
       {/* 4 — Feature Bento (8 products) */}
-      <section className="pt-24 lg:pt-32 pb-0 bg-white">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="pt-24 lg:pt-32 pb-0 bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn>
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              The Platform
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-3">
+              {t('bento.label')}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900">
-              Eight Tools. One Engine.
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink">
+              {t('bento.headline')}
             </h2>
           </FadeIn>
         </div>
@@ -160,14 +160,14 @@ export default async function ProductOverviewPage({
       <AlternatingSteps headline={t('howItWorks.headline')} steps={steps} />
 
       {/* 6 — Static vs Adaptive Comparison */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="max-w-2xl mb-12">
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              Why It Works
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-3">
+              {t('comparison.label')}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900">
-              Stop Training Everyone the Same Way.
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink">
+              {t('comparison.headline')}
             </h2>
           </FadeIn>
           <PathComparisonCard />
@@ -175,13 +175,13 @@ export default async function ProductOverviewPage({
       </section>
 
       {/* 7 — Methodology Marquee */}
-      <section className="py-16 bg-white border-y border-zinc-200 overflow-hidden">
+      <section className="py-16 bg-canvas border-y border-line overflow-hidden">
         <div className="flex w-max animate-marquee gap-16 items-center">
           {standardsDouble.map((item, i) => (
-            <span key={i} className="text-sm font-medium text-zinc-400 whitespace-nowrap">
+            <span key={i} className="text-sm font-medium text-faint whitespace-nowrap">
               {item}
               {i < standardsDouble.length - 1 && (
-                <span className="ml-16 text-zinc-200">·</span>
+                <span className="ml-16 text-line">·</span>
               )}
             </span>
           ))}
@@ -189,16 +189,16 @@ export default async function ProductOverviewPage({
       </section>
 
       {/* 8 — Analytics Dashboard */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="text-center mb-14">
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              Analytics
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-3">
+              {t('analytics.label')}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 mb-3">
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink mb-3">
               {t('analytics.headline')}
             </h2>
-            <p className="text-base text-zinc-500">{t('analytics.headlineBold')}</p>
+            <p className="text-base text-muted">{t('analytics.headlineBold')}</p>
           </FadeIn>
           <AnalyticsDashboard />
         </div>
@@ -213,7 +213,7 @@ export default async function ProductOverviewPage({
 
       {/* 10 — Why Organizations Choose Soft */}
       <FeatureGrid
-        headline="Why Organizations Choose Soft"
+        headline={t('whyChoose.headline')}
         features={featureGridItems}
         columns={2}
       />

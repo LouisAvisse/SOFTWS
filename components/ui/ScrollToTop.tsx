@@ -22,7 +22,7 @@ export function ScrollToTop() {
           exit={{ scale: 0, opacity: 0 }}
           transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 z-40 bg-zinc-900 text-white p-2.5 hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
+          className="fixed bottom-6 right-6 z-40 bg-ink text-white p-2.5 hover:bg-ink-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
           aria-label="Scroll to top"
         >
           <ChevronUp className="w-4 h-4" />

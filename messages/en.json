@@ -6,16 +6,45 @@
     "pricing": "Pricing",
     "company": "Company",
     "logIn": "Log in",
-    "tryFree": "Try Free"
+    "tryFree": "Try Free",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menu": {
+      "useCases": [
+        { "label": "Revenue Teams", "desc": "Close more deals, faster" },
+        { "label": "Managers & Leaders", "desc": "Coach with confidence" },
+        { "label": "Customer Service", "desc": "Resolve with empathy" },
+        { "label": "Learning & Development", "desc": "Scale training programs" },
+        { "label": "Partner Enablement", "desc": "Align your ecosystem" }
+      ],
+      "products": [
+        { "label": "Conversation Roleplay", "desc": "Practice real scenarios with AI" },
+        { "label": "Pitch Practice", "desc": "Sharpen your delivery" },
+        { "label": "Adaptive Journeys", "desc": "Personalized learning paths" },
+        { "label": "Conversation Intelligence", "desc": "Deep linguistic analysis" },
+        { "label": "Personalized Feedback", "desc": "Targeted coaching insights" },
+        { "label": "Adaptive Reinforcement", "desc": "Drill weak spots automatically" },
+        { "label": "Skill Constellations", "desc": "Visual readiness mapping" },
+        { "label": "Role Readiness Builder", "desc": "Certification gates" }
+      ],
+      "industries": [
+        { "label": "Financial Services", "desc": "Compliance-ready training" },
+        { "label": "Technology & SaaS", "desc": "Technical sales mastery" },
+        { "label": "Healthcare", "desc": "Patient-centered dialogue" },
+        { "label": "Franchise & Retail", "desc": "Consistent brand experience" },
+        { "label": "Education", "desc": "Engaging pedagogy" }
+      ]
+    }
   },
   "home": {
     "hero": {
       "label": "ISO 27001 · EU Compliant",
-      "headline": "Practice With AI.",
+      "headline": "Practice the conversation that matters",
       "headlineBold": "Sell With Confidence.",
-      "subheadline": "Realistic AI roleplay. Instant coaching feedback. Your reps show up prepared, not nervous.",
-      "primaryCTA": "Start Practicing Free",
-      "secondaryCTA": "See It in Action",
+      "subheadline": "Soft transforms static training into adaptive learning. Rehearse high-stakes conversations, get instant AI coaching, and master your pitch before the first call",
+      "primaryCTA": "Book a demo",
+      "secondaryCTA": "Try Soft for free",
+      "characterAlt": "A sales professional rehearsing a pitch from a clipboard",
       "microcopy": "No credit card · Setup in 2 minutes",
       "mockup": {
         "title": "Discovery Call Scorecard",
@@ -31,9 +60,16 @@
       "headline": "Trusted by Global Revenue Teams Building Elite Sales Cultures"
     },
     "valueProposition": {
+      "sectionLabel": "Features / Benefits",
       "headline": "Static Training is Dead.",
       "headlineItalic": "Soft is Adaptive.",
       "body": "Most sales training is a one-and-done video. Soft evolves with your reps. Our AI identifies specific friction points in every roleplay and builds a custom roadmap to fix them. Better practice. Faster closing."
+    },
+    "rolesShowcase": {
+      "eyebrow": "Who It's For",
+      "headline": "Built for Every Revenue Role",
+      "learnMore": "Learn more",
+      "avg": "avg"
     },
     "pillars": {
       "items": [
@@ -383,6 +419,7 @@
         { "title": "Measure", "body": "Real-time readiness analytics that give leaders complete visibility into skill development." }
       ]},
       "learningLoop": {
+        "label": "How Learning Works",
         "headline": "The Soft Learning Loop.",
         "headlineBold": "Continuous. Personalized. Measurable.",
         "nodes": [
@@ -411,10 +448,12 @@
         { "label": "05", "title": "Follow Your Journey", "body": "An adaptive learning path surfaces the next most impactful practice — personalized to you." },
         { "label": "06", "title": "Track Your Constellation", "body": "Watch your skills develop over time with visual readiness mapping visible to you and your manager." }
       ]},
+      "bento": { "label": "The Platform", "headline": "Eight Tools. One Engine." },
+      "comparison": { "label": "Why It Works", "headline": "Stop Training Everyone the Same Way." },
       "standards": { "headline": "Works with Any Sales Methodology", "items": ["MEDDIC", "Challenger Sale", "SPIN Selling", "Command of the Message", "BANT", "Sandler", "Value Selling", "Your Own Framework"] },
-      "analytics": { "headline": "Real-Time Readiness.", "headlineBold": "For Every Leader." },
+      "analytics": { "label": "Analytics", "headline": "Real-Time Readiness.", "headlineBold": "For Every Leader." },
       "enterprise": { "headline": "Built for Enterprise.", "headlineBold": "Ready for Global Scale.", "body": "SSO, SCIM, SOC2, multilingual content, hierarchical reporting — Soft has every enterprise requirement covered so your security team can say yes." },
-      "whyChoose": { "items": [
+      "whyChoose": { "headline": "Why Organizations Choose Soft", "items": [
         { "title": "No Passive Learning", "body": "Every minute in Soft is active practice. No videos to watch. No slides to click through." },
         { "title": "Immediate ROI", "body": "Measurable behavior change within 90 days — or we work with you until you see it." },
         { "title": "Works with Any Framework", "body": "MEDDIC, Challenger, SPIN, or your own internal methodology. Soft maps to what you already use." },
@@ -679,7 +718,7 @@
   },
   "industries": {
     "overview": {
-      "hero": { "headline": "Soft for Your", "headlineBold": "Industry.", "subheadline": "From regulated financial services to fast-moving franchise networks, Soft adapts to the conversations that define success in your sector.", "primaryCTA": "Find Your Industry", "secondaryCTA": "Book a Demo" },
+      "hero": { "label": "INDUSTRIES", "headline": "Soft for Your", "headlineBold": "Industry.", "subheadline": "From regulated financial services to fast-moving franchise networks, Soft adapts to the conversations that define success in your sector.", "primaryCTA": "Find Your Industry", "secondaryCTA": "Book a Demo" },
       "intro": { "headline": "The Conversation Problem", "headlineBold": "Is Universal.", "body": "Every industry faces the same core challenge: people need to have difficult, high-stakes conversations under pressure, and no organization has a reliable way to prepare them for it. Soft is the solution." },
       "cards": [
         { "title": "Financial Services", "body": "Compliance-ready advisors who practice every client interaction before it happens.", "href": "/industries/financial-services", "label": "FINANCIAL SERVICES" },
@@ -688,7 +727,7 @@
         { "title": "Healthcare", "body": "Patient-centered communication that blends clinical accuracy with human empathy.", "href": "/industries/healthcare", "label": "HEALTHCARE" },
         { "title": "Education & L&D", "body": "Active learning programs that create real behavior change, not just course completions.", "href": "/industries/education", "label": "EDUCATION & L&D" }
       ],
-      "crossIndustry": { "items": [
+      "crossIndustry": { "label": "Every Industry", "headline": "Five Capabilities That Cross Every Sector.", "items": [
         { "title": "Regulatory Compliance", "body": "Practice in environments where every word matters, without exposing your organization to real risk." },
         { "title": "Rapid Onboarding", "body": "Get new team members customer-ready in days, not months, at any scale across any geography." },
         { "title": "Remote & Distributed Teams", "body": "Train globally distributed teams to the same standard without travel, coordination, or scheduling complexity." },
@@ -908,6 +947,7 @@
   },
   "pricing": {
     "hero": { "label": "PRICING", "headline": "Choose the plan that fits your learning goals.", "subheadline": "Compare Soft plans for individual learners, growing teams, and enterprise deployments. Start free, scale when you're ready." },
+    "disclaimer": "Example pricing — final rates confirmed at sign-up.",
     "billing": { "monthly": "Billed monthly", "annual": "Billed annually", "save": "Save up to 20%" },
     "cards": {
       "starter": { "name": "Starter", "price": "€0", "priceSuffix": "", "tagline": "Explore Soft at your own pace", "cta": "Get started", "features": ["Up to 5 roleplays total", "Access to AI roleplays", "Basic feedback on completed sessions", "No credit card required"] },
@@ -928,33 +968,79 @@
     "finalCTA": { "headline": "Need a plan for your team or organization?", "body": "Let's design the right setup for your goals, roles, and deployment model.", "primaryCTA": "Talk to sales", "secondaryCTA": "Book a demo" }
   },
   "company": {
-    "hero": { "headline": "Built by", "headlineBold": "Humans for Humans.", "subheadline": "In a world increasingly shaped by AI, we believe human skills matter more than ever. Soft is our contribution to protecting the capabilities that machines cannot replace." },
-    "story": { "headline": "Our Story.", "body": "Since 2010, our mission has been to help leaders build agile, effective, and happy organizations. Every product we build starts from that same conviction: that human growth, done right, is the most powerful lever in any organization.", "milestones": [
+    "hero": { "label": "COMPANY", "headline": "Built by", "headlineBold": "Humans for Humans.", "subheadline": "In a world increasingly shaped by AI, we believe human skills matter more than ever. Soft is our contribution to protecting the capabilities that machines cannot replace.", "primaryCTA": "Book a Demo", "secondaryCTA": "Meet the Team" },
+    "story": { "label": "Our Story", "headline": "Our Story.", "body": "Since 2010, our mission has been to help leaders build agile, effective, and happy organizations. Every product we build starts from that same conviction: that human growth, done right, is the most powerful lever in any organization.", "milestones": [
       { "year": "2010", "label": "Founded", "body": "Mission to help leaders build agile, effective, and happy organizations." },
       { "year": "2025", "label": "B-Corp Certified", "body": "Cementing our commitment to people, planet, and a better world of work." },
       { "year": "2025", "label": "Soft by Incenteev", "body": "Launched to protect the skills that machines cannot replace." }
     ]},
-    "expertise": { "headline": "Built with Experts.", "headlineBold": "Shaped by Reality.", "body": "Soft is not built in a vacuum. It is informed by an ecosystem of practitioners, leadership specialists, and operational leaders who know what great looks like from the inside.", "pillars": [
+    "expertise": { "label": "Our Approach", "headline": "Built with Experts.", "headlineBold": "Shaped by Reality.", "body": "Soft is not built in a vacuum. It is informed by an ecosystem of practitioners, leadership specialists, and operational leaders who know what great looks like from the inside.", "pillars": [
       { "title": "Learning Science", "body": "Grounded in the research on how people actually develop skills — spacing, retrieval, emotional engagement, and deliberate practice." },
       { "title": "Leadership Practice", "body": "Shaped by two decades of working with real leaders on the conversations, decisions, and behaviors that define organizational performance." },
       { "title": "Organizational Design", "body": "Built with practitioners who understand how capability building connects to structure, culture, and the systems that determine how an organization really works." }
     ]},
-    "resources": { "headline": "Stay Ahead of the", "headlineBold": "Curve.", "body": "More than a platform, Soft is a place to discover practical insights on leadership, communication, and organizational performance.", "items": [
+    "resources": { "label": "Resources", "headline": "Stay Ahead of the", "headlineBold": "Curve.", "body": "More than a platform, Soft is a place to discover practical insights on leadership, communication, and organizational performance.", "items": [
       { "title": "Masterclasses", "body": "Deep-dive sessions on leadership, communication, and organizational effectiveness. Led by practitioners with real-world experience.", "badge": "Coming Soon" },
       { "title": "Blog", "body": "Practical insights and frameworks for leaders and L&D teams building high-performance organizations." },
       { "title": "Whitepapers", "body": "Research-backed guides on the future of learning, human skill development, and the conversation economy." },
       { "title": "Articles", "body": "Quick reads on the topics shaping workplace performance, from AI in L&D to coaching culture." }
     ]},
-    "responsibleAI": { "headline": "Built for", "headlineBold": "Responsible AI.", "body": "AI should empower growth, not create risk. We design Soft with human oversight at the core, fully aligned with the European regulatory framework on AI. Transparency, accountability, and learner privacy are not compromises — they are foundations.", "badge": "EU AI Act Compliant", "llms": ["Mistral AI", "OpenAI", "Claude", "Custom LLM", "Mistral AI", "OpenAI", "Claude", "Custom LLM"] },
-    "security": { "headline": "Security and Trust are", "headlineBold": "Foundational.", "body": "Security is not a checkbox — it is our product's backbone. Our approach is informed by ISO 27001 principles. All data is hosted securely in Frankfurt, Germany. We are SOC2-aligned and continuously reviewed by independent security assessors." },
-    "partners": { "headline": "Partner with us to", "headlineBold": "Shape the Future.", "body": "We are building an ecosystem of consulting firms, training providers, and technology partners who believe in the value of human growth at scale.", "categories": ["Consulting & Advisory", "Technology Partners", "Training Experts"] },
-    "careers": { "headline": "Join the", "headlineBold": "Journey.", "body": "We are looking for thoughtful, entrepreneurial people who are excited to build products that matter. Remote-first, Europe-based, mission-driven. Help us shape the future of learning.", "cta": "See Open Roles" },
+    "responsibleAI": { "headline": "Built for", "headlineBold": "Responsible AI.", "body": "AI should empower growth, not create risk. We design Soft with human oversight at the core, fully aligned with the European regulatory framework on AI. Transparency, accountability, and learner privacy are not compromises — they are foundations.", "badge": "EU AI Act Compliant", "poweredBy": "Powered by", "llms": ["Mistral AI", "OpenAI", "Claude", "Custom LLM", "Mistral AI", "OpenAI", "Claude", "Custom LLM"] },
+    "security": { "label": "Frankfurt, Germany", "headline": "Security and Trust are", "headlineBold": "Foundational.", "body": "Security is not a checkbox — it is our product's backbone. Our approach is informed by ISO 27001 principles. All data is hosted securely in Frankfurt, Germany. We are SOC2-aligned and continuously reviewed by independent security assessors.", "badges": ["ISO 27001", "SOC2", "GDPR", "EU AI Act"] },
+    "partners": { "label": "Ecosystem", "headline": "Partner with us to", "headlineBold": "Shape the Future.", "body": "We are building an ecosystem of consulting firms, training providers, and technology partners who believe in the value of human growth at scale.", "categories": ["Consulting & Advisory", "Technology Partners", "Training Experts"] },
+    "careers": { "label": "Careers", "headline": "Join the", "headlineBold": "Journey.", "body": "We are looking for thoughtful, entrepreneurial people who are excited to build products that matter. Remote-first, Europe-based, mission-driven. Help us shape the future of learning.", "cta": "See Open Roles" },
     "finalCTA": { "headline": "Let's Build Stronger", "headlineBold": "Organizations Together.", "primaryCTA": "Book a Demo", "secondaryCTA": "Contact Us" }
   },
   "footer": {
     "tagline": "AI-powered practice for human skills.",
     "dataHosting": "Data hosted in Frankfurt, Germany",
-    "copyright": "© 2025 Incenteev SAS. All rights reserved."
+    "copyright": "© 2025 Incenteev SAS. All rights reserved.",
+    "germanyLabel": "Germany",
+    "columns": {
+      "product": {
+        "title": "Product",
+        "links": [
+          { "label": "Conversation Roleplay", "href": "/product/conversation-roleplay" },
+          { "label": "Pitch Practice", "href": "/product/pitch-practice" },
+          { "label": "Personalized Feedback", "href": "/product/personalized-feedback" },
+          { "label": "Adaptive Reinforcement", "href": "/product/adaptive-reinforcement" },
+          { "label": "Adaptive Journeys", "href": "/product/adaptive-journeys" },
+          { "label": "Skill Constellations", "href": "/product/skill-constellations" },
+          { "label": "Conversation Intelligence", "href": "/product/conversation-intelligence" },
+          { "label": "Role Readiness Builder", "href": "/product/role-readiness-builder" }
+        ]
+      },
+      "solutions": {
+        "title": "Solutions",
+        "links": [
+          { "label": "Revenue Teams", "href": "/use-cases/revenue-teams" },
+          { "label": "Managers & Leaders", "href": "/use-cases/managers-and-leaders" },
+          { "label": "Customer Service", "href": "/use-cases/customer-service" },
+          { "label": "Learning & Development", "href": "/use-cases/learning-and-development" },
+          { "label": "Partner Enablement", "href": "/use-cases/partner-enablement" },
+          { "label": "Financial Services", "href": "/industries/financial-services" },
+          { "label": "Technology & SaaS", "href": "/industries/technology-saas" },
+          { "label": "Healthcare", "href": "/industries/healthcare" },
+          { "label": "Franchise & Retail", "href": "/industries/franchise-retail" },
+          { "label": "Education", "href": "/industries/education" }
+        ]
+      },
+      "company": {
+        "title": "Company",
+        "links": [
+          { "label": "Pricing", "href": "/pricing" },
+          { "label": "About", "href": "/company" },
+          { "label": "Blog", "href": "/blog" },
+          { "label": "Careers", "href": "/careers" },
+          { "label": "Contact", "href": "/contact" }
+        ]
+      }
+    },
+    "legal": [
+      { "label": "Privacy Policy", "href": "/privacy" },
+      { "label": "Terms", "href": "/terms" },
+      { "label": "EU AI Act Compliance", "href": "/eu-ai-act" }
+    ]
   },
   "common": {
     "bookDemo": "Book a Demo",
@@ -962,6 +1048,9 @@
     "scrollToExplore": "Scroll to explore",
     "exploreProduct": "Explore the Product",
     "contactSales": "Contact Sales",
-    "watchWalkthrough": "Watch Walkthrough"
+    "watchWalkthrough": "Watch Walkthrough",
+    "capabilities": "Capabilities",
+    "whoItsFor": "Who It's For",
+    "practiceForEveryRole": "Practice for Every Role."
   }
 }

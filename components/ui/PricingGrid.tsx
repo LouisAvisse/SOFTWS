@@ -26,79 +26,81 @@ function getDisplayPrice(price: string, isAnnual: boolean): { amount: string; su
   const num = parseInt(price.replace('€', ''), 10);
   if (num === 0) return { amount: '€0', suffix: '' };
   const displayNum = isAnnual ? Math.round(num * 0.8) : num;
-  const suffix = isAnnual ? '/mo, billed annually' : '/mo';
+  const suffix = isAnnual ? '/mo · billed annually' : '/mo';
   return { amount: `€${displayNum}`, suffix };
 }
 
 export function PricingGrid({ cards, isAnnual }: Props) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-5">
       {cards.map((card) => {
         const display = getDisplayPrice(card.price, isAnnual);
         const isEnterprise = card.price === "Let's talk";
+        const rec = !!card.recommended;
 
         return (
           <div
             key={card.name}
             className={cn(
-              'relative bg-white border rounded-2xl p-6 lg:p-7 flex flex-col',
-              card.recommended
-                ? 'border-zinc-900 shadow-lg'
-                : 'border-zinc-200',
+              'relative flex flex-col rounded-2xl bg-white p-6 lg:p-7',
+              rec
+                ? 'border border-brand ring-1 ring-brand shadow-[0_24px_60px_-28px_rgba(68,114,202,0.55)]'
+                : 'border border-line',
             )}
           >
-            {/* Recommended badge */}
-            {card.recommended && (
-              <span className="absolute top-4 right-4 bg-zinc-900 text-white text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full">
+            {rec && (
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white shadow-sm">
                 Recommended
               </span>
             )}
 
             {/* Name + tagline */}
-            <div className="mb-6">
-              <p className="text-sm font-semibold text-zinc-500 mb-1">{card.name}</p>
-              <p className="text-xs text-zinc-400">{card.tagline}</p>
+            <div className="mb-5">
+              <h3 className="text-[15px] font-semibold text-ink">{card.name}</h3>
+              <p className="mt-1 text-[13px] leading-snug text-muted">{card.tagline}</p>
             </div>
 
             {/* Price */}
-            <div className="mb-8 min-h-[3rem] flex items-end gap-1">
+            <div className="mb-6 flex min-h-[2.75rem] items-end gap-1.5">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={`${card.name}-${isAnnual}`}
-                  className="text-4xl font-bold text-zinc-900 leading-none"
-                  initial={{ scale: 0.9, opacity: 0.5 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 1.05, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
+                  className={cn(
+                    'font-bold leading-none text-ink',
+                    isEnterprise ? 'text-[1.9rem]' : 'text-[2.6rem]',
+                  )}
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
                 >
                   {display.amount}
                 </motion.span>
               </AnimatePresence>
               {display.suffix && (
-                <span className="text-xs text-zinc-400 pb-1 leading-tight max-w-[80px]">
+                <span className="max-w-[88px] pb-1.5 text-xs leading-tight text-muted">
                   {display.suffix}
                 </span>
               )}
             </div>
 
             {/* CTA */}
-            <div className="mb-8">
-              <Button
-                variant={card.recommended ? 'default' : 'architectural'}
-                size="default"
-                asChild
-                className="w-full justify-center"
-              >
-                <Link href={isEnterprise ? '/contact' : '/signup'}>{card.cta}</Link>
-              </Button>
-            </div>
+            <Button
+              variant={rec ? 'default' : 'architectural'}
+              asChild
+              className="w-full justify-center"
+            >
+              <Link href={isEnterprise ? '/contact' : '/signup'}>{card.cta}</Link>
+            </Button>
 
             {/* Features */}
-            <ul className="space-y-3">
+            <ul className="mt-6 space-y-3 border-t border-line pt-6">
               {card.features.map((feature, i) => (
                 <li key={i} className="flex items-start gap-2.5">
-                  <Check className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />
-                  <span className="text-sm text-zinc-700 leading-snug">{feature}</span>
+                  <span className="mt-[1px] flex h-[18px] w-[18px] flex-shrink-0 items-center justify-center rounded-full bg-brand/10">
+                    <Check className="h-2.5 w-2.5 text-brand" strokeWidth={3} />
+                  </span>
+                  <span className="text-[13px] leading-snug text-ink-3">{feature}</span>
                 </li>
               ))}
             </ul>

@@ -3,9 +3,25 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { GeistSans } from 'geist/font/sans';
+import { Host_Grotesk, Libre_Baskerville } from 'next/font/google';
 import { GeistMono } from 'geist/font/mono';
 import { routing } from '@/i18n/routing';
+
+// Site-wide sans (may change later — see CLAUDE/memory).
+const hostGrotesk = Host_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-host-grotesk',
+  display: 'swap',
+});
+
+// Hero H1 display serif (styles will change later).
+const libreBaskerville = Libre_Baskerville({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-libre-baskerville',
+  display: 'swap',
+});
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/motion/PageTransition';
@@ -37,8 +53,11 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <body className="min-h-screen bg-white text-zinc-900 antialiased font-sans">
+    <html
+      lang={locale}
+      className={`${hostGrotesk.variable} ${libreBaskerville.variable} ${GeistMono.variable}`}
+    >
+      <body className="min-h-screen bg-canvas text-ink antialiased font-sans">
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           <main>

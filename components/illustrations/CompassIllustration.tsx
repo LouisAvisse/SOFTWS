@@ -1,69 +1,48 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { AccentDefs, Glow, illoColors, SW, SW_MID, SW_THIN, useIlloId, type IlloVariant } from './_shared';
 
-interface Props { variant?: 'light' | 'dark' }
+interface Props { variant?: IlloVariant }
 
-// Tick positions: [x1,y1,x2,y2] for N,S,E,W (long) + diagonals (short)
-const LONG_TICKS = [
-  [100, 38, 100, 50], [100, 170, 100, 182],
-  [172, 110, 160, 110], [28, 110, 40, 110],
-];
-const SHORT_TICKS = [
-  [153, 57, 147, 63], [153, 163, 147, 157],
-  [47, 163, 53, 157], [47, 57, 53, 63],
+const TICKS = [
+  [100, 30, 100, 42], [100, 178, 100, 190], [170, 110, 158, 110], [30, 110, 42, 110],
 ];
 
 export function CompassIllustration({ variant = 'light' }: Props) {
-  const s = variant === 'dark' ? '#e4e4e7' : '#18181b';
-  const f = variant === 'dark' ? '#27272a' : '#f4f4f5';
-  const faint = variant === 'dark' ? '#3f3f46' : '#d4d4d8';
+  const id = useIlloId();
+  const c = illoColors(variant);
+  const reduce = useReducedMotion();
 
   return (
-    <svg viewBox="0 0 200 260" fill="none" aria-hidden="true" className="w-full h-full">
-      {/* Outer circle */}
-      <circle cx="100" cy="110" r="72" stroke={s} strokeWidth="1.5" />
+    <svg viewBox="0 0 200 230" fill="none" aria-hidden="true" className="h-full w-full">
+      <AccentDefs id={id} variant={variant} />
+      <Glow id={id} cx={100} cy={110} r={62} />
 
-      {/* Long ticks */}
-      {LONG_TICKS.map(([x1, y1, x2, y2], i) => (
-        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={s} strokeWidth="1.5" strokeLinecap="round" />
-      ))}
-      {/* Short ticks */}
-      {SHORT_TICKS.map(([x1, y1, x2, y2], i) => (
-        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={faint} strokeWidth="1.5" strokeLinecap="round" />
+      {/* Dial */}
+      <circle cx="100" cy="110" r="70" stroke={c.ink} strokeWidth={SW} />
+      <circle cx="100" cy="110" r="58" stroke={c.inkFaint} strokeWidth={SW_THIN} />
+      {TICKS.map(([x1, y1, x2, y2], i) => (
+        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={c.inkMid} strokeWidth={SW_MID} strokeLinecap="round" />
       ))}
 
-      {/* Compass rose — 4 diamond points */}
-      {/* N (larger) */}
-      <path d={`M 100 110 L 96 82 L 100 56 L 104 82 Z`}
-        stroke={s} strokeWidth="1.5" fill={f} strokeLinejoin="round" />
-      {/* S */}
-      <path d={`M 100 110 L 96 138 L 100 158 L 104 138 Z`}
-        stroke={s} strokeWidth="1.5" fill={faint} strokeLinejoin="round" />
-      {/* E */}
-      <path d={`M 100 110 L 124 106 L 144 110 L 124 114 Z`}
-        stroke={s} strokeWidth="1.5" fill={faint} strokeLinejoin="round" />
-      {/* W */}
-      <path d={`M 100 110 L 76 106 L 56 110 L 76 114 Z`}
-        stroke={s} strokeWidth="1.5" fill={faint} strokeLinejoin="round" />
-
-      {/* Needle (rotates) */}
+      {/* Needle — brand-blue accent (north half), ink (south half) */}
       <motion.g
         style={{ transformOrigin: '100px 110px' }}
-        animate={{ rotate: [-12, 8, -12] }}
-        transition={{ duration: 4, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+        animate={reduce ? undefined : { rotate: [-14, 10, -14] }}
+        transition={{ duration: 5, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
       >
-        <path d="M 100 68 L 97 110 L 100 152 L 103 110 Z"
-          stroke={s} strokeWidth="1.5" fill={s} strokeLinejoin="round" opacity="0.9" />
+        <path d="M 100 60 L 92 110 L 100 110 Z" fill={`url(#${id}-accent)`} />
+        <path d="M 100 60 L 108 110 L 100 110 Z" fill={c.accent} opacity="0.7" />
+        <path d="M 100 160 L 92 110 L 108 110 Z" fill={c.inkFaint} stroke={c.inkMid} strokeWidth={SW_THIN} strokeLinejoin="round" />
       </motion.g>
-      {/* Center dot */}
-      <circle cx="100" cy="110" r="4" fill={s} />
+      <circle cx="100" cy="110" r="4.5" fill={c.ink} />
 
-      {/* Branching paths */}
-      <line x1="100" y1="188" x2="100" y2="210" stroke={faint} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="100" y1="210" x2="55" y2="250" stroke={faint} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="100" y1="210" x2="100" y2="254" stroke={faint} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="100" y1="210" x2="145" y2="250" stroke={faint} strokeWidth="1.5" strokeLinecap="round" />
+      {/* Branching paths below — where the journey leads */}
+      <path d="M 100 188 L 100 204" stroke={c.inkMid} strokeWidth={SW_MID} strokeLinecap="round" />
+      <path d="M 100 204 C 100 214 70 214 58 222" stroke={c.inkFaint} strokeWidth={SW_MID} strokeLinecap="round" />
+      <path d="M 100 204 C 100 216 100 216 100 224" stroke={c.inkFaint} strokeWidth={SW_MID} strokeLinecap="round" />
+      <path d="M 100 204 C 100 214 130 214 142 222" stroke={c.inkFaint} strokeWidth={SW_MID} strokeLinecap="round" />
     </svg>
   );
 }

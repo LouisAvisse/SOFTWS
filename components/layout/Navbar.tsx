@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, forwardRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -15,43 +16,52 @@ import {
 import { cn } from '@/lib/utils';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
+// Routing + iconography only. Labels and descriptions are translated and live in
+// messages/[locale].json under `nav.menu.*` — merged by index at render time.
 
-const USE_CASES = [
-  { label: 'Revenue Teams', href: '/use-cases/revenue-teams', icon: TrendingUp, desc: 'Close more deals, faster' },
-  { label: 'Managers & Leaders', href: '/use-cases/managers-and-leaders', icon: Award, desc: 'Coach with confidence' },
-  { label: 'Customer Service', href: '/use-cases/customer-service', icon: Headphones, desc: 'Resolve with empathy' },
-  { label: 'Learning & Development', href: '/use-cases/learning-and-development', icon: BookOpen, desc: 'Scale training programs' },
-  { label: 'Partner Enablement', href: '/use-cases/partner-enablement', icon: Network, desc: 'Align your ecosystem' },
+const USE_CASES_META = [
+  { href: '/use-cases/revenue-teams', icon: TrendingUp },
+  { href: '/use-cases/managers-and-leaders', icon: Award },
+  { href: '/use-cases/customer-service', icon: Headphones },
+  { href: '/use-cases/learning-and-development', icon: BookOpen },
+  { href: '/use-cases/partner-enablement', icon: Network },
 ];
 
-const PRODUCTS = [
-  { label: 'Conversation Roleplay', href: '/product/conversation-roleplay', icon: MessageSquare, desc: 'Practice real scenarios with AI' },
-  { label: 'Pitch Practice', href: '/product/pitch-practice', icon: Presentation, desc: 'Sharpen your delivery' },
-  { label: 'Adaptive Journeys', href: '/product/adaptive-journeys', icon: Route, desc: 'Personalized learning paths' },
-  { label: 'Conversation Intelligence', href: '/product/conversation-intelligence', icon: BarChart3, desc: 'Deep linguistic analysis' },
-  { label: 'Personalized Feedback', href: '/product/personalized-feedback', icon: UserCheck, desc: 'Targeted coaching insights' },
-  { label: 'Adaptive Reinforcement', href: '/product/adaptive-reinforcement', icon: RefreshCw, desc: 'Drill weak spots automatically' },
-  { label: 'Skill Constellations', href: '/product/skill-constellations', icon: Sparkles, desc: 'Visual readiness mapping' },
-  { label: 'Role Readiness Builder', href: '/product/role-readiness-builder', icon: Shield, desc: 'Certification gates' },
+const PRODUCTS_META = [
+  { href: '/product/conversation-roleplay', icon: MessageSquare },
+  { href: '/product/pitch-practice', icon: Presentation },
+  { href: '/product/adaptive-journeys', icon: Route },
+  { href: '/product/conversation-intelligence', icon: BarChart3 },
+  { href: '/product/personalized-feedback', icon: UserCheck },
+  { href: '/product/adaptive-reinforcement', icon: RefreshCw },
+  { href: '/product/skill-constellations', icon: Sparkles },
+  { href: '/product/role-readiness-builder', icon: Shield },
 ];
 
-const INDUSTRIES = [
-  { label: 'Financial Services', href: '/industries/financial-services', icon: Landmark, desc: 'Compliance-ready training' },
-  { label: 'Technology & SaaS', href: '/industries/technology-saas', icon: Zap, desc: 'Technical sales mastery' },
-  { label: 'Healthcare', href: '/industries/healthcare', icon: Heart, desc: 'Patient-centered dialogue' },
-  { label: 'Franchise & Retail', href: '/industries/franchise-retail', icon: Store, desc: 'Consistent brand experience' },
-  { label: 'Education', href: '/industries/education', icon: GraduationCap, desc: 'Engaging pedagogy' },
+const INDUSTRIES_META = [
+  { href: '/industries/financial-services', icon: Landmark },
+  { href: '/industries/technology-saas', icon: Zap },
+  { href: '/industries/healthcare', icon: Heart },
+  { href: '/industries/franchise-retail', icon: Store },
+  { href: '/industries/education', icon: GraduationCap },
 ];
 
-// ─── Logo ─────────────────────────────────────────────────────────────────────
+// ─── Menu item shape ──────────────────────────────────────────────────────────
 
-function LogoMark() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <rect x="2" y="2" width="10" height="10" rx="0.5" stroke="currentColor" strokeWidth="1.5" transform="rotate(45 7 7)" />
-      <rect x="8" y="8" width="10" height="10" rx="0.5" stroke="currentColor" strokeWidth="1.5" transform="rotate(45 13 13)" />
-    </svg>
-  );
+type MenuEntry = { label: string; desc: string };
+type MenuItem = { href: string; icon: React.ElementType; label: string; desc: string };
+
+// Merge routing/icon metadata with translated label + desc (by index).
+function mergeMenu(
+  meta: { href: string; icon: React.ElementType }[],
+  entries: MenuEntry[],
+): MenuItem[] {
+  return meta.map((m, i) => ({
+    href: m.href,
+    icon: m.icon,
+    label: entries[i]?.label ?? '',
+    desc: entries[i]?.desc ?? '',
+  }));
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -62,6 +72,9 @@ type MenuKey = 'useCases' | 'product' | 'industries' | null;
 
 export function Navbar() {
   const t = useTranslations('nav');
+  const useCases = mergeMenu(USE_CASES_META, t.raw('menu.useCases') as MenuEntry[]);
+  const products = mergeMenu(PRODUCTS_META, t.raw('menu.products') as MenuEntry[]);
+  const industries = mergeMenu(INDUSTRIES_META, t.raw('menu.industries') as MenuEntry[]);
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [activeMenu, setActiveMenu] = useState<MenuKey>(null);
@@ -115,17 +128,23 @@ export function Navbar() {
           className={cn(
             'flex flex-col rounded-xl border mx-4 overflow-hidden',
             scrolled
-              ? 'bg-white border-zinc-200 shadow-[0_1px_12px_rgba(0,0,0,0.06)]'
-              : 'bg-white border-zinc-200/70',
+              ? 'bg-white border-line shadow-[0_1px_12px_rgba(0,0,0,0.06)]'
+              : 'bg-white border-line/70',
           )}
           style={{ width: '100%', maxWidth: '1080px' }}
         >
           {/* Top bar — always visible */}
           <div className="flex items-center h-12" style={{ padding: '0 6px' }}>
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-1.5 text-zinc-900 px-2.5 h-full flex-shrink-0" onClick={() => setMobileOpen(false)}>
-              <LogoMark />
-              <span className="font-bold text-[14px] tracking-tight">Soft</span>
+            <Link href="/" className="flex items-center px-2.5 h-full flex-shrink-0" onClick={() => setMobileOpen(false)}>
+              <Image
+                src="/logo/soft-logo.svg"
+                alt="Soft"
+                width={3500}
+                height={1084}
+                priority
+                className="h-6 w-auto"
+              />
             </Link>
 
             {/* Center nav (desktop) */}
@@ -165,12 +184,12 @@ export function Navbar() {
 
             {/* Right actions (desktop) */}
             <div className="hidden lg:flex items-center gap-3 flex-shrink-0 pr-0.5">
-              <Link href="/login" className="text-[13px] font-medium text-zinc-400 hover:text-zinc-900 transition-colors px-1">
+              <Link href="/login" className="text-[13px] font-medium text-faint hover:text-ink transition-colors px-1">
                 {t('logIn')}
               </Link>
               <Link
                 href="/signup"
-                className="inline-flex items-center text-[12px] font-semibold text-white bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_1px_3px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.8)] hover:from-zinc-600 hover:to-zinc-800 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_2px_8px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.7)] active:from-zinc-800 active:to-zinc-900 transition-all duration-200"
+                className="cta-primary inline-flex items-center text-[12px] font-semibold"
                 style={{ padding: '7px 16px', borderRadius: '6px' }}
               >
                 {t('tryFree')}
@@ -179,9 +198,9 @@ export function Navbar() {
 
             {/* Mobile toggle — burger morphs to X */}
             <button
-              className="lg:hidden ml-auto p-2 mr-0.5 text-zinc-600 hover:text-zinc-900 relative w-8 h-8 flex items-center justify-center"
+              className="lg:hidden ml-auto p-2 mr-0.5 text-body hover:text-ink relative w-8 h-8 flex items-center justify-center"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-label={mobileOpen ? t('closeMenu') : t('openMenu')}
             >
               <motion.span
                 className="absolute w-[16px] h-[1.5px] bg-current rounded-full"
@@ -209,27 +228,27 @@ export function Navbar() {
                 animate={{ height: 'calc(100dvh - 48px - 20px)', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="lg:hidden overflow-hidden border-t border-zinc-100 flex flex-col"
+                className="lg:hidden overflow-hidden border-t border-mist flex flex-col"
               >
                 <div className="flex-1 overflow-y-auto px-2 py-3 space-y-0.5">
                   <MobileSection label={t('useCases')} isOpen={mobileTab === 'useCases'} onToggle={() => setMobileTab(mobileTab === 'useCases' ? null : 'useCases')}>
-                    {USE_CASES.map((item) => <MobileNavItem key={item.href} {...item} />)}
+                    {useCases.map((item) => <MobileNavItem key={item.href} {...item} />)}
                   </MobileSection>
                   <MobileSection label={t('product')} isOpen={mobileTab === 'product'} onToggle={() => setMobileTab(mobileTab === 'product' ? null : 'product')} grid>
-                    {PRODUCTS.map((item) => <MobileNavItem key={item.href} {...item} />)}
+                    {products.map((item) => <MobileNavItem key={item.href} {...item} />)}
                   </MobileSection>
                   <MobileSection label={t('industries')} isOpen={mobileTab === 'industries'} onToggle={() => setMobileTab(mobileTab === 'industries' ? null : 'industries')}>
-                    {INDUSTRIES.map((item) => <MobileNavItem key={item.href} {...item} />)}
+                    {industries.map((item) => <MobileNavItem key={item.href} {...item} />)}
                   </MobileSection>
-                  <Link href="/pricing" onClick={() => setMobileOpen(false)} className="flex items-center px-4 py-3 text-[15px] font-medium text-zinc-800 hover:bg-zinc-50 rounded-lg transition-colors">{t('pricing')}</Link>
-                  <Link href="/company" onClick={() => setMobileOpen(false)} className="flex items-center px-4 py-3 text-[15px] font-medium text-zinc-800 hover:bg-zinc-50 rounded-lg transition-colors">{t('company')}</Link>
+                  <Link href="/pricing" onClick={() => setMobileOpen(false)} className="flex items-center px-4 py-3 text-[15px] font-medium text-ink-2 hover:bg-surface rounded-lg transition-colors">{t('pricing')}</Link>
+                  <Link href="/company" onClick={() => setMobileOpen(false)} className="flex items-center px-4 py-3 text-[15px] font-medium text-ink-2 hover:bg-surface rounded-lg transition-colors">{t('company')}</Link>
                 </div>
 
-                <div className="px-3 pt-2 space-y-2 border-t border-zinc-100" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom, 12px))' }}>
-                  <Link href="/signup" onClick={() => setMobileOpen(false)} className="flex items-center justify-center w-full text-sm font-semibold text-white rounded-lg bg-gradient-to-b from-zinc-700 to-zinc-900 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_1px_3px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.8)] hover:from-zinc-600 hover:to-zinc-800 transition-all duration-200" style={{ padding: '12px 20px', borderRadius: '6px' }}>
+                <div className="px-3 pt-2 space-y-2 border-t border-mist" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom, 12px))' }}>
+                  <Link href="/signup" onClick={() => setMobileOpen(false)} className="cta-primary flex items-center justify-center w-full text-sm font-semibold rounded-lg" style={{ padding: '12px 20px', borderRadius: '6px' }}>
                     {t('tryFree')}
                   </Link>
-                  <Link href="/login" onClick={() => setMobileOpen(false)} className="flex items-center justify-center w-full text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors py-2">
+                  <Link href="/login" onClick={() => setMobileOpen(false)} className="flex items-center justify-center w-full text-sm font-medium text-muted hover:text-ink transition-colors py-2">
                     {t('logIn')}
                   </Link>
                 </div>
@@ -271,15 +290,15 @@ export function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="bg-white rounded-xl border border-zinc-200 overflow-hidden mx-6"
+                className="bg-white rounded-xl border border-line overflow-hidden mx-6"
                 style={{
                   boxShadow: '0 8px 30px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)',
                 }}
               >
                 <div className="p-1.5">
-                  {activeMenu === 'useCases' && <UseCasesDrawer />}
-                  {activeMenu === 'product' && <ProductDrawer />}
-                  {activeMenu === 'industries' && <IndustriesDrawer />}
+                  {activeMenu === 'useCases' && <UseCasesDrawer items={useCases} />}
+                  {activeMenu === 'product' && <ProductDrawer items={products} />}
+                  {activeMenu === 'industries' && <IndustriesDrawer items={industries} />}
                 </div>
               </motion.div>
             </div>
@@ -305,13 +324,13 @@ const NavTrigger = forwardRef<HTMLDivElement, {
     <div ref={ref} onMouseEnter={onEnter} onMouseLeave={onLeave} className="cursor-default">
       <span className={cn(
         'flex items-center gap-1 px-3 py-1.5 text-[13px] font-medium transition-colors rounded-md',
-        (isOpen || active) ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-800',
+        (isOpen || active) ? 'text-ink' : 'text-muted hover:text-ink-2',
       )}>
         {label}
         {hasDropdown && (
           <ChevronDown className={cn(
             'w-3 h-3 transition-transform duration-150',
-            isOpen ? 'text-zinc-500 rotate-180' : 'text-zinc-400',
+            isOpen ? 'text-muted rotate-180' : 'text-faint',
           )} />
         )}
       </span>
@@ -324,7 +343,7 @@ function NavSimpleLink({ label, href, active }: { label: string; href: string; a
     <Link href={href}>
       <span className={cn(
         'flex items-center px-3 py-1.5 text-[13px] font-medium transition-colors rounded-md',
-        active ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-800',
+        active ? 'text-ink' : 'text-muted hover:text-ink-2',
       )}>
         {label}
       </span>
@@ -336,39 +355,39 @@ function NavSimpleLink({ label, href, active }: { label: string; href: string; a
 
 function DrawerItem({ href, icon: Icon, label, desc }: { href: string; icon: React.ElementType; label: string; desc: string }) {
   return (
-    <Link href={href} className="flex items-center gap-3 px-2.5 py-2 rounded-lg transition-colors group hover:bg-zinc-50">
-      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-50 group-hover:bg-zinc-100 transition-colors flex-shrink-0">
-        <Icon className="w-4 h-4 text-zinc-400 group-hover:text-zinc-600 transition-colors" />
+    <Link href={href} className="flex items-center gap-3 px-2.5 py-2 rounded-lg transition-colors group hover:bg-surface">
+      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface group-hover:bg-mist transition-colors flex-shrink-0">
+        <Icon className="w-4 h-4 text-faint group-hover:text-body transition-colors" />
       </span>
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-medium text-zinc-700 group-hover:text-zinc-900 transition-colors">{label}</p>
-        <p className="text-[11px] text-zinc-400 leading-snug">{desc}</p>
+        <p className="text-[13px] font-medium text-ink-3 group-hover:text-ink transition-colors">{label}</p>
+        <p className="text-[11px] text-faint leading-snug">{desc}</p>
       </div>
-      <ArrowRight className="w-3.5 h-3.5 text-zinc-200 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all flex-shrink-0" />
+      <ArrowRight className="w-3.5 h-3.5 text-line opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all flex-shrink-0" />
     </Link>
   );
 }
 
-function UseCasesDrawer() {
+function UseCasesDrawer({ items }: { items: MenuItem[] }) {
   return (
     <div className="grid grid-cols-1 gap-0.5">
-      {USE_CASES.map((item) => <DrawerItem key={item.href} {...item} />)}
+      {items.map((item) => <DrawerItem key={item.href} {...item} />)}
     </div>
   );
 }
 
-function ProductDrawer() {
+function ProductDrawer({ items }: { items: MenuItem[] }) {
   return (
     <div className="grid grid-cols-2 gap-0.5">
-      {PRODUCTS.map((item) => <DrawerItem key={item.href} {...item} />)}
+      {items.map((item) => <DrawerItem key={item.href} {...item} />)}
     </div>
   );
 }
 
-function IndustriesDrawer() {
+function IndustriesDrawer({ items }: { items: MenuItem[] }) {
   return (
     <div className="grid grid-cols-2 gap-0.5">
-      {INDUSTRIES.map((item) => <DrawerItem key={item.href} {...item} />)}
+      {items.map((item) => <DrawerItem key={item.href} {...item} />)}
     </div>
   );
 }
@@ -380,10 +399,10 @@ function MobileSection({ label, isOpen, onToggle, children, grid }: { label: str
     <div>
       <button
         onClick={onToggle}
-        className={cn('w-full flex items-center justify-between px-4 py-3 text-[15px] font-medium transition-colors rounded-lg', isOpen ? 'text-zinc-900 bg-zinc-50' : 'text-zinc-800 hover:bg-zinc-50')}
+        className={cn('w-full flex items-center justify-between px-4 py-3 text-[15px] font-medium transition-colors rounded-lg', isOpen ? 'text-ink bg-surface' : 'text-ink-2 hover:bg-surface')}
       >
         {label}
-        <ChevronRight className={cn('w-4 h-4 text-zinc-400 transition-transform duration-200', isOpen && 'rotate-90')} />
+        <ChevronRight className={cn('w-4 h-4 text-faint transition-transform duration-200', isOpen && 'rotate-90')} />
       </button>
       <AnimatePresence initial={false}>
         {isOpen && (
@@ -398,13 +417,13 @@ function MobileSection({ label, isOpen, onToggle, children, grid }: { label: str
 
 function MobileNavItem({ href, icon: Icon, label, desc }: { href: string; icon: React.ElementType; label: string; desc: string }) {
   return (
-    <Link href={href} className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors hover:bg-zinc-50">
-      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-100 flex-shrink-0">
-        <Icon className="w-3.5 h-3.5 text-zinc-500" />
+    <Link href={href} className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors hover:bg-surface">
+      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-mist flex-shrink-0">
+        <Icon className="w-3.5 h-3.5 text-muted" />
       </span>
       <div className="min-w-0">
-        <p className="text-[13px] font-medium text-zinc-700">{label}</p>
-        <p className="text-[11px] text-zinc-400 leading-snug">{desc}</p>
+        <p className="text-[13px] font-medium text-ink-3">{label}</p>
+        <p className="text-[11px] text-faint leading-snug">{desc}</p>
       </div>
     </Link>
   );

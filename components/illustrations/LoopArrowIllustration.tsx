@@ -1,45 +1,56 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { AccentDefs, Glow, illoColors, SW, useIlloId, type IlloVariant } from './_shared';
 
-interface Props { variant?: 'light' | 'dark' }
+interface Props { variant?: IlloVariant }
+
+// A full circular track (ink) with an accent arc sweeping around it.
+const TRACK = 'M 100 38 A 62 62 0 1 1 99.9 38';
 
 export function LoopArrowIllustration({ variant = 'light' }: Props) {
-  const s = variant === 'dark' ? '#e4e4e7' : '#18181b';
+  const id = useIlloId();
+  const c = illoColors(variant);
+  const reduce = useReducedMotion();
 
   return (
-    <svg viewBox="0 0 240 200" fill="none" aria-hidden="true" className="w-full h-full">
-      {/* Main loop arc — clockwise circular path */}
+    <svg viewBox="0 0 200 200" fill="none" aria-hidden="true" className="h-full w-full">
+      <AccentDefs id={id} variant={variant} />
+      <Glow id={id} cx={100} cy={100} r={56} />
+
+      {/* Faint full track */}
+      <path d={TRACK} stroke={c.inkFaint} strokeWidth={SW} fill="none" strokeLinecap="round" />
+
+      {/* Accent arc — a ~62% segment that rotates around the loop */}
       <motion.path
-        d="M 60 100 C 60 50 180 50 180 100 C 180 150 60 150 60 100"
-        stroke={s} strokeWidth="1.5" strokeLinecap="round" fill="none"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 1, 1, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, times: [0, 0.45, 0.75, 1], ease: [0.42, 0, 0.58, 1] }}
+        d={TRACK}
+        stroke={c.accent}
+        strokeWidth={SW}
+        fill="none"
+        strokeLinecap="round"
+        pathLength={1}
+        strokeDasharray="0.62 0.38"
+        style={{ transformOrigin: '100px 100px' }}
+        animate={reduce ? undefined : { rotate: [0, 360] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
       />
 
-      {/* Arrowhead at the bottom of the loop (pointing left) */}
-      <motion.path
-        d="M 72 107 L 60 100 L 72 93"
-        stroke={s} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"
-        animate={{ opacity: [0, 0, 1, 1, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, times: [0, 0.44, 0.5, 0.75, 1], ease: [0.42, 0, 0.58, 1] }}
-      />
+      {/* Arrowhead riding the leading edge (top), rotating with the arc */}
+      <motion.g
+        style={{ transformOrigin: '100px 100px' }}
+        animate={reduce ? undefined : { rotate: [0, 360] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+      >
+        <path d="M 90 32 L 100 38 L 92 47" stroke={c.accent} strokeWidth={SW} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      </motion.g>
 
-      {/* Inner small loop — offset, draws with delay */}
-      <motion.path
-        d="M 90 100 C 90 72 150 72 150 100 C 150 128 90 128 90 100"
-        stroke={s} strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.4"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: [0, 1, 1, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, delay: 0.4, times: [0, 0.45, 0.75, 1], ease: [0.42, 0, 0.58, 1] }}
-      />
-
-      {/* Center dot */}
+      {/* Center reinforcement dot */}
       <motion.circle
-        cx="120" cy="100" r="3" fill={s}
-        animate={{ scale: [1, 1.4, 1] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+        cx="100" cy="100"
+        fill={`url(#${id}-accent)`}
+        animate={reduce ? undefined : { r: [4, 5.5, 4], opacity: [0.85, 1, 0.85] }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+        style={{ r: 4.5 }}
       />
     </svg>
   );

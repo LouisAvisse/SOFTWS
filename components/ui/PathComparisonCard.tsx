@@ -20,12 +20,14 @@ const ADAPTIVE_PATHS = [
 export function PathComparisonCard({ variant = 'light' }: Props) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
-  const s = variant === 'dark' ? '#e4e4e7' : '#18181b';
-  const border = variant === 'dark' ? 'border-zinc-700' : 'border-zinc-200';
-  const bg = variant === 'dark' ? 'bg-zinc-900' : 'bg-zinc-50';
-  const divider = variant === 'dark' ? 'border-zinc-700' : 'border-zinc-200';
-  const labelColor = variant === 'dark' ? 'text-zinc-400' : 'text-zinc-500';
-  const headingColor = variant === 'dark' ? 'text-zinc-100' : 'text-zinc-900';
+  const s = variant === 'dark' ? 'rgba(246,243,237,0.85)' : 'var(--ink-3)';
+  const accent = 'var(--brand)';
+  const meta = 'var(--muted)';
+  const border = variant === 'dark' ? 'border-ink-3' : 'border-line';
+  const bg = variant === 'dark' ? 'bg-ink' : 'bg-surface';
+  const divider = variant === 'dark' ? 'border-ink-3' : 'border-line';
+  const labelColor = variant === 'dark' ? 'text-faint' : 'text-muted';
+  const headingColor = variant === 'dark' ? 'text-mist' : 'text-ink';
 
   return (
     <div ref={ref} className={`rounded-xl border ${border} ${bg} p-8`}>
@@ -43,11 +45,11 @@ export function PathComparisonCard({ variant = 'light' }: Props) {
             {/* Arrowhead */}
             <path d="M 214 54 L 222 60 L 214 66" stroke={s} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             {/* Start label */}
-            <text x="20" y="82" fontSize="10" fill="#a1a1aa" fontFamily="var(--font-geist-sans)">Start</text>
+            <text x="20" y="82" fontSize="10" fill={meta} fontFamily="var(--font-host-grotesk)">Start</text>
             {/* End label */}
-            <text x="210" y="82" fontSize="10" fill="#a1a1aa" textAnchor="middle" fontFamily="var(--font-geist-sans)">End</text>
+            <text x="210" y="82" fontSize="10" fill={meta} textAnchor="middle" fontFamily="var(--font-host-grotesk)">End</text>
             {/* Dashed "same for everyone" */}
-            <text x="130" y="44" fontSize="9" fill="#a1a1aa" textAnchor="middle" fontFamily="var(--font-geist-sans)">same for everyone</text>
+            <text x="130" y="44" fontSize="9" fill={meta} textAnchor="middle" fontFamily="var(--font-host-grotesk)">same for everyone</text>
           </svg>
         </div>
 
@@ -67,8 +69,8 @@ export function PathComparisonCard({ variant = 'light' }: Props) {
               <motion.path
                 key={i}
                 d={seg.d}
-                stroke={s}
-                strokeWidth="1.5"
+                stroke={accent}
+                strokeWidth="1.75"
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
                 animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
@@ -87,7 +89,7 @@ export function PathComparisonCard({ variant = 'light' }: Props) {
             ].map((pt, i) => (
               <motion.circle
                 key={i}
-                cx={pt.cx} cy={pt.cy} r={3} fill={s}
+                cx={pt.cx} cy={pt.cy} r={3.5} fill={accent}
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ delay: 0.1 + i * 0.08 }}
@@ -96,12 +98,12 @@ export function PathComparisonCard({ variant = 'light' }: Props) {
             {/* Arrowhead at end */}
             <motion.path
               d="M 215 39 L 223 45 L 215 51"
-              stroke={s} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+              stroke={accent} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ delay: 0.9 }}
             />
-            <text x="130" y="110" fontSize="9" fill="#a1a1aa" textAnchor="middle" fontFamily="var(--font-geist-sans)">adapts to each individual</text>
+            <text x="130" y="110" fontSize="9" fill={meta} textAnchor="middle" fontFamily="var(--font-host-grotesk)">adapts to each individual</text>
           </svg>
         </div>
       </div>

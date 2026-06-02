@@ -98,7 +98,7 @@ function StaggerWords({
           variants={wordVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className={cn('inline-block mr-[0.3em] italic', colorClass)}
+          className={cn('inline-block mr-[0.3em] not-italic', colorClass)}
         >
           {word}
         </motion.span>
@@ -135,11 +135,11 @@ export function CenteredCTA({
 
   if (variant === 'island') {
     return (
-      <section ref={ref} className="py-24 lg:py-32 bg-zinc-950 relative overflow-hidden">
-        <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-32 h-32 md:w-64 md:h-64 bg-zinc-800 rounded-full blur-3xl opacity-40 pointer-events-none" />
-        <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-24 h-24 md:w-48 md:h-48 bg-zinc-700 rounded-full blur-3xl opacity-30 pointer-events-none" />
-        <div className="max-w-[1050px] mx-auto px-6 relative text-center">
-          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-4 text-white">
+      <section ref={ref} className="section-padding bg-ink-deep relative overflow-hidden">
+        <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-32 h-32 md:w-64 md:h-64 bg-ink-2 rounded-full blur-3xl opacity-40 pointer-events-none" />
+        <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-24 h-24 md:w-48 md:h-48 bg-ink-3 rounded-full blur-3xl opacity-30 pointer-events-none" />
+        <div className="max-w-content mx-auto px-6 relative text-center">
+          <h2 className="text-3xl lg:text-4xl display-heading mb-4 text-white">
             <StaggerWords text={headline} italicText={headlineBold} inView={inView} colorClass="text-white" />
           </h2>
           {subheadline && (
@@ -147,7 +147,7 @@ export function CenteredCTA({
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: subDelay }}
-              className="text-base lg:text-lg leading-relaxed mb-8 max-w-xl mx-auto text-zinc-400"
+              className="text-base lg:text-lg leading-relaxed mb-8 max-w-xl mx-auto text-faint"
             >
               {subheadline}
             </motion.p>
@@ -159,7 +159,7 @@ export function CenteredCTA({
             className="flex flex-wrap items-center justify-center gap-3"
           >
             <MagneticButton>
-              <Button size="lg" variant="white" asChild>
+              <Button size="lg" asChild>
                 <Link href={primaryCTA.href}>{primaryCTA.text}</Link>
               </Button>
             </MagneticButton>
@@ -177,14 +177,14 @@ export function CenteredCTA({
   }
 
   return (
-    <section ref={ref} className={cn('py-24 lg:py-32', isDark ? 'bg-zinc-950' : 'bg-white')}>
-      <div className="max-w-[1050px] mx-auto px-6 text-center">
-        <h2 className={cn('text-3xl lg:text-4xl font-semibold tracking-tight mb-4', isDark ? 'text-white' : 'text-zinc-900')}>
+    <section ref={ref} className={cn('section-padding', isDark ? 'bg-ink-deep' : 'bg-canvas')}>
+      <div className="max-w-content mx-auto px-6 text-center">
+        <h2 className={cn('text-3xl lg:text-4xl display-heading mb-4', isDark ? 'text-white' : 'text-ink')}>
           <StaggerWords
             text={headline}
             italicText={headlineBold}
             inView={inView}
-            colorClass={isDark ? 'text-white' : 'text-zinc-900'}
+            colorClass={isDark ? 'text-white' : 'text-ink'}
           />
         </h2>
         {subheadline && (
@@ -192,7 +192,7 @@ export function CenteredCTA({
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: subDelay }}
-            className={cn('text-base lg:text-lg leading-relaxed mb-8 max-w-xl mx-auto', isDark ? 'text-zinc-400' : 'text-zinc-600')}
+            className={cn('text-base lg:text-lg leading-relaxed mb-8 max-w-xl mx-auto', isDark ? 'text-faint' : 'text-body')}
           >
             {subheadline}
           </motion.p>
@@ -204,7 +204,7 @@ export function CenteredCTA({
           className="flex flex-wrap items-center justify-center gap-3"
         >
           <MagneticButton>
-            <Button size="lg" variant={isDark ? 'white' : 'default'} asChild>
+            <Button size="lg" asChild>
               <Link href={primaryCTA.href}>{primaryCTA.text}</Link>
             </Button>
           </MagneticButton>

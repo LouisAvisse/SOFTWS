@@ -1,20 +1,25 @@
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
-import { AlertTriangle, AlertCircle, Info } from 'lucide-react';
+import {
+  AlertTriangle, AlertCircle, Info,
+  Landmark, Zap, Store, Heart, GraduationCap,
+  MessageSquare, ShieldCheck, Gauge, HeartHandshake, BookOpen, Languages,
+  type LucideIcon,
+} from 'lucide-react';
 
 import { routing } from '@/i18n/routing';
 import { INDUSTRY_SLUGS, type IndustrySlug } from '@/lib/content/industries';
-import { HeroSplit } from '@/components/sections/HeroSplit';
+import { IndustryHero } from '@/components/sections/IndustryHero';
 import { TabSwitcher } from '@/components/sections/TabSwitcher';
 import { FeatureGrid } from '@/components/sections/FeatureGrid';
+import { FeatureCard } from '@/components/ui/FeatureCard';
 import { MetricScorecard } from '@/components/sections/MetricScorecard';
 import { DarkCard } from '@/components/sections/DarkCard';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
-import { IndustryMosaicIllustration } from '@/components/illustrations/IndustryMosaicIllustration';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type ChallengeItem = { title: string; body: string };
@@ -25,6 +30,19 @@ type MetricItem = { value: string; label: string; description: string };
 type FAQItem = { question: string; answer: string };
 
 const CHALLENGE_ICONS = [AlertTriangle, AlertCircle, Info] as const;
+
+// Capability icons for the "Why Soft Fits …" feature grid — varied and on-theme
+// (not the warning icons used for the Challenge section).
+const FEATURE_ICONS = [MessageSquare, ShieldCheck, Gauge, HeartHandshake, BookOpen, Languages] as const;
+
+// Per-industry icon — gives each slim hero its own identity.
+const INDUSTRY_ICONS: Record<IndustrySlug, LucideIcon> = {
+  'financial-services': Landmark,
+  'technology-saas': Zap,
+  'franchise-retail': Store,
+  healthcare: Heart,
+  education: GraduationCap,
+};
 
 // ─── Static params ─────────────────────────────────────────────────────────
 
@@ -61,6 +79,7 @@ export default async function IndustryPage({
   if (!(INDUSTRY_SLUGS as readonly string[]).includes(slug)) notFound();
 
   const t = await getTranslations({ locale, namespace: `industries.${slug as IndustrySlug}` });
+  const tc = await getTranslations({ locale, namespace: 'common' });
 
   const challengeItems = t.raw('challenge.items') as ChallengeItem[];
   const valuePillars = t.raw('value.pillars') as PillarItem[];
@@ -70,86 +89,76 @@ export default async function IndustryPage({
   const faqItems = t.raw('faq.items') as FAQItem[];
 
   // TabSwitcher needs { label, content: ReactNode }
+  const IndustryIcon = INDUSTRY_ICONS[slug as IndustrySlug];
   const tabs = tabsRaw.map((tab) => ({
     label: tab.label,
     content: (
-      <div className="max-w-xl">
-        <h3 className="text-xl font-semibold text-zinc-900 mb-3">{tab.title}</h3>
-        <p className="text-zinc-600 leading-relaxed">{tab.body}</p>
+      <div className="mx-auto flex max-w-2xl items-start gap-5">
+        <span className="hidden h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand ring-1 ring-brand/15 sm:flex">
+          <IndustryIcon className="h-5 w-5" strokeWidth={1.75} />
+        </span>
+        <div>
+          <h3 className="mb-3 text-xl font-semibold text-ink">{tab.title}</h3>
+          <p className="leading-relaxed text-body">{tab.body}</p>
+        </div>
       </div>
     ),
   }));
 
   // FeatureGrid items need icon prop
   const features = featureItems.map((item, i) => ({
-    icon: CHALLENGE_ICONS[i % CHALLENGE_ICONS.length],
+    icon: FEATURE_ICONS[i % FEATURE_ICONS.length],
     title: item.title,
     body: item.body,
   }));
 
   return (
     <>
-      {/* 1 — Hero */}
-      <HeroSplit
-        label={t('hero.label')}
+      {/* 1 — Slim industry header */}
+      <IndustryHero
+        variant="slim"
+        eyebrow={t('hero.label')}
         headline={t('hero.headline')}
         headlineBold={t('hero.headlineBold')}
         subheadline={t('hero.subheadline')}
         primaryCTA={{ text: t('hero.primaryCTA'), href: '/contact' }}
         secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/contact' }}
-        visual={<IndustryMosaicIllustration />}
+        icon={INDUSTRY_ICONS[slug as IndustrySlug]}
       />
 
       {/* 2 — Industry Challenge */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 leading-[1.1]">
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink leading-[1.1]">
               {t('challenge.headline')}{' '}
-              <em className="italic">{t('challenge.headlineBold')}</em>
+              <em className="not-italic">{t('challenge.headlineBold')}</em>
             </h2>
-            <p className="mt-4 text-base text-zinc-500">{t('challenge.body')}</p>
+            <p className="mt-4 text-base text-muted">{t('challenge.body')}</p>
           </FadeIn>
           <StaggerGroup className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {challengeItems.map((item, i) => {
-              const Icon = CHALLENGE_ICONS[i];
-              return (
-                <StaggerItem key={i}>
-                  <div className="border border-zinc-200 rounded-none p-6 h-full bg-white hover:border-zinc-400 hover:-translate-y-1 transition-all duration-200">
-                    <Icon className="h-5 w-5 text-zinc-400 mb-4" />
-                    <h3 className="text-base font-semibold text-zinc-900 mb-2">{item.title}</h3>
-                    <p className="text-sm text-zinc-500 leading-relaxed">{item.body}</p>
-                  </div>
-                </StaggerItem>
-              );
-            })}
+            {challengeItems.map((item, i) => (
+              <StaggerItem key={i}>
+                <FeatureCard icon={CHALLENGE_ICONS[i]} media="muted" title={item.title} body={item.body} />
+              </StaggerItem>
+            ))}
           </StaggerGroup>
         </div>
       </section>
 
       {/* 3 — Where Soft Creates Value */}
-      <section className="py-24 lg:py-32 bg-white">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="text-center mb-14 max-w-2xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900">
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink">
               {t('value.headline')}{' '}
-              <em className="italic">{t('value.headlineBold')}</em>
+              <em className="not-italic">{t('value.headlineBold')}</em>
             </h2>
           </FadeIn>
           <StaggerGroup className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {valuePillars.map((pillar, i) => (
               <StaggerItem key={i}>
-                <div className="group border border-zinc-200 p-8 h-full cursor-default hover:border-zinc-900 hover:bg-zinc-950 hover:text-white transition-all duration-300">
-                  <div className="text-3xl font-bold text-zinc-200 group-hover:text-zinc-700 mb-6 transition-colors duration-300 font-mono">
-                    0{i + 1}
-                  </div>
-                  <h3 className="text-lg font-semibold text-zinc-900 group-hover:text-white mb-3 transition-colors duration-300">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-sm text-zinc-500 group-hover:text-zinc-400 leading-relaxed transition-colors duration-300">
-                    {pillar.body}
-                  </p>
-                </div>
+                <FeatureCard media="number" index={i + 1} title={pillar.title} body={pillar.body} />
               </StaggerItem>
             ))}
           </StaggerGroup>
@@ -157,17 +166,21 @@ export default async function IndustryPage({
       </section>
 
       {/* 4 — Role-Based Tabs */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="mb-10">
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-3">
-              Who It&apos;s For
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted mb-3">
+              {tc('whoItsFor')}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900">
-              Practice for Every Role.
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink">
+              {tc('practiceForEveryRole')}
             </h2>
           </FadeIn>
-          <TabSwitcher tabs={tabs} />
+          <FadeIn>
+            <div className="rounded-2xl border border-line bg-white p-8 lg:p-12">
+              <TabSwitcher tabs={tabs} />
+            </div>
+          </FadeIn>
         </div>
       </section>
 

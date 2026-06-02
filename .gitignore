@@ -1,2 +1,6 @@
 node_modules
 .vercel
+
+# Next.js build dir (iCloud-safe)
+.next.nosync/
+.next/

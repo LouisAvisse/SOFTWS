@@ -19,16 +19,16 @@ export function FAQAccordion({ headline, faqs }: FAQAccordionProps) {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-24 lg:py-32 bg-white">
-      <div className="max-w-[1050px] mx-auto px-6">
+    <section className="section-padding bg-canvas">
+      <div className="max-w-content mx-auto px-6">
         <div className="max-w-[680px] mx-auto">
           <FadeIn className="mb-12">
-            <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-zinc-900">
+            <h2 className="text-3xl lg:text-4xl display-heading text-ink">
               {headline}
             </h2>
           </FadeIn>
 
-          <div className="divide-y divide-zinc-200">
+          <div className="divide-y divide-line">
             {faqs.map((faq, i) => (
               <div key={i}>
                 <button
@@ -36,11 +36,11 @@ export function FAQAccordion({ headline, faqs }: FAQAccordionProps) {
                   className="w-full flex items-center justify-between py-5 text-left"
                   aria-expanded={open === i}
                 >
-                  <span className="font-medium text-base text-zinc-900 pr-8">{faq.question}</span>
+                  <span className="font-medium text-base text-ink pr-8">{faq.question}</span>
                   <motion.span
                     animate={{ rotate: open === i ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
-                    className="flex-shrink-0 text-zinc-400"
+                    className="flex-shrink-0 text-faint"
                   >
                     <ChevronDown className="w-4 h-4" />
                   </motion.span>
@@ -55,7 +55,7 @@ export function FAQAccordion({ headline, faqs }: FAQAccordionProps) {
                       transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
                       className="overflow-hidden"
                     >
-                      <p className="text-[15px] text-zinc-600 leading-relaxed pb-5">
+                      <p className="text-[15px] text-body leading-relaxed pb-5">
                         {faq.answer}
                       </p>
                     </motion.div>

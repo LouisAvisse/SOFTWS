@@ -62,7 +62,7 @@ export default async function UseCasesOverviewPage({
       href: card.href,
       size: (i < 2 ? 'lg' : 'md') as 'lg' | 'md',
       visual: (
-        <p className="text-sm font-medium text-zinc-900 mt-4">
+        <p className="text-sm font-medium text-ink mt-4">
           {card.cta} →
         </p>
       ),
@@ -83,17 +83,17 @@ export default async function UseCasesOverviewPage({
       />
 
       {/* 2 — Bridge section */}
-      <section className="py-24 lg:py-32 bg-white">
-        <div className="max-w-[1050px] mx-auto px-6">
+      <section className="section-padding bg-canvas">
+        <div className="max-w-content mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-5xl mx-auto">
             <FadeIn direction="left">
-              <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 leading-[1.08]">
+              <h2 className="text-4xl lg:text-5xl display-heading text-ink leading-[1.08]">
                 {t('bridge.headline')}{' '}
-                <em className="italic">{t('bridge.headlineBold')}</em>
+                <em className="not-italic">{t('bridge.headlineBold')}</em>
               </h2>
             </FadeIn>
             <FadeIn direction="right">
-              <p className="text-base lg:text-lg text-zinc-600 leading-relaxed">
+              <p className="text-base lg:text-lg text-body leading-relaxed">
                 {t('bridge.body')}
               </p>
             </FadeIn>

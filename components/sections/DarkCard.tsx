@@ -20,7 +20,7 @@ export function DarkCard({ headline, headlineBold, body, features, badge }: Dark
   return (
     <section
       ref={ref}
-      className="relative py-24 bg-zinc-950 overflow-hidden"
+      className="relative py-24 bg-ink-deep overflow-hidden"
       style={{
         backgroundImage:
           'repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px)',
@@ -37,7 +37,7 @@ export function DarkCard({ headline, headlineBold, body, features, badge }: Dark
         </svg>
       </div>
 
-      <div className="max-w-[1050px] mx-auto px-6 relative">
+      <div className="max-w-content mx-auto px-6 relative">
         <div className="max-w-3xl mx-auto text-center">
           {badge && (
             <motion.div
@@ -46,13 +46,13 @@ export function DarkCard({ headline, headlineBold, body, features, badge }: Dark
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="mb-6"
             >
-              <Badge variant="dark" className="border-zinc-700 bg-zinc-800 text-zinc-300">
+              <Badge variant="dark" className="border-ink-3 bg-ink-2 text-edge">
                 {badge}
               </Badge>
             </motion.div>
           )}
 
-          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight text-white mb-2">
+          <h2 className="text-3xl lg:text-4xl display-heading text-white mb-2">
             <motion.span
               initial={{ clipPath: 'inset(100% 0 0 0)' }}
               animate={inView ? { clipPath: 'inset(0% 0 0 0)' } : {}}
@@ -60,7 +60,7 @@ export function DarkCard({ headline, headlineBold, body, features, badge }: Dark
               className="block"
             >
               {headline}{' '}
-              {headlineBold && <span className="italic">{headlineBold}</span>}
+              {headlineBold && <span className="not-italic">{headlineBold}</span>}
             </motion.span>
           </h2>
 
@@ -68,7 +68,7 @@ export function DarkCard({ headline, headlineBold, body, features, badge }: Dark
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            className="text-lg text-zinc-400 leading-relaxed mt-4 mb-10 max-w-2xl mx-auto"
+            className="text-lg text-faint leading-relaxed mt-4 mb-10 max-w-2xl mx-auto"
           >
             {body}
           </motion.p>
@@ -83,8 +83,8 @@ export function DarkCard({ headline, headlineBold, body, features, badge }: Dark
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 0.5 + i * 0.06 }}
                   className="flex items-center gap-2"
                 >
-                  <Check className="w-4 h-4 text-zinc-500 flex-shrink-0" />
-                  <span className="text-sm text-zinc-300">{f}</span>
+                  <Check className="w-4 h-4 text-muted flex-shrink-0" />
+                  <span className="text-sm text-edge">{f}</span>
                 </motion.div>
               ))}
             </div>

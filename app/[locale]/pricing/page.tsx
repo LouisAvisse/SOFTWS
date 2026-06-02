@@ -41,73 +41,59 @@ export default async function PricingPage({
 
   return (
     <>
-      {/* 1 — Hero */}
-      <section className="relative py-24 lg:py-32 bg-white overflow-hidden">
-        {/* Subtle dot mesh */}
-        <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none" aria-hidden>
-          <defs>
-            <pattern id="pricing-mesh" width="60" height="60" patternUnits="userSpaceOnUse">
-              <circle cx="1" cy="1" r="1" fill="#d4d4d8" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#pricing-mesh)" />
-        </svg>
-
-        <div className="max-w-[1050px] mx-auto px-6 relative">
-          <FadeIn className="max-w-2xl mx-auto text-center mb-10">
-            <p className="text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-4">
+      {/* 1 — Hero + billing toggle + pricing cards (one cohesive block) */}
+      <section className="bg-canvas pt-32 pb-20 lg:pt-36 lg:pb-28">
+        <div className="max-w-content mx-auto px-6">
+          <FadeIn className="mx-auto max-w-2xl text-center">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted">
               {t('hero.label')}
             </p>
-            <h1 className="text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900 leading-[1.08] mb-4">
+            <h1 className="display-heading mb-4 text-4xl leading-[1.08] text-ink lg:text-5xl">
               {t('hero.headline')}
             </h1>
-            <p className="text-base lg:text-lg text-zinc-500 leading-relaxed">
+            <p className="text-base leading-relaxed text-muted lg:text-lg">
               {t('hero.subheadline')}
             </p>
           </FadeIn>
+
+          <div className="mt-12">
+            <PricingSection cards={cards} billing={billing} />
+          </div>
         </div>
       </section>
 
-      {/* 2 — Billing Toggle + Pricing Cards */}
-      <section className="pb-24 lg:pb-32 bg-white">
-        <div className="max-w-[1050px] mx-auto px-6">
-          <PricingSection cards={cards} billing={billing} />
-          <p className="text-xs text-zinc-400 text-center mt-8">
-            Example pricing — final rates confirmed at sign-up.
-          </p>
-        </div>
-      </section>
-
-      {/* 3 — Scale section */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-[1050px] mx-auto px-6">
-          <FadeIn className="max-w-2xl mx-auto text-center mb-14">
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 mb-4">
+      {/* 2 — Scale section (narrative + "coverage grows" visual) */}
+      <section className="border-t border-line bg-canvas py-20 lg:py-24">
+        <div className="mx-auto max-w-content px-6">
+          <FadeIn className="max-w-2xl">
+            <h2 className="display-heading mb-4 text-3xl text-ink lg:text-4xl">
               {t('scale.headline')}
             </h2>
-            <p className="text-base text-zinc-500 leading-relaxed">
+            <p className="max-w-xl text-base leading-relaxed text-muted">
               {t('scale.body')}
             </p>
           </FadeIn>
-          <PricingTimeline nodes={timelineNodes} />
+          <FadeIn delay={0.1} className="mt-14 lg:mt-16">
+            <PricingTimeline nodes={timelineNodes} />
+          </FadeIn>
         </div>
       </section>
 
-      {/* 4 — FAQ */}
+      {/* 3 — FAQ */}
       <FAQAccordion headline={t('faq.headline')} faqs={faqItems} />
 
-      {/* 5 — Final CTA */}
-      <section className="py-24 lg:py-32 bg-zinc-950">
-        <div className="max-w-[1050px] mx-auto px-6">
+      {/* 4 — Final CTA */}
+      <section className="section-padding bg-ink-deep">
+        <div className="max-w-content mx-auto px-6">
           <FadeIn className="max-w-xl mx-auto text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-white mb-4">
+            <h2 className="text-3xl lg:text-4xl display-heading text-white mb-4">
               {t('finalCTA.headline')}
             </h2>
-            <p className="text-base text-zinc-400 leading-relaxed mb-8">
+            <p className="text-base text-faint leading-relaxed mb-8">
               {t('finalCTA.body')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button variant="white" size="lg" asChild>
+              <Button size="lg" asChild>
                 <Link href="/contact">{t('finalCTA.primaryCTA')}</Link>
               </Button>
               <Button variant="white-outline" size="lg" asChild>

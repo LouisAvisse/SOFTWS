@@ -1,49 +1,45 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { AccentDefs, Glow, illoColors, SW, useIlloId, type IlloVariant } from './_shared';
 
-interface Props { variant?: 'light' | 'dark' }
+interface Props { variant?: IlloVariant }
 
-const RUNGS = [130, 108, 86, 64, 42];
+const RUNGS = [150, 124, 98, 72, 46]; // bottom → top
 
 export function LadderIllustration({ variant = 'light' }: Props) {
-  const s = variant === 'dark' ? '#e4e4e7' : '#18181b';
+  const id = useIlloId();
+  const c = illoColors(variant);
+  const reduce = useReducedMotion();
 
   return (
-    <svg viewBox="0 0 180 180" fill="none" aria-hidden="true" className="w-full h-full">
-      {/* Left rail */}
-      <line x1="62" y1="30" x2="62" y2="148" stroke={s} strokeWidth="1.5" strokeLinecap="round" />
-      {/* Right rail */}
-      <line x1="118" y1="30" x2="118" y2="148" stroke={s} strokeWidth="1.5" strokeLinecap="round" />
+    <svg viewBox="0 0 160 200" fill="none" aria-hidden="true" className="h-full w-full">
+      <AccentDefs id={id} variant={variant} />
+      <Glow id={id} cx={80} cy={46} r={42} />
 
-      {/* Rungs — each draws in from left to right with stagger */}
+      {/* Rails */}
+      <line x1="56" y1="36" x2="56" y2="166" stroke={c.ink} strokeWidth={SW} strokeLinecap="round" />
+      <line x1="104" y1="36" x2="104" y2="166" stroke={c.ink} strokeWidth={SW} strokeLinecap="round" />
+
+      {/* Rungs — top rung is the brand-blue goal */}
       {RUNGS.map((y, i) => (
-        <motion.line
+        <line
           key={i}
-          x1="62" y1={y} x2="118" y2={y}
-          stroke={s} strokeWidth="1.5" strokeLinecap="round"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 1] }}
-          transition={{
-            duration: 2.5, repeat: Infinity, delay: i * 0.18,
-            times: [0, 0.4, 1], ease: [0.42, 0, 0.58, 1],
-          }}
+          x1="56" y1={y} x2="104" y2={y}
+          stroke={i === RUNGS.length - 1 ? c.accent : c.ink}
+          strokeWidth={SW}
+          strokeLinecap="round"
         />
       ))}
 
-      {/* Ascending dot — climbs the ladder */}
+      {/* Climbing marker — brand-blue, ascends and resets */}
       <motion.circle
-        cx="90" cy="148" r="4" fill={s}
-        animate={{ cy: [148, 42, 148], opacity: [1, 1, 0.2] }}
-        transition={{ duration: 3, repeat: Infinity, times: [0, 0.7, 1], ease: [0.42, 0, 0.58, 1] }}
-      />
-
-      {/* Top highlight — glows when dot arrives */}
-      <motion.circle
-        cx="90" cy="30" r="6" fill="none" stroke={s} strokeWidth="1"
-        animate={{ opacity: [0, 0, 1, 0], scale: [0.6, 0.6, 1.2, 1.5] }}
-        transition={{ duration: 3, repeat: Infinity, times: [0, 0.65, 0.75, 1], ease: [0.42, 0, 0.58, 1] }}
-        style={{ transformOrigin: '90px 30px' }}
+        cx="80"
+        fill={`url(#${id}-accent)`}
+        r="5.5"
+        animate={reduce ? undefined : { cy: [150, 46], opacity: [1, 1, 0] }}
+        transition={{ duration: 3.2, repeat: Infinity, times: [0, 0.85, 1], ease: [0.45, 0, 0.55, 1] }}
+        style={reduce ? { cy: 98 } : undefined}
       />
     </svg>
   );

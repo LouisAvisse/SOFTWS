@@ -1,75 +1,60 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { AccentDefs, Glow, illoColors, SW, SW_MID, SW_THIN, useIlloId, type IlloVariant } from './_shared';
 
-interface Props { variant?: 'light' | 'dark' }
+interface Props { variant?: IlloVariant }
+
+const STARS = [
+  { x: 58, y: 40, r: 2 },
+  { x: 86, y: 28, r: 1.6 },
+  { x: 40, y: 60, r: 1.6 },
+];
 
 export function TelescopeIllustration({ variant = 'light' }: Props) {
-  const s = variant === 'dark' ? '#e4e4e7' : '#18181b';
-  const f = variant === 'dark' ? '#27272a' : '#f4f4f5';
+  const id = useIlloId();
+  const c = illoColors(variant);
+  const reduce = useReducedMotion();
 
   return (
-    <svg viewBox="0 0 260 180" fill="none" aria-hidden="true" className="w-full h-full">
-      {/* Tripod legs */}
-      <line x1="130" y1="130" x2="90" y2="165" stroke={s} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="130" y1="130" x2="130" y2="168" stroke={s} strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="130" y1="130" x2="170" y2="165" stroke={s} strokeWidth="1.5" strokeLinecap="round" />
+    <svg viewBox="0 0 240 180" fill="none" aria-hidden="true" className="h-full w-full">
+      <AccentDefs id={id} variant={variant} />
+      {/* glow on the focal star the scope points at */}
+      <Glow id={id} cx={68} cy={42} r={40} />
 
-      {/* Telescope body — tube tilted 30° */}
-      {/* Main tube */}
-      <motion.rect
-        x="90" y="82" width="80" height="22" rx="2"
-        fill={f} stroke={s} strokeWidth="1.5"
-        style={{ transformOrigin: '130px 93px', rotate: '-30deg' }}
-        animate={{ opacity: [0.8, 1, 0.8] }}
-        transition={{ duration: 3, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
-      />
+      {/* Tripod */}
+      <line x1="132" y1="126" x2="100" y2="164" stroke={c.ink} strokeWidth={SW} strokeLinecap="round" />
+      <line x1="132" y1="126" x2="132" y2="166" stroke={c.ink} strokeWidth={SW} strokeLinecap="round" />
+      <line x1="132" y1="126" x2="166" y2="164" stroke={c.ink} strokeWidth={SW} strokeLinecap="round" />
 
-      {/* Eyepiece (wider, at right end) */}
-      <motion.rect
-        x="152" y="77" width="22" height="32" rx="2"
-        fill={f} stroke={s} strokeWidth="1.5"
-        style={{ transformOrigin: '163px 93px', rotate: '-30deg' }}
-        animate={{ opacity: [0.8, 1, 0.8] }}
-        transition={{ duration: 3, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
-      />
+      {/* Telescope tube (ink), tilted toward the sky */}
+      <g style={{ transformOrigin: '132px 96px', transform: 'rotate(-32deg)' }}>
+        <rect x="92" y="84" width="80" height="24" rx="6" fill={c.panel} stroke={c.ink} strokeWidth={SW} />
+        <rect x="156" y="79" width="20" height="34" rx="5" fill={c.panel} stroke={c.ink} strokeWidth={SW} />
+        {/* objective lens — brand-blue accent */}
+        <rect x="80" y="88" width="14" height="16" rx="4" fill={`url(#${id}-accent)`} stroke={c.accent} strokeWidth={SW_MID} />
+      </g>
+      <circle cx="132" cy="126" r="4.5" fill={c.panel} stroke={c.ink} strokeWidth={SW_MID} />
 
-      {/* Objective lens cap (narrow, at left end) */}
-      <motion.rect
-        x="78" y="86" width="16" height="14" rx="1"
-        fill={f} stroke={s} strokeWidth="1.5"
-        style={{ transformOrigin: '86px 93px', rotate: '-30deg' }}
-        animate={{ opacity: [0.8, 1, 0.8] }}
-        transition={{ duration: 3, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
-      />
-
-      {/* Stars in the direction the telescope points (upper-left) */}
-      {[
-        { cx: 48, cy: 38, r: 2.5, delay: 0 },
-        { cx: 72, cy: 22, r: 2, delay: 0.5 },
-        { cx: 30, cy: 55, r: 1.5, delay: 1 },
-        { cx: 60, cy: 58, r: 1.5, delay: 0.8 },
-        { cx: 22, cy: 28, r: 1.5, delay: 1.4 },
-      ].map((star, i) => (
-        <motion.circle
-          key={i}
-          cx={star.cx} cy={star.cy} r={star.r}
-          fill={s}
-          animate={{ opacity: [0.3, 1, 0.3] }}
-          transition={{ duration: 2.5, repeat: Infinity, delay: star.delay, ease: [0.42, 0, 0.58, 1] }}
-        />
-      ))}
-
-      {/* Sight line from lens toward stars */}
+      {/* Sight line */}
       <motion.line
-        x1="78" y1="72" x2="40" y2="30"
-        stroke={s} strokeWidth="1" strokeLinecap="round" strokeDasharray="3 4"
-        animate={{ opacity: [0, 0.4, 0.4, 0] }}
-        transition={{ duration: 3, repeat: Infinity, times: [0, 0.2, 0.8, 1], ease: [0.42, 0, 0.58, 1] }}
+        x1="78" y1="74" x2="66" y2="46"
+        stroke={c.accent} strokeWidth={SW_THIN} strokeLinecap="round" strokeDasharray="2 5"
+        animate={reduce ? undefined : { opacity: [0, 0.6, 0.6, 0] }}
+        transition={{ duration: 3, repeat: Infinity, times: [0, 0.25, 0.75, 1], ease: [0.42, 0, 0.58, 1] }}
       />
 
-      {/* Mount pivot */}
-      <circle cx="130" cy="130" r="4" fill={f} stroke={s} strokeWidth="1.5" />
+      {/* Focal star — brand-blue accent, twinkling */}
+      <motion.circle
+        cx={68} cy={42}
+        fill={`url(#${id}-accent)`}
+        animate={reduce ? undefined : { r: [4, 5.5, 4] }}
+        transition={{ duration: 2.2, repeat: Infinity, ease: [0.42, 0, 0.58, 1] }}
+        style={{ r: 4.5 }}
+      />
+      {STARS.map((s, i) => (
+        <circle key={i} cx={s.x} cy={s.y} r={s.r} fill={c.inkMid} />
+      ))}
     </svg>
   );
 }

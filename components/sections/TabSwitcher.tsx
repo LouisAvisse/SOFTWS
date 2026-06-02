@@ -20,21 +20,21 @@ export function TabSwitcher({ tabs, className }: TabSwitcherProps) {
   return (
     <div className={className}>
       {/* Tab list */}
-      <div className="relative flex justify-center border-b border-zinc-200 overflow-x-auto">
+      <div className="relative flex justify-center border-b border-line overflow-x-auto">
         {tabs.map((tab, i) => (
           <button
             key={i}
             onClick={() => setActive(i)}
             className={cn(
               'relative pb-3 mx-4 text-sm font-medium whitespace-nowrap transition-colors duration-150 flex-shrink-0',
-              active === i ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-700',
+              active === i ? 'text-ink' : 'text-muted hover:text-ink-3',
             )}
           >
             {tab.label}
             {active === i && (
               <motion.span
                 layoutId="tab-underline"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-zinc-900"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-ink"
               />
             )}
           </button>

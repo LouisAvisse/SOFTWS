@@ -1,6 +1,6 @@
 import { type ReactNode, type ElementType } from 'react';
-import Link from 'next/link';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
+import { FeatureCard } from '@/components/ui/FeatureCard';
 import { cn } from '@/lib/utils';
 
 interface BentoItem {
@@ -20,8 +20,8 @@ interface BentoGridProps {
 
 export function BentoGrid({ items, columns = 3, dark = false }: BentoGridProps) {
   return (
-    <section className={cn('py-24 lg:py-32', dark ? 'bg-zinc-950' : 'bg-white')}>
-      <div className="max-w-[1050px] mx-auto px-6">
+    <section className={cn('section-padding', dark ? 'bg-ink-deep' : 'bg-canvas')}>
+      <div className="max-w-content mx-auto px-6">
         <StaggerGroup
           className={cn(
             'grid gap-4',
@@ -29,37 +29,19 @@ export function BentoGrid({ items, columns = 3, dark = false }: BentoGridProps) 
           )}
         >
           {items.map((item, i) => {
-            const Icon = item.icon;
             const spanClass = item.size === 'lg' ? 'md:col-span-2' : '';
-            const cardClass = cn(
-              'group p-8 border rounded-2xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2',
-              dark
-                ? 'bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800 hover:-translate-y-0.5'
-                : 'bg-white border-zinc-200 hover:bg-zinc-50 hover:-translate-y-0.5',
-              item.href ? 'cursor-pointer' : '',
-              spanClass,
-            );
-
-            const inner = (
-              <>
-                {Icon && <Icon className={cn('w-5 h-5 mb-4', dark ? 'text-zinc-400' : 'text-zinc-900')} />}
-                <h3 className={cn('text-lg font-semibold mb-2', dark ? 'text-white' : 'text-zinc-900')}>
-                  {item.title}
-                </h3>
-                <p className={cn('text-sm leading-relaxed', dark ? 'text-zinc-400' : 'text-zinc-600')}>
-                  {item.body}
-                </p>
-                {item.visual && <div className="mt-6">{item.visual}</div>}
-              </>
-            );
-
             return (
               <StaggerItem key={i} className={spanClass}>
-                {item.href ? (
-                  <Link href={item.href} className={cardClass}>{inner}</Link>
-                ) : (
-                  <div className={cardClass}>{inner}</div>
-                )}
+                <FeatureCard
+                  icon={item.icon}
+                  media={item.icon ? 'box' : 'none'}
+                  title={item.title}
+                  body={item.body}
+                  href={item.href}
+                  footer={item.visual}
+                  tone={dark ? 'dark' : 'default'}
+                  className={spanClass}
+                />
               </StaggerItem>
             );
           })}

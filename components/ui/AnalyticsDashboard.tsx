@@ -27,15 +27,15 @@ export function AnalyticsDashboard({ variant = 'light' }: Props) {
       ref={ref}
       className={cn(
         'rounded-xl border p-6 shadow-lg w-full max-w-lg mx-auto',
-        isDark ? 'bg-zinc-900 border-zinc-700' : 'bg-white border-zinc-200',
+        isDark ? 'bg-ink border-ink-3' : 'bg-white border-line',
       )}
     >
       {/* Header */}
       <div className="mb-5">
-        <p className={cn('text-xs font-semibold tracking-widest uppercase mb-1', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+        <p className={cn('text-xs font-semibold tracking-widest uppercase mb-1', isDark ? 'text-muted' : 'text-faint')}>
           Analytics
         </p>
-        <p className={cn('text-sm font-semibold', isDark ? 'text-zinc-100' : 'text-zinc-900')}>
+        <p className={cn('text-sm font-semibold', isDark ? 'text-mist' : 'text-ink')}>
           Team Readiness Overview
         </p>
       </div>
@@ -44,15 +44,15 @@ export function AnalyticsDashboard({ variant = 'light' }: Props) {
       <div className="flex items-end gap-2 h-32 mb-3">
         {BARS.map((bar, i) => (
           <div key={i} className="flex-1 flex flex-col items-center gap-1">
-            <div className={cn('w-full relative rounded-t overflow-hidden', isDark ? 'bg-zinc-800' : 'bg-zinc-100')}
+            <div className={cn('w-full relative rounded-t overflow-hidden', isDark ? 'bg-ink-2' : 'bg-mist')}
               style={{ height: '100%' }}
             >
               <motion.div
                 className={cn(
                   'absolute bottom-0 w-full rounded-t origin-bottom',
                   bar.highlight
-                    ? isDark ? 'bg-zinc-300 ring-1 ring-zinc-300' : 'bg-zinc-900 ring-1 ring-zinc-900'
-                    : isDark ? 'bg-zinc-600' : 'bg-zinc-700',
+                    ? 'bg-brand ring-1 ring-brand shadow-[0_0_16px_-2px_var(--brand)]'
+                    : isDark ? 'bg-body' : 'bg-edge',
                 )}
                 style={{ height: `${bar.height}%` }}
                 initial={{ scaleY: 0 }}
@@ -60,7 +60,7 @@ export function AnalyticsDashboard({ variant = 'light' }: Props) {
                 transition={{ duration: 0.6, delay: i * 0.08, ease: [0.42, 0, 0.58, 1] }}
               />
             </div>
-            <span className={cn('text-[10px]', isDark ? 'text-zinc-500' : 'text-zinc-400')}>
+            <span className={cn('text-[10px]', isDark ? 'text-muted' : 'text-faint')}>
               {bar.label}
             </span>
           </div>
@@ -74,7 +74,7 @@ export function AnalyticsDashboard({ variant = 'light' }: Props) {
             key={i}
             className={cn(
               'text-xs px-2 py-1 rounded font-medium',
-              isDark ? 'bg-zinc-800 text-zinc-300' : 'bg-zinc-100 text-zinc-700',
+              isDark ? 'bg-ink-2 text-edge' : 'bg-mist text-ink-3',
             )}
           >
             {chip}

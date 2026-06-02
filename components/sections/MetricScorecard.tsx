@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { cn } from '@/lib/utils';
@@ -46,14 +46,31 @@ function useCountUp(
   delay: number,
   trigger: boolean,
   prefersReduced: boolean,
+  elRef: React.RefObject<HTMLElement | null>,
 ): number {
-  const [value, setValue] = useState(0);
+  // Start AT the final value so SSR / headless / crawlers / no-JS render the
+  // real number (never "0%"). The count-up is a progressive enhancement that
+  // only kicks in for cells below the fold, where resetting to 0 is invisible.
+  const [value, setValue] = useState(target);
+  const animateFromZero = useRef(false);
+  const done = useRef(false);
+
+  // Decide once on mount: only animate cells that start below the fold.
+  useEffect(() => {
+    if (prefersReduced || target === 0) return;
+    const el = elRef.current;
+    if (el && el.getBoundingClientRect().top > window.innerHeight) {
+      animateFromZero.current = true;
+      setValue(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    // Skip animation: reduced motion or target is 0
-    if (!trigger) return;
-    if (prefersReduced || target === 0) {
-      setValue(target);
+    if (!trigger || done.current) return;
+    done.current = true;
+    if (!animateFromZero.current) {
+      setValue(target); // visible at load or reduced motion → show final value
       return;
     }
 
@@ -65,24 +82,18 @@ function useCountUp(
     function tick(timestamp: number) {
       if (start === null) start = timestamp;
       const elapsed = timestamp - start;
-
       if (elapsed < delayMs) {
         raf = requestAnimationFrame(tick);
         return;
       }
-
       const t = Math.min((elapsed - delayMs) / durationMs, 1);
-      const eased = easeOutQuart(t);
-      setValue(Math.round(eased * target));
-
-      if (t < 1) {
-        raf = requestAnimationFrame(tick);
-      }
+      setValue(Math.round(easeOutQuart(t) * target));
+      if (t < 1) raf = requestAnimationFrame(tick);
     }
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [target, duration, delay, trigger, prefersReduced]);
+  }, [target, duration, delay, trigger]);
 
   return value;
 }
@@ -102,24 +113,25 @@ function StatCell({
   inView: boolean;
   prefersReduced: boolean;
 }) {
+  const cellRef = useRef<HTMLDivElement>(null);
   const { prefix, num, suffix } = parseMetricValue(metric.value);
   const staggerDelay = index * 0.15;
   const countDuration = 1.2;
-  const displayNum = useCountUp(num, countDuration, staggerDelay, inView, prefersReduced);
+  const displayNum = useCountUp(num, countDuration, staggerDelay, inView, prefersReduced, cellRef);
 
   // Label/description fade in after count finishes
   const labelDelay = staggerDelay + countDuration + 0.1;
 
   return (
-    <div className="px-4 py-6 sm:px-6 sm:py-8 lg:first:pl-0 lg:last-of-type:pr-0">
-      <p className={cn('font-mono font-bold text-3xl sm:text-4xl lg:text-5xl mb-2', dark ? 'text-white' : 'text-zinc-900')}>
+    <div ref={cellRef} className="px-4 py-6 sm:px-6 sm:py-8 lg:first:pl-0 lg:last-of-type:pr-0">
+      <p className={cn('font-mono font-bold text-3xl sm:text-4xl lg:text-5xl mb-2', dark ? 'text-white' : 'text-ink')}>
         {prefix}{displayNum}{suffix}
       </p>
       <motion.p
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.4, ease: 'easeOut', delay: prefersReduced ? 0 : labelDelay }}
-        className={cn('font-semibold text-base mb-1', dark ? 'text-zinc-300' : 'text-zinc-700')}
+        className={cn('font-semibold text-base mb-1', dark ? 'text-edge' : 'text-ink-3')}
       >
         {metric.label}
       </motion.p>
@@ -128,7 +140,7 @@ function StatCell({
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.4, ease: 'easeOut', delay: prefersReduced ? 0 : labelDelay + 0.05 }}
-          className={cn('text-sm', 'text-zinc-500')}
+          className={cn('text-sm', 'text-muted')}
         >
           {metric.description}
         </motion.p>
@@ -154,11 +166,11 @@ export function MetricScorecard({ headline, metrics, columns = 4, dark = false }
   }, []);
 
   return (
-    <section className={cn('py-24 lg:py-32', dark ? 'bg-zinc-950' : 'bg-zinc-50')}>
-      <div className="max-w-[1050px] mx-auto px-6">
+    <section className={cn('section-padding', dark ? 'bg-ink-deep' : 'bg-canvas')}>
+      <div className="max-w-content mx-auto px-6">
         {headline && (
           <FadeIn className="mb-14">
-            <h2 className={cn('text-3xl lg:text-4xl font-semibold tracking-tight', dark ? 'text-white' : 'text-zinc-900')}>
+            <h2 className={cn('text-3xl lg:text-4xl display-heading', dark ? 'text-white' : 'text-ink')}>
               {headline}
             </h2>
           </FadeIn>
@@ -169,7 +181,7 @@ export function MetricScorecard({ headline, metrics, columns = 4, dark = false }
           className={cn(
             'grid divide-y lg:divide-y-0',
             columns === 2 ? 'grid-cols-1 sm:grid-cols-2 sm:divide-x' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x',
-            dark ? 'divide-zinc-800' : 'divide-zinc-100',
+            dark ? 'divide-ink-2' : 'divide-mist',
           )}
         >
           {metrics.map((metric, i) => (

@@ -4,32 +4,28 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: [
-          'relative text-white rounded-xl',
-          'bg-gradient-to-b from-zinc-700 to-zinc-900',
-          'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_1px_3px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.8)]',
-          'hover:from-zinc-600 hover:to-zinc-800 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_2px_8px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.7)]',
-          'active:from-zinc-800 active:to-zinc-900 active:shadow-[inset_0_1px_3px_rgba(0,0,0,0.3),0_0_0_1px_rgba(0,0,0,0.8)]',
-        ].join(' '),
-        outline: 'border border-zinc-900 text-zinc-900 bg-transparent hover:bg-zinc-900 hover:text-white rounded-xl',
+        // Primary CTA — brand-colored. Appearance lives in the
+        // shared .cta-primary class (see globals.css).
+        default: 'cta-primary rounded-xl focus-visible:ring-brand',
+        outline: 'border border-ink text-ink bg-transparent hover:bg-ink hover:text-white rounded-xl',
         architectural: [
-          'relative text-zinc-800 rounded-xl',
-          'bg-gradient-to-b from-white to-zinc-50',
+          'relative text-ink-2 rounded-xl',
+          'bg-gradient-to-b from-white to-surface',
           'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),inset_0_-1px_0_0_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.06),0_0_0_1px_rgba(0,0,0,0.1)]',
-          'hover:from-zinc-50 hover:to-zinc-100 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6),inset_0_-1px_0_0_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.12)]',
-          'active:from-zinc-100 active:to-zinc-100 active:shadow-[inset_0_1px_3px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.1)]',
+          'hover:from-surface hover:to-mist hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6),inset_0_-1px_0_0_rgba(0,0,0,0.06),0_2px_6px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.12)]',
+          'active:from-mist active:to-mist active:shadow-[inset_0_1px_3px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.1)]',
         ].join(' '),
-        ghost: 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 rounded-xl',
+        ghost: 'text-ink-3 hover:bg-mist hover:text-ink rounded-xl',
         white: [
-          'relative text-zinc-900 rounded-xl',
-          'bg-gradient-to-b from-white to-zinc-50',
+          'relative text-ink rounded-xl',
+          'bg-gradient-to-b from-white to-surface',
           'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.9),inset_0_-1px_0_0_rgba(0,0,0,0.04),0_1px_3px_rgba(0,0,0,0.08),0_0_0_1px_rgba(255,255,255,0.6)]',
-          'hover:from-zinc-50 hover:to-zinc-100 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),0_2px_8px_rgba(0,0,0,0.1),0_0_0_1px_rgba(255,255,255,0.5)]',
-          'active:from-zinc-100 active:to-zinc-100',
+          'hover:from-surface hover:to-mist hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8),0_2px_8px_rgba(0,0,0,0.1),0_0_0_1px_rgba(255,255,255,0.5)]',
+          'active:from-mist active:to-mist',
         ].join(' '),
         'white-outline': [
           'relative text-white rounded-xl',

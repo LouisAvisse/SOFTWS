@@ -97,7 +97,7 @@ export function HeroSplit({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: EASE, delay: d(1) }}
-            className="text-zinc-900"
+            className="font-serif text-ink"
             style={{
               fontSize: 'clamp(2.8rem, 5.5vw, 4.8rem)',
               lineHeight: 1.06,
@@ -164,7 +164,7 @@ export function HeroSplit({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, ease: EASE, delay: d(4) }}
-              className="text-zinc-400 mt-3"
+              className="text-faint mt-3"
               style={{ fontSize: '0.78rem' }}
             >
               {microcopy}
@@ -245,7 +245,7 @@ export function HeroSplit({
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: EASE, delay: d(1) }}
-            className="text-zinc-900 mb-4"
+            className="font-serif text-ink mb-4"
             style={{
               fontSize: 'clamp(2rem, 8vw, 3rem)',
               lineHeight: 1.08,
@@ -302,7 +302,7 @@ export function HeroSplit({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: d(4) }}
-              className="text-zinc-400 mt-3 text-center"
+              className="text-faint mt-3 text-center"
               style={{ fontSize: '0.75rem' }}
             >
               {microcopy}
