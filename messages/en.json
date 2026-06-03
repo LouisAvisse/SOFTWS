@@ -46,6 +46,16 @@
       "secondaryCTA": "Try Soft for free",
       "characterAlt": "A sales professional rehearsing a pitch from a clipboard",
       "microcopy": "No credit card · Setup in 2 minutes",
+      "compliance": {
+        "text": "Fully EU data compliant",
+        "flagAlt": "European Union flag",
+        "learnMore": "Learn more"
+      },
+      "trust": {
+        "prefix": "Trusted by",
+        "logoAlt": "Incenteev",
+        "suffix": "clients"
+      },
       "mockup": {
         "title": "Discovery Call Scorecard",
         "metric1Label": "Objection Handling",

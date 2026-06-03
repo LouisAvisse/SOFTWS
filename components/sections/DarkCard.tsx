@@ -11,16 +11,19 @@ interface DarkCardProps {
   body: string;
   features?: string[];
   badge?: string;
+  /** Anchor id, so in-page links (e.g. the hero compliance chip) can scroll here. */
+  id?: string;
 }
 
-export function DarkCard({ headline, headlineBold, body, features, badge }: DarkCardProps) {
+export function DarkCard({ headline, headlineBold, body, features, badge, id }: DarkCardProps) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
     <section
       ref={ref}
-      className="relative py-24 bg-ink-deep overflow-hidden"
+      id={id}
+      className="relative scroll-mt-24 py-24 bg-ink-deep overflow-hidden"
       style={{
         backgroundImage:
           'repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px)',

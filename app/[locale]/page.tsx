@@ -1,20 +1,13 @@
 import { getTranslations } from 'next-intl/server';
-import { type ReactNode } from 'react';
-import { Zap, ArrowUpRight, BarChart3, Mic, Brain, Target, TrendingUp } from 'lucide-react';
+import { Mic, Brain, Target, TrendingUp } from 'lucide-react';
 
 import { HeroVoice } from '@/components/sections/HeroVoice';
-import { ThreePillars } from '@/components/sections/ThreePillars';
+import { ValueRows } from '@/components/sections/ValueRows';
 import { StickyScroll } from '@/components/sections/StickyScroll';
 import { RolesShowcase } from '@/components/sections/RolesShowcase';
 import { MetricScorecard } from '@/components/sections/MetricScorecard';
 import { DarkCard } from '@/components/sections/DarkCard';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
-import { FadeIn } from '@/components/motion/FadeIn';
-import {
-  MicrophoneIllustration,
-  CompassIllustration,
-  ConstellationIllustration,
-} from '@/components/illustrations';
 
 // ─── Raw message types ────────────────────────────────────────────────────────
 
@@ -49,25 +42,6 @@ export default async function HomePage() {
   const metricItems = t.raw('metrics.items') as MetricRaw[];
   const enterpriseFeatures = t.raw('enterprise.features') as string[];
 
-  // Pillars — render icons as ReactNode so they're serializable to client components
-  const pillarIcons: ReactNode[] = [
-    <Zap key="zap" className="w-5 h-5 text-white" />,
-    <ArrowUpRight key="arrow" className="w-5 h-5 text-white" />,
-    <BarChart3 key="chart" className="w-5 h-5 text-white" />,
-  ];
-  const pillarVisuals: ReactNode[] = [
-    <div key="mic" className="h-28"><MicrophoneIllustration /></div>,
-    <div key="compass" className="h-28"><CompassIllustration /></div>,
-    <div key="constellation" className="h-28"><ConstellationIllustration /></div>,
-  ];
-  type PillarShape = { icon: ReactNode; title: string; body: string; visual: ReactNode };
-  const pillars = ([0, 1, 2] as const).map((i) => ({
-    icon: pillarIcons[i],
-    title: pillarItems[i].title,
-    body: pillarItems[i].body,
-    visual: pillarVisuals[i],
-  })) as unknown as [PillarShape, PillarShape, PillarShape];
-
   // Steps
   const stepIcons = [Mic, Brain, Target, TrendingUp] as const;
   const steps = stepItems.map((step, i) => ({
@@ -90,15 +64,25 @@ export default async function HomePage() {
         secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/signup' }}
         characterSrc="/hero-character.png"
         characterAlt={t('hero.characterAlt')}
+        compliance={{
+          text: t('hero.compliance.text'),
+          flagAlt: t('hero.compliance.flagAlt'),
+          learnMore: t('hero.compliance.learnMore'),
+          href: '#certifications',
+        }}
+        trust={{
+          prefix: t('hero.trust.prefix'),
+          logoAlt: t('hero.trust.logoAlt'),
+          suffix: t('hero.trust.suffix'),
+        }}
       />
 
-      {/* 3+4 — Features Bento */}
-      <ThreePillars
-        sectionLabel={t('valueProposition.sectionLabel')}
-        sectionHeadline={t('valueProposition.headline')}
-        sectionHeadlineItalic={t('valueProposition.headlineItalic')}
-        sectionBody={t('valueProposition.body')}
-        pillars={pillars}
+      {/* 2 — Value rows (alternating text / prototype) */}
+      <ValueRows
+        headline={t('valueProposition.headline')}
+        headlineItalic={t('valueProposition.headlineItalic')}
+        body={t('valueProposition.body')}
+        items={pillarItems}
       />
 
       {/* 5 — How It Works */}
@@ -122,8 +106,9 @@ export default async function HomePage() {
         columns={4}
       />
 
-      {/* 8 — Enterprise */}
+      {/* 8 — Enterprise / certifications (hero compliance chip scrolls here) */}
       <DarkCard
+        id="certifications"
         headline={t('enterprise.headline')}
         headlineBold={t('enterprise.headlineBold')}
         body={t('enterprise.body')}

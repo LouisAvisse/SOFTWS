@@ -1,14 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 import { cn } from '@/lib/utils';
 import { CLIENT_LOGOS } from '@/lib/content/clients';
 
 /* ============================================================================
    TrustLogos — the static customer strip under the hero.
 
-   Renders the real client logos (public/logo/clients/*) muted and grayscale so
-   the row stays calm and on-brand; each lifts to full strength on hover. Plain
-   <img> is used because the assets are SVG-wrapped PNGs (next/image would need
-   dangerouslyAllowSVG). Per-logo heights live in lib/content/clients.ts.
+   The real client logos (public/logo/clients/*) ship in clashing brand colors,
+   so instead of rendering them as <img> we use each asset as a CSS mask and
+   fill the silhouette with one pale, warm token (--neutral-400). That collapses
+   five palettes into a single calm monotone that sits on the cream canvas
+   without competing with the hero; each logo deepens a step on hover. Per-logo
+   height + intrinsic ratio (mask boxes can't infer width) live in
+   lib/content/clients.ts.
 ============================================================================ */
 
 export function TrustLogos({ className }: { className?: string }) {
@@ -22,15 +24,24 @@ export function TrustLogos({ className }: { className?: string }) {
     >
       {CLIENT_LOGOS.map((logo) => (
         <li key={logo.name} className="flex items-center">
-          <img
-            src={logo.src}
-            alt={logo.name}
-            loading="lazy"
-            decoding="async"
+          <span
+            role="img"
+            aria-label={logo.name}
             className={cn(
-              'w-auto object-contain opacity-60 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0',
+              'block w-auto bg-faint transition-colors duration-300 hover:bg-body',
               logo.heightClass,
             )}
+            style={{
+              aspectRatio: logo.ratio,
+              maskImage: `url(${logo.src})`,
+              WebkitMaskImage: `url(${logo.src})`,
+              maskSize: 'contain',
+              WebkitMaskSize: 'contain',
+              maskRepeat: 'no-repeat',
+              WebkitMaskRepeat: 'no-repeat',
+              maskPosition: 'center',
+              WebkitMaskPosition: 'center',
+            }}
           />
         </li>
       ))}

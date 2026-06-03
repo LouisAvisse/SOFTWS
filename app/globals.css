@@ -9,12 +9,12 @@
 :root {
   /* ── Neutral ramp (raw values) ──────────────────────────────
      The only place actual color values live. A WARM gray ramp
-     (low chroma, hue ~50) anchored on the hero: paper #faf8f3,
+     (low chroma, hue ~50) anchored on the hero: paper #fefbf9,
      warm sub-gray ~#5f5b54, warm display ink ~#2a2520. The whole
      site reads as one warm-paper surface. Body/muted steps are
      tuned to clear WCAG AA (>=4.5:1) on the paper canvas. */
   --neutral-0: #ffffff; /* raised cards / crisp panels                 */
-  --neutral-50: #faf8f3; /* hero paper — the dominant surface          */
+  --neutral-50: #fefbf9; /* hero paper — the dominant surface          */
   --neutral-100: #f3efe8; /* one step in: alternating sections, fills  */
   --neutral-200: #e7e1d6; /* default borders                           */
   --neutral-300: #d5cec1; /* strong borders                            */
