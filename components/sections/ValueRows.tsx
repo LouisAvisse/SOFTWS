@@ -407,7 +407,7 @@ export function ValueRows({ headline, headlineItalic, body, items }: Props) {
             {headlineItalic && (
               <>
                 {' '}
-                <SoftAppIcon className="inline-block h-[1.05em] w-[1.05em] translate-y-[0.04em] align-baseline mr-[0.12em] drop-shadow-[0_2px_7px_rgba(68,114,202,0.3)]" />
+                <SoftAppIcon className="inline-block h-[1.05em] w-[1.05em] translate-y-[0.13em] align-baseline mr-[0.12em] drop-shadow-[0_2px_7px_rgba(68,114,202,0.3)]" />
                 {headlineItalic}
               </>
             )}
