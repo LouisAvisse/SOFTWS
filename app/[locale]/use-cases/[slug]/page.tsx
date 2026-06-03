@@ -137,7 +137,7 @@ export default async function UseCasePage({
               {t('featureHighlight.headline')}{' '}
               <em className="not-italic">{t('featureHighlight.headlineBold')}</em>
             </h2>
-            <p className="text-base text-body leading-relaxed">
+            <p className="text-base text-body leading-normal">
               {t('featureHighlight.body')}
             </p>
           </FadeIn>

@@ -153,7 +153,7 @@ export function ThreePillars({
                   )}
                 </h2>
                 {sectionBody && (
-                  <p className="text-sm text-muted leading-relaxed max-w-lg">
+                  <p className="text-sm text-muted leading-normal max-w-lg">
                     {sectionBody}
                   </p>
                 )}
@@ -201,7 +201,7 @@ function BentoCard({ pillar, index, tall, wide }: { pillar: Pillar; index: numbe
         {/* Text area */}
         <div className={`p-6 ${wide ? 'lg:p-7' : ''}`}>
           <h3 className="text-[15px] font-semibold text-ink mb-1.5">{pillar.title}</h3>
-          <p className="text-[13px] text-muted leading-relaxed">{pillar.body}</p>
+          <p className="text-[13px] text-muted leading-normal">{pillar.body}</p>
         </div>
       </div>
     </div>

@@ -94,7 +94,7 @@ function RoleCard({
         </div>
       </div>
 
-      <p className="mt-5 max-w-[48ch] text-[15px] leading-relaxed text-ink-3">{role.body}</p>
+      <p className="mt-5 max-w-[48ch] text-[15px] leading-normal text-ink-3">{role.body}</p>
 
       <div className="mt-auto space-y-4 pt-7">
         <MetricBar label={role.metric1Label} value={m1} />

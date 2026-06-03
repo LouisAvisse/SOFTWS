@@ -281,7 +281,7 @@ export function StickyScroll({ headline, intro, steps }: StickyScrollProps) {
           >
             {headline}
           </h2>
-          {intro && <p className="text-sm text-muted leading-relaxed">{intro}</p>}
+          {intro && <p className="text-sm text-muted leading-normal">{intro}</p>}
         </FadeIn>
 
         {/* Vertical Stepper Container */}
@@ -348,7 +348,7 @@ export function StickyScroll({ headline, intro, steps }: StickyScrollProps) {
                       {step.title}
                     </h3>
                     
-                    <p className="text-[15px] text-muted leading-relaxed max-w-sm">
+                    <p className="text-[15px] text-muted leading-normal max-w-sm">
                       {step.body}
                     </p>
                   </div>

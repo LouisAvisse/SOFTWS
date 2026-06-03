@@ -42,8 +42,8 @@ export function PricingTimeline({ nodes, counts }: Props) {
         const stageBase = 0.1 + i * 0.22;
 
         return (
-          <div key={i} className="flex flex-col items-start">
-            <div className="grid grid-cols-5 gap-2.5">
+          <div key={i} className="flex flex-col items-center text-center">
+            <div className="grid grid-cols-5 gap-3 sm:gap-[18px]">
               {Array.from({ length: TOTAL }).map((_, idx) => {
                 const k = order.get(idx);
                 if (k === undefined) {
@@ -51,7 +51,7 @@ export function PricingTimeline({ nodes, counts }: Props) {
                   return (
                     <span
                       key={idx}
-                      className="h-2.5 w-2.5 rounded-full"
+                      className="h-3.5 w-3.5 rounded-full sm:h-[18px] sm:w-[18px]"
                       style={{ backgroundColor: 'color-mix(in srgb, var(--brand) 24%, transparent)' }}
                     />
                   );
@@ -59,7 +59,7 @@ export function PricingTimeline({ nodes, counts }: Props) {
                 return (
                   <motion.span
                     key={idx}
-                    className="h-2.5 w-2.5 rounded-full bg-brand"
+                    className="h-3.5 w-3.5 rounded-full sm:h-[18px] sm:w-[18px] bg-brand"
                     initial={reduce ? false : { scale: 0, opacity: 0 }}
                     animate={inView ? { scale: 1, opacity: 1 } : undefined}
                     transition={{ duration: 0.34, ease: EASE, delay: reduce ? 0 : stageBase + k * 0.022 }}
@@ -68,11 +68,11 @@ export function PricingTimeline({ nodes, counts }: Props) {
               })}
             </div>
 
-            <div className="mt-6">
-              <p className={cn('text-sm font-semibold tracking-tight', last ? 'text-ink' : 'text-ink-3')}>
+            <div className="mt-7">
+              <p className={cn('text-base font-semibold tracking-tight', last ? 'text-ink' : 'text-ink-3')}>
                 {node}
               </p>
-              <p className="mt-1 text-[13px] text-muted">{counts[i]}</p>
+              <p className="mt-1 text-sm text-muted">{counts[i]}</p>
             </div>
           </div>
         );

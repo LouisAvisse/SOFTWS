@@ -86,7 +86,7 @@ export function ValueProposition({
               ease: [0.16, 1, 0.3, 1],
               delay: 0.7,
             }}
-            className="text-base lg:text-lg text-body leading-relaxed max-w-xl mx-auto"
+            className="text-base lg:text-lg text-body leading-normal max-w-xl mx-auto"
           >
             {body}
           </motion.p>

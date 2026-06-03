@@ -147,7 +147,7 @@ export function CenteredCTA({
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: subDelay }}
-              className="text-base lg:text-lg leading-relaxed mb-8 max-w-xl mx-auto text-faint"
+              className="text-base lg:text-lg leading-normal mb-8 max-w-xl mx-auto text-faint"
             >
               {subheadline}
             </motion.p>
@@ -192,7 +192,7 @@ export function CenteredCTA({
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: subDelay }}
-            className={cn('text-base lg:text-lg leading-relaxed mb-8 max-w-xl mx-auto', isDark ? 'text-faint' : 'text-body')}
+            className={cn('text-base lg:text-lg leading-normal mb-8 max-w-xl mx-auto', isDark ? 'text-faint' : 'text-body')}
           >
             {subheadline}
           </motion.p>

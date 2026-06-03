@@ -84,7 +84,7 @@ export default async function CompanyPage({
               <h2 className="text-3xl lg:text-4xl display-heading text-ink mb-6">
                 {t('story.headline')}
               </h2>
-              <p className="text-base text-body leading-relaxed">
+              <p className="text-base text-body leading-normal">
                 {t('story.body')}
               </p>
             </FadeIn>
@@ -106,7 +106,7 @@ export default async function CompanyPage({
               {t('expertise.headline')}{' '}
               <em className="not-italic">{t('expertise.headlineBold')}</em>
             </h2>
-            <p className="text-base text-body leading-relaxed">{t('expertise.body')}</p>
+            <p className="text-base text-body leading-normal">{t('expertise.body')}</p>
           </FadeIn>
           <StaggerGroup className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {expertisePillars.map((pillar, i) => (
@@ -147,7 +147,7 @@ export default async function CompanyPage({
               {t('responsibleAI.headline')}{' '}
               <em className="not-italic text-faint">{t('responsibleAI.headlineBold')}</em>
             </h2>
-            <p className="text-base text-faint leading-relaxed">
+            <p className="text-base text-faint leading-normal">
               {t('responsibleAI.body')}
             </p>
           </FadeIn>
@@ -181,7 +181,7 @@ export default async function CompanyPage({
               {t('security.headline')}{' '}
               <em className="not-italic text-faint">{t('security.headlineBold')}</em>
             </h2>
-            <p className="text-base text-faint leading-relaxed">{t('security.body')}</p>
+            <p className="text-base text-faint leading-normal">{t('security.body')}</p>
             <div className="flex items-center gap-4 mt-8">
               {(t.raw('security.badges') as string[]).map((badge) => (
                 <span
@@ -207,7 +207,7 @@ export default async function CompanyPage({
               {t('partners.headline')}{' '}
               <em className="not-italic">{t('partners.headlineBold')}</em>
             </h2>
-            <p className="text-base text-muted leading-relaxed max-w-xl">
+            <p className="text-base text-muted leading-normal max-w-xl">
               {t('partners.body')}
             </p>
           </FadeIn>
@@ -244,7 +244,7 @@ export default async function CompanyPage({
                 {t('careers.headline')}{' '}
                 <em className="not-italic text-faint">{t('careers.headlineBold')}</em>
               </h2>
-              <p className="text-base text-faint leading-relaxed mb-8">
+              <p className="text-base text-faint leading-normal mb-8">
                 {t('careers.body')}
               </p>
               <Button size="lg" asChild>

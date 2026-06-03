@@ -115,7 +115,7 @@ export default async function ProductPage({
               {t('whyItMatters.headline')}{' '}
               <em className="not-italic">{t('whyItMatters.headlineBold')}</em>
             </h2>
-            <p className="text-base lg:text-lg text-body leading-relaxed max-w-xl mx-auto">
+            <p className="text-base lg:text-lg text-body leading-normal max-w-xl mx-auto">
               {t('whyItMatters.body')}
             </p>
           </FadeIn>

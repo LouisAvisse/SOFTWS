@@ -40,7 +40,7 @@ export function AlternatingSteps({ headline, headlineBold, intro, steps }: Alter
             {headlineBold && <span className="not-italic"> {headlineBold}</span>}
           </h2>
           {intro && (
-            <p className="text-sm text-muted leading-relaxed max-w-lg">{intro}</p>
+            <p className="text-sm text-muted leading-normal max-w-lg">{intro}</p>
           )}
         </FadeIn>
 
@@ -76,7 +76,7 @@ export function AlternatingSteps({ headline, headlineBold, intro, steps }: Alter
                     {step.title}
                   </h3>
 
-                  <p className="text-sm text-muted leading-relaxed" style={{ maxWidth: '38ch' }}>
+                  <p className="text-sm text-muted leading-normal" style={{ maxWidth: '38ch' }}>
                     {step.body}
                   </p>
                 </div>

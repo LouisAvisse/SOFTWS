@@ -66,7 +66,7 @@ export default async function IndustriesOverviewPage({
               {t('intro.headline')}{' '}
               <em className="not-italic">{t('intro.headlineBold')}</em>
             </h2>
-            <p className="text-base lg:text-lg text-muted leading-relaxed">
+            <p className="text-base lg:text-lg text-muted leading-normal">
               {t('intro.body')}
             </p>
           </FadeIn>
@@ -102,7 +102,7 @@ export default async function IndustriesOverviewPage({
                   <div className="flex flex-col gap-3">
                     <Icon className="h-5 w-5 text-faint" />
                     <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
-                    <p className="text-xs text-muted leading-relaxed">{item.body}</p>
+                    <p className="text-xs text-muted leading-normal">{item.body}</p>
                   </div>
                 </StaggerItem>
               );
@@ -119,7 +119,7 @@ export default async function IndustriesOverviewPage({
               {t('cta.headline')}{' '}
               <em className="not-italic text-faint">{t('cta.headlineBold')}</em>
             </h2>
-            <p className="text-base text-faint leading-relaxed mb-10">
+            <p className="text-base text-faint leading-normal mb-10">
               {t('cta.body')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">

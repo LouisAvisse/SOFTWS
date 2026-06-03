@@ -52,7 +52,7 @@ export default async function PricingPage({
             <h1 className="display-heading mb-4 text-4xl leading-[1.08] text-ink lg:text-5xl">
               {t('hero.headline')}
             </h1>
-            <p className="text-base leading-relaxed text-muted lg:text-lg">
+            <p className="text-base leading-normal text-muted lg:text-lg">
               {t('hero.subheadline')}
             </p>
           </FadeIn>
@@ -66,15 +66,15 @@ export default async function PricingPage({
       {/* 2 — Scale section (narrative + "coverage grows" visual) */}
       <section className="border-t border-line bg-canvas py-20 lg:py-24">
         <div className="mx-auto max-w-content px-6">
-          <FadeIn className="max-w-2xl">
+          <FadeIn className="mx-auto max-w-2xl text-center">
             <h2 className="display-heading mb-4 text-3xl text-ink lg:text-4xl">
               {t('scale.headline')}
             </h2>
-            <p className="max-w-xl text-base leading-relaxed text-muted">
+            <p className="mx-auto max-w-xl text-base leading-normal text-muted">
               {t('scale.body')}
             </p>
           </FadeIn>
-          <FadeIn delay={0.1} className="mt-14 lg:mt-16">
+          <FadeIn delay={0.1} className="mt-16 lg:mt-20">
             <PricingTimeline nodes={timelineNodes} counts={timelineCounts} />
           </FadeIn>
         </div>
@@ -90,7 +90,7 @@ export default async function PricingPage({
             <h2 className="text-3xl lg:text-4xl display-heading text-white mb-4">
               {t('finalCTA.headline')}
             </h2>
-            <p className="text-base text-faint leading-relaxed mb-8">
+            <p className="text-base text-faint leading-normal mb-8">
               {t('finalCTA.body')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">

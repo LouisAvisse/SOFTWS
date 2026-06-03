@@ -94,7 +94,7 @@ export default async function UseCasesOverviewPage({
               </h2>
             </FadeIn>
             <FadeIn direction="right">
-              <p className="text-base lg:text-lg text-body leading-relaxed">
+              <p className="text-base lg:text-lg text-body leading-normal">
                 {t('bridge.body')}
               </p>
             </FadeIn>
