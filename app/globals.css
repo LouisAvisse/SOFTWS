@@ -39,7 +39,7 @@
   --body: var(--neutral-600); /* body text                  → *-body    */
   --ink-3: var(--neutral-700); /* strong text / dark gradient → *-ink-3 */
   --ink-2: var(--neutral-800); /* strong text / dark surface → *-ink-2  */
-  --ink: var(--neutral-900); /* primary text & dark sections → *-ink    */
+  --ink: #3a322a; /* primary text & titles (softened warm near-black) → *-ink */
   --ink-deep: var(--neutral-950); /* darkest sections        → *-ink-deep */
 
   /* ── Brand ──────────────────────────────────────────────────

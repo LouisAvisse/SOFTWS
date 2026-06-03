@@ -1,7 +1,7 @@
 'use client';
 
-import { type ComponentType } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { type ComponentType, useRef } from 'react';
+import { motion, useReducedMotion, useInView } from 'framer-motion';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { LiveCallConsole } from '@/components/ui/LiveCallConsole';
 import {
@@ -160,9 +160,14 @@ const valuePoints = RADAR_SKILLS.map((s, i) => radarPoint(i, (s.v / 100) * R_MAX
 
 function AdaptVisual() {
   const reduce = useReducedMotion();
+  // Observe an HTML element, not the SVG <g>: WebKit/Safari does not reliably
+  // fire IntersectionObserver on SVG sub-elements, so a whileInView on the
+  // group never resolved on iOS and the value shape shipped stuck at opacity 0.
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
   return (
     <Panel>
-      <div className="rounded-2xl border border-line bg-white p-6 shadow-[0_36px_80px_-34px_rgba(20,18,16,0.4)] lg:p-7">
+      <div ref={ref} className="rounded-2xl border border-line bg-white p-6 shadow-[0_36px_80px_-34px_rgba(20,18,16,0.4)] lg:p-7">
         <div className="mb-3 flex items-center justify-between">
           <div>
             <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-faint">Skill Map</p>
@@ -207,8 +212,7 @@ function AdaptVisual() {
             </defs>
             <motion.g
               initial={reduce ? false : { scale: 0.78, opacity: 0 }}
-              whileInView={reduce ? undefined : { scale: 1, opacity: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
+              animate={reduce ? undefined : inView ? { scale: 1, opacity: 1 } : { scale: 0.78, opacity: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
             >
@@ -394,33 +398,32 @@ const ROW_ICONS: LucideIcon[] = [Video, Sparkles, BarChart3];
 export function ValueRows({ headline, headlineItalic, body, items }: Props) {
   return (
     <section className="section-padding overflow-hidden bg-canvas">
-      {/* Product showcase — the section's opening hook, above the thesis. Held to
-          a focused width so the dense console reads as a crisp product shot with
-          breathing room on either side, not a full-bleed banner crowding the
-          hero above and the thesis below. */}
-      <FadeIn className="mx-auto mb-28 w-full max-w-[920px] px-6 lg:mb-40">
-        <div className="relative">
-          {/* soft brand glow behind the console */}
-          <div
-            aria-hidden="true"
-            className="absolute -inset-x-8 -top-10 bottom-[-6%] -z-10"
-            style={{
-              background:
-                'radial-gradient(60% 60% at 50% 40%, color-mix(in srgb, var(--brand) 18%, transparent), transparent 72%)',
-            }}
-          />
-          <LiveCallConsole />
-        </div>
-      </FadeIn>
-
       <div className="mx-auto max-w-content px-6">
-        {/* Header */}
-        <FadeIn className="mx-auto mb-16 max-w-2xl text-center lg:mb-24">
+        {/* Thesis text first */}
+        <FadeIn className="mx-auto mb-12 max-w-2xl text-center lg:mb-16">
           <h2 className="display-heading text-ink" style={{ fontSize: 'clamp(2rem, 3.6vw, 3rem)', lineHeight: 1.1 }}>
             {headline}
             {headlineItalic && <> {headlineItalic}</>}
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted">{body}</p>
+        </FadeIn>
+
+        {/* Product showcase — below the thesis. Held to a focused width so the
+            dense console reads as a crisp product shot with breathing room on
+            either side, not a full-bleed banner. */}
+        <FadeIn className="mx-auto mb-20 w-full max-w-[920px] lg:mb-28">
+          <div className="relative">
+            {/* soft brand glow behind the console */}
+            <div
+              aria-hidden="true"
+              className="absolute -inset-x-8 -top-10 bottom-[-6%] -z-10"
+              style={{
+                background:
+                  'radial-gradient(60% 60% at 50% 40%, color-mix(in srgb, var(--brand) 18%, transparent), transparent 72%)',
+              }}
+            />
+            <LiveCallConsole />
+          </div>
         </FadeIn>
 
         {/* Alternating rows */}
