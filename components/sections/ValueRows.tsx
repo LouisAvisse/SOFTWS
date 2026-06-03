@@ -398,7 +398,7 @@ export function ValueRows({ headline, headlineItalic, body, items }: Props) {
           a focused width so the dense console reads as a crisp product shot with
           breathing room on either side, not a full-bleed banner crowding the
           hero above and the thesis below. */}
-      <FadeIn className="mx-auto mb-16 w-full max-w-[920px] px-6 lg:mb-24">
+      <FadeIn className="mx-auto mb-28 w-full max-w-[920px] px-6 lg:mb-40">
         <div className="relative">
           {/* soft brand glow behind the console */}
           <div
