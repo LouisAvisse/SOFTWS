@@ -139,18 +139,30 @@ export function HeroVoice({
 
   return (
     <section
-      className="relative overflow-hidden"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden"
       style={{ backgroundColor: 'var(--hero-bg)' }}
     >
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-32 lg:pt-36">
+      {/* One full-height column: fixed copy on top, fixed trust strip on the
+          bottom, and the illustration as the flexible middle that absorbs all
+          remaining height and scales to fit. Vertical rhythm is vh-based so the
+          whole hero — navbar through logos — lands in a single viewport, and
+          compresses gracefully on shorter screens instead of overflowing. */}
+      <div
+        className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col px-6"
+        style={{
+          paddingTop: 'clamp(72px, 9.5vh, 104px)',
+          paddingBottom: 'clamp(16px, 2.6vh, 32px)',
+        }}
+      >
         {/* ── Copy ── */}
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-4xl shrink-0 text-center">
           <motion.div
             custom={0}
             variants={rise}
             initial={initial}
             animate="show"
-            className="mb-6 flex justify-center"
+            className="flex justify-center"
+            style={{ marginBottom: 'clamp(0.75rem, 2vh, 1.4rem)' }}
           >
             <ComplianceChip {...compliance} />
           </motion.div>
@@ -159,12 +171,12 @@ export function HeroVoice({
             variants={headlineContainer}
             initial={initial}
             animate="show"
-            className="mx-auto font-serif font-normal"
+            className="mx-auto text-balance font-serif font-normal"
             style={{
               color: 'var(--hero-headline)',
-              fontSize: 'clamp(2.3rem, 4vw, 3.6rem)',
-              lineHeight: 1.08,
-              letterSpacing: '-0.018em',
+              fontSize: 'clamp(1.9rem, 1.1rem + 2.7vw, 3.25rem)',
+              lineHeight: 1.07,
+              letterSpacing: '-0.02em',
             }}
           >
             {headline.split(' ').map((w, i) => (
@@ -184,11 +196,12 @@ export function HeroVoice({
             variants={rise}
             initial={initial}
             animate="show"
-            className="mx-auto mt-7 max-w-xl text-pretty"
+            className="mx-auto max-w-xl text-pretty"
             style={{
               color: 'var(--hero-sub)',
-              fontSize: 'clamp(1rem, 1.15vw, 1.12rem)',
-              lineHeight: 1.65,
+              fontSize: 'clamp(0.92rem, 0.86rem + 0.34vw, 1.08rem)',
+              lineHeight: 1.55,
+              marginTop: 'clamp(0.7rem, 1.7vh, 1.3rem)',
             }}
           >
             {subheadline}
@@ -199,45 +212,47 @@ export function HeroVoice({
             variants={rise}
             initial={initial}
             animate="show"
-            className="mt-9 flex flex-wrap items-center justify-center gap-3"
+            className="flex flex-wrap items-center justify-center gap-3"
+            style={{ marginTop: 'clamp(1rem, 2.2vh, 1.75rem)' }}
           >
             <Button
               asChild
               variant="architectural"
-              className="rounded-lg px-5 py-3 text-[0.95rem] font-semibold"
+              className="rounded-lg px-5 py-2.5 text-[0.95rem] font-semibold"
             >
               <Link href={secondaryCTA.href}>{secondaryCTA.text}</Link>
             </Button>
             <Button
               asChild
-              className="rounded-lg px-5 py-3 text-[0.95rem] font-semibold"
+              className="rounded-lg px-5 py-2.5 text-[0.95rem] font-semibold"
             >
               <Link href={primaryCTA.href}>{primaryCTA.text}</Link>
             </Button>
           </motion.div>
         </div>
 
-        {/* ── Soundwave + speaker ── */}
+        {/* ── Soundwave + speaker (flexible middle: fills slack, scales to fit) ── */}
         <motion.div
           initial={fadeInitial}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: EASE, delay: 0.35 }}
-          className="relative mx-auto mt-8 lg:mt-10"
-          style={{ height: 'clamp(300px, 28vw, 414px)' }}
+          className="relative mx-auto min-h-0 w-full flex-1"
+          style={{ marginTop: 'clamp(0.5rem, 1.6vh, 1.25rem)' }}
         >
-          {/* Wave sits behind, centred on the speaker's mid-line. */}
-          <div className="absolute inset-x-0 top-[52%] -translate-y-1/2">
+          {/* Wave sits behind, centred just below the speakers' mid-line. */}
+          <div className="absolute inset-x-0 top-[56%] -translate-y-1/2">
             <div
               className="mx-auto"
-              style={{ maxWidth: '1110px', height: 'clamp(148px, 15vw, 212px)' }}
+              style={{ maxWidth: '1110px', height: 'clamp(110px, 15vh, 196px)' }}
             >
               <Soundwave barCount={40} />
             </div>
           </div>
 
-          {/* Speakers in front, standing on the baseline, feet fading out.
-              aspectRatio matches the source asset (882×1024 ≈ 0.861) so the
-              figures fill the box at full size instead of being letterboxed. */}
+          {/* Speakers in front, standing on the baseline, feet fading out. The
+              box is h-full of the flexible middle, so the figures grow on tall
+              viewports and shrink on short ones without ever forcing a scroll.
+              aspectRatio matches the source asset (882×1024 ≈ 0.861). */}
           <div className="absolute inset-0 flex items-end justify-center">
             <div
               className="relative h-full"
@@ -265,7 +280,11 @@ export function HeroVoice({
           variants={rise}
           initial={initial}
           animate="show"
-          className="relative flex flex-col items-center gap-7 pb-16 pt-2 lg:pb-20"
+          className="relative flex shrink-0 flex-col items-center"
+          style={{
+            gap: 'clamp(0.6rem, 1.5vh, 1.25rem)',
+            marginTop: 'clamp(0.6rem, 1.8vh, 1.5rem)',
+          }}
         >
           <TrustChip {...trust} />
           <TrustLogos />
