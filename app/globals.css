@@ -152,3 +152,21 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
+
+/* ── Logo marquee ──────────────────────────────────────────────
+   Slow, seamless one-line scroll for the customer strip. The track
+   holds an even number of identical copies; translating exactly
+   -50% swaps the first half for the second and loops with no seam.
+   The copy count (see TrustLogos) is chosen so each half is wider
+   than the strip, else a blank gap scrolls through. Edges are faded
+   via a mask on the container. */
+@keyframes logo-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-logo-marquee {
+  animation: logo-marquee 40s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-logo-marquee { animation: none; }
+}
