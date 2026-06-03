@@ -13,7 +13,7 @@
    design and live in public/showcase/. All copy here is demo chrome.
 ============================================================================ */
 
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   Settings, Mic, Video, MonitorUp, Sparkles, Phone, Check, Clock,
@@ -21,14 +21,14 @@ import {
 } from 'lucide-react';
 
 const BASE_W = 1166;
-const BASE_H = 754;
+const BASE_H = 854;
 
 // Scales the fixed-size canvas to the container width; reserves space via the
 // aspect-ratio box so surrounding layout never shifts. Hidden until measured.
 function ScaleToFit({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
-  useLayoutEffect(() => {
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const measure = () => setScale(el.clientWidth / BASE_W);
@@ -181,9 +181,9 @@ export function LiveCallConsole() {
           </div>
 
           {/* Right column */}
-          <div className="flex w-[286px] shrink-0 flex-col gap-3">
+          <div className="flex w-[286px] shrink-0 flex-col gap-2">
             {/* Persona */}
-            <div className="shrink-0 rounded-[12px] border border-line bg-[#FEFBF9] p-4">
+            <div className="shrink-0 rounded-[12px] border border-line bg-[#FEFBF9] p-3">
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#EAF1FC] text-[13px] font-semibold text-brand">MO</span>
                 <div className="min-w-0">
@@ -191,7 +191,7 @@ export function LiveCallConsole() {
                   <p className="text-[11px] leading-tight text-[#8B7C6B]">VP Procurement · Helio Logistics</p>
                 </div>
               </div>
-              <div className="mt-3 flex flex-wrap gap-1.5">
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
                 <TagPill>Skeptical</TagPill>
                 <TagPill>Data-driven</TagPill>
                 <TagPill>Time-pressed</TagPill>
@@ -200,7 +200,7 @@ export function LiveCallConsole() {
             </div>
 
             {/* Objectives */}
-            <div className="shrink-0 rounded-[12px] border border-line bg-[#FEFBF9] p-4">
+            <div className="shrink-0 rounded-[12px] border border-line bg-[#FEFBF9] p-3">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#8B7C6B]">Discovery Objectives</p>
@@ -208,7 +208,7 @@ export function LiveCallConsole() {
                 </div>
                 <span className="rounded-full bg-[#047857] px-2 py-1 text-[11px] font-semibold text-white">3 / 5</span>
               </div>
-              <ul className="mt-3 space-y-2.5">
+              <ul className="mt-2.5 space-y-1.5">
                 {objectives.map((o) => (
                   <li key={o.t} className="flex items-center gap-2.5 text-[13px]">
                     {o.done ? (
@@ -225,11 +225,11 @@ export function LiveCallConsole() {
             </div>
 
             {/* Live coaching */}
-            <div className="shrink-0 rounded-[12px] border border-line bg-[#FEFBF9] p-4">
+            <div className="shrink-0 rounded-[12px] border border-line bg-[#FEFBF9] p-3">
               <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#8B7C6B]">Live Coaching</p>
               <p className="mt-1 text-[14px] font-semibold text-[#26211B]">Conversation balance</p>
-              <div className="mt-3 flex items-center gap-4">
-                <svg viewBox="0 0 36 36" className="h-[58px] w-[58px] shrink-0 -rotate-90">
+              <div className="mt-2.5 flex items-center gap-4">
+                <svg viewBox="0 0 36 36" className="h-[48px] w-[48px] shrink-0 -rotate-90">
                   <circle cx="18" cy="18" r="15.5" fill="none" stroke="#ECE3D8" strokeWidth="4" />
                   <circle cx="18" cy="18" r="15.5" fill="none" stroke="#047857" strokeWidth="4" strokeLinecap="round" pathLength={100} strokeDasharray="42 100" />
                 </svg>
@@ -241,7 +241,7 @@ export function LiveCallConsole() {
                   <p className="mt-1.5 text-[11.5px] text-[#6C5F50]">Target 30–50% · You’re in the pocket</p>
                 </div>
               </div>
-              <div className="mt-4 grid grid-cols-3 gap-2 border-t border-line pt-3">
+              <div className="mt-2.5 grid grid-cols-3 gap-2 border-t border-line pt-2.5">
                 {[
                   ['Questions asked', '7'],
                   ['Open vs closed', '5 / 2'],
@@ -256,14 +256,14 @@ export function LiveCallConsole() {
             </div>
 
             {/* Soft suggests */}
-            <div className="flex min-h-0 flex-1 flex-col rounded-[12px] bg-[#EEF3FC] p-4 ring-1 ring-brand/15">
+            <div className="flex shrink-0 flex-col rounded-[12px] bg-[#EEF3FC] p-3 ring-1 ring-brand/15">
               <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-brand">
                 <Sparkles className="h-3.5 w-3.5" strokeWidth={2} /> Soft suggests
               </p>
-              <p className="mt-2 flex-1 text-[13px] leading-relaxed text-[#3A322A]">
-                Maya just said “burned before.” Mirror her concern: ask what specifically broke in that rollout before pitching your onboarding.
+              <p className="mt-1.5 text-[12.5px] leading-snug text-[#3A322A]">
+                Maya just said “burned before.” Mirror it: ask what broke in that rollout before pitching your onboarding.
               </p>
-              <div className="mt-3 flex items-center gap-2">
+              <div className="mt-2.5 flex items-center gap-2">
                 <span className="rounded-lg px-3 py-2 text-[13px] font-medium text-[#6C5F50]">Skip</span>
                 <span className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-white">Use this</span>
               </div>
