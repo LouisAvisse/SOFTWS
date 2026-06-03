@@ -1,14 +1,13 @@
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import { Play, ArrowRight, Download, BookOpen, MapPin } from 'lucide-react';
+import { Play, ArrowRight, Download, BookOpen, MapPin, Building2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { HeroSplit } from '@/components/sections/HeroSplit';
+import { IndustryHero } from '@/components/sections/IndustryHero';
 import { BentoGrid } from '@/components/sections/BentoGrid';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { StaggerGroup, StaggerItem } from '@/components/motion/StaggerGroup';
-import { TwoHandsIllustration } from '@/components/illustrations/TwoHandsIllustration';
 import { LadderIllustration } from '@/components/illustrations/LadderIllustration';
 import { VerticalTimeline } from '@/components/ui/VerticalTimeline';
 import { PersonSilhouette } from '@/components/ui/PersonSilhouette';
@@ -63,14 +62,15 @@ export default async function CompanyPage({
   return (
     <>
       {/* 1 — Hero */}
-      <HeroSplit
-        label={t('hero.label')}
+      <IndustryHero
+        variant="slim"
+        eyebrow={t('hero.label')}
         headline={t('hero.headline')}
         headlineBold={t('hero.headlineBold')}
         subheadline={t('hero.subheadline')}
         primaryCTA={{ text: t('hero.primaryCTA'), href: '/contact' }}
         secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/contact' }}
-        visual={<div className="h-64 w-full"><TwoHandsIllustration /></div>}
+        icon={Building2}
       />
 
       {/* 2 — Story Timeline */}

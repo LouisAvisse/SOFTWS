@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
-import { TrendingUp, Award, Headphones, BookOpen, Network } from 'lucide-react';
+import { TrendingUp, Award, Headphones, BookOpen, Network, Users } from 'lucide-react';
 import type { ElementType } from 'react';
 
 import { USE_CASE_SLUGS, USE_CASE_ICONS, type UseCaseSlug } from '@/lib/content/use-cases';
-import { HeroCentered } from '@/components/sections/HeroCentered';
+import { IndustryHero } from '@/components/sections/IndustryHero';
 import { BentoGrid } from '@/components/sections/BentoGrid';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
 import { FadeIn } from '@/components/motion/FadeIn';
@@ -72,14 +72,15 @@ export default async function UseCasesOverviewPage({
   return (
     <>
       {/* 1 — Hero */}
-      <HeroCentered
-        label={t('hero.label')}
+      <IndustryHero
+        variant="slim"
+        eyebrow={t('hero.label')}
         headline={t('hero.headline')}
         headlineBold={t('hero.headlineBold')}
         subheadline={t('hero.subheadline')}
         primaryCTA={{ text: t('hero.primaryCTA'), href: '/contact' }}
         secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/signup' }}
-        backgroundVariant="mesh"
+        icon={Users}
       />
 
       {/* 2 — Bridge section */}

@@ -1,9 +1,9 @@
 import React from 'react';
 import { getTranslations } from 'next-intl/server';
-import { Brain, Navigation, BarChart3, MessageSquare, Sparkles, FileText, Search, Map, Star, Zap, Shield, TrendingUp, Users } from 'lucide-react';
+import { Brain, Navigation, BarChart3, MessageSquare, Sparkles, FileText, Search, Map, Star, Zap, Shield, TrendingUp, Users, Layers } from 'lucide-react';
 
 import { PRODUCT_ILLUSTRATIONS, type ProductSlug } from '@/lib/content/products';
-import { HeroSplit } from '@/components/sections/HeroSplit';
+import { IndustryHero } from '@/components/sections/IndustryHero';
 import { ThreePillars } from '@/components/sections/ThreePillars';
 import { BentoGrid } from '@/components/sections/BentoGrid';
 import { AlternatingSteps } from '@/components/sections/AlternatingSteps';
@@ -12,7 +12,6 @@ import { FeatureGrid } from '@/components/sections/FeatureGrid';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
 import { FadeIn } from '@/components/motion/FadeIn';
-import { ProductStackIllustration } from '@/components/ui/ProductStackIllustration';
 import { LearningLoop } from '@/components/ui/LearningLoop';
 import { PathComparisonCard } from '@/components/ui/PathComparisonCard';
 import { AnalyticsDashboard } from '@/components/ui/AnalyticsDashboard';
@@ -108,14 +107,15 @@ export default async function ProductOverviewPage({
   return (
     <>
       {/* 1 — Hero */}
-      <HeroSplit
-        label={t('hero.label')}
+      <IndustryHero
+        variant="slim"
+        eyebrow={t('hero.label')}
         headline={t('hero.headline')}
         headlineBold={t('hero.headlineBold')}
         subheadline={t('hero.subheadline')}
         primaryCTA={{ text: t('hero.primaryCTA'), href: '/contact' }}
         secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/use-cases' }}
-        visual={<ProductStackIllustration />}
+        icon={Layers}
       />
 
       {/* 2 — Three Pillars */}

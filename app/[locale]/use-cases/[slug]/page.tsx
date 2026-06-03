@@ -1,11 +1,14 @@
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
-import { Users, Zap, BarChart3, Target, Shield, RefreshCw } from 'lucide-react';
+import {
+  Users, Zap, BarChart3, Target, Shield, RefreshCw,
+  TrendingUp, Award, Headphones, BookOpen, Network, type LucideIcon,
+} from 'lucide-react';
 
 import { routing } from '@/i18n/routing';
 import { USE_CASE_SLUGS, type UseCaseSlug } from '@/lib/content/use-cases';
-import { HeroSplit } from '@/components/sections/HeroSplit';
+import { IndustryHero } from '@/components/sections/IndustryHero';
 import { LogoMarquee } from '@/components/sections/LogoMarquee';
 import { CLIENT_LOGOS } from '@/lib/content/clients';
 import { BentoGrid } from '@/components/sections/BentoGrid';
@@ -16,7 +19,6 @@ import { DarkCard } from '@/components/sections/DarkCard';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
 import { FadeIn } from '@/components/motion/FadeIn';
-import { UseCaseMockupCard } from '@/components/ui/UseCaseMockupCard';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -25,9 +27,18 @@ type FeatureRaw = { title: string; body: string };
 type StepRaw = { label: string; title: string; body: string };
 type MetricRaw = { value: string; label: string; description: string };
 type FAQRaw = { question: string; answer: string };
-type HeroMockup = { scenario: string; metric1Label: string; metric1Value: string; metric2Label: string; metric2Value: string };
 
 const FEATURE_ICONS = [Users, Zap, BarChart3, Target, Shield, RefreshCw] as const;
+
+// Per-use-case hero icon (mirrors the navbar's use-case iconography) so each
+// sub-page opens with its own mark in the slim hero, like the industry pages.
+const USE_CASE_HERO_ICONS: Record<UseCaseSlug, LucideIcon> = {
+  'revenue-teams': TrendingUp,
+  'managers-and-leaders': Award,
+  'customer-service': Headphones,
+  'learning-and-development': BookOpen,
+  'partner-enablement': Network,
+};
 
 // ─── Static params ────────────────────────────────────────────────────────────
 
@@ -66,7 +77,6 @@ export default async function UseCasePage({
 
   const t = await getTranslations({ locale, namespace: `useCases.${slug as UseCaseSlug}` });
 
-  const heroMockup = t.raw('heroMockup') as HeroMockup;
   const bentoItems = t.raw('bento.items') as BentoRaw[];
   const featureItems = t.raw('features') as FeatureRaw[];
   const stepItems = t.raw('stickyScroll.steps') as StepRaw[];
@@ -102,22 +112,15 @@ export default async function UseCasePage({
   return (
     <>
       {/* 1 — Hero */}
-      <HeroSplit
-        label={t('hero.label')}
+      <IndustryHero
+        variant="slim"
+        eyebrow={t('hero.label')}
         headline={t('hero.headline')}
         headlineBold={t('hero.headlineBold')}
         subheadline={t('hero.subheadline')}
         primaryCTA={{ text: t('hero.primaryCTA'), href: '/contact' }}
         secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/contact' }}
-        visual={
-          <UseCaseMockupCard
-            scenarioName={heroMockup.scenario}
-            metrics={[
-              { label: heroMockup.metric1Label, value: parseInt(heroMockup.metric1Value, 10) },
-              { label: heroMockup.metric2Label, value: parseInt(heroMockup.metric2Value, 10) },
-            ]}
-          />
-        }
+        icon={USE_CASE_HERO_ICONS[slug as UseCaseSlug]}
       />
 
       {/* 2 — Logo Marquee */}

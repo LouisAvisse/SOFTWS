@@ -1,11 +1,13 @@
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
-import { Users, Zap, BarChart3, Target, Shield, RefreshCw } from 'lucide-react';
+import {
+  Users, Zap, BarChart3, Target, Shield, RefreshCw,
+  MessageSquare, Presentation, Route, UserCheck, Sparkles, type LucideIcon,
+} from 'lucide-react';
 
 import { routing } from '@/i18n/routing';
-import { PRODUCT_SLUGS, PRODUCT_ILLUSTRATIONS, type ProductSlug } from '@/lib/content/products';
-import { HeroSplit } from '@/components/sections/HeroSplit';
+import { PRODUCT_SLUGS, type ProductSlug } from '@/lib/content/products';
 import { BentoGrid } from '@/components/sections/BentoGrid';
 import { AlternatingSteps } from '@/components/sections/AlternatingSteps';
 import { MetricScorecard } from '@/components/sections/MetricScorecard';
@@ -13,7 +15,7 @@ import { DarkCard } from '@/components/sections/DarkCard';
 import { FAQAccordion } from '@/components/sections/FAQAccordion';
 import { CenteredCTA } from '@/components/sections/CenteredCTA';
 import { FadeIn } from '@/components/motion/FadeIn';
-import { IllustrationBySlug } from '@/components/illustrations/IllustrationBySlug';
+import { IndustryHero } from '@/components/sections/IndustryHero';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -23,6 +25,19 @@ type ValueRaw = { value: string; label: string; description: string };
 type FAQRaw = { question: string; answer: string };
 
 const CAP_ICONS = [Users, Zap, BarChart3, Target, Shield, RefreshCw] as const;
+
+// Per-product hero icon (mirrors the navbar's product iconography) so each
+// sub-page opens with its own mark in the slim hero, like the industry pages.
+const PRODUCT_HERO_ICONS: Record<ProductSlug, LucideIcon> = {
+  'conversation-roleplay': MessageSquare,
+  'pitch-practice': Presentation,
+  'personalized-feedback': UserCheck,
+  'adaptive-reinforcement': RefreshCw,
+  'adaptive-journeys': Route,
+  'skill-constellations': Sparkles,
+  'conversation-intelligence': BarChart3,
+  'role-readiness-builder': Shield,
+};
 
 // ─── Static params ────────────────────────────────────────────────────────────
 
@@ -66,8 +81,6 @@ export default async function ProductPage({
   const valueItems = t.raw('value.items') as ValueRaw[];
   const faqItems = t.raw('faq.items') as FAQRaw[];
 
-  const illustrationName = PRODUCT_ILLUSTRATIONS[slug as ProductSlug];
-
   const bentoItems = capItems.map((item, i) => ({
     icon: CAP_ICONS[i % CAP_ICONS.length],
     title: item.title,
@@ -83,14 +96,15 @@ export default async function ProductPage({
   return (
     <>
       {/* 1 — Hero */}
-      <HeroSplit
-        label={t('hero.label')}
+      <IndustryHero
+        variant="slim"
+        eyebrow={t('hero.label')}
         headline={t('hero.headline')}
         headlineBold={t('hero.headlineBold')}
         subheadline={t('hero.subheadline')}
         primaryCTA={{ text: t('hero.primaryCTA'), href: '/contact' }}
         secondaryCTA={{ text: t('hero.secondaryCTA'), href: '/contact' }}
-        visual={<IllustrationBySlug name={illustrationName} className="h-64 w-full" />}
+        icon={PRODUCT_HERO_ICONS[slug as ProductSlug]}
       />
 
       {/* 2 — Why It Matters */}
