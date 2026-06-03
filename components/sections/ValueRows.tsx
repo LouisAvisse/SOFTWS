@@ -4,6 +4,7 @@ import { type ComponentType, useRef } from 'react';
 import { motion, useReducedMotion, useInView } from 'framer-motion';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { LiveCallConsole } from '@/components/ui/LiveCallConsole';
+import { SoftAppIcon } from '@/components/ui/SoftAppIcon';
 import {
   Video, Mic, Captions, PhoneOff, Sparkles, BarChart3, ArrowRight,
   type LucideIcon,
@@ -403,7 +404,14 @@ export function ValueRows({ headline, headlineItalic, body, items }: Props) {
         <FadeIn className="mx-auto mb-12 max-w-2xl text-center lg:mb-16">
           <h2 className="display-heading text-ink" style={{ fontSize: 'clamp(2rem, 3.6vw, 3rem)', lineHeight: 1.1 }}>
             {headline}
-            {headlineItalic && <> {headlineItalic}</>}
+            {headlineItalic && (
+              <>
+                {' '}
+                <SoftAppIcon className="inline-block h-[0.9em] w-[0.9em] translate-y-[0.02em] align-baseline drop-shadow-[0_2px_7px_rgba(68,114,202,0.3)]" />
+                {' '}
+                {headlineItalic}
+              </>
+            )}
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted">{body}</p>
         </FadeIn>
