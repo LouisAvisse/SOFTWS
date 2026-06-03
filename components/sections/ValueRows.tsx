@@ -394,8 +394,11 @@ const ROW_ICONS: LucideIcon[] = [Video, Sparkles, BarChart3];
 export function ValueRows({ headline, headlineItalic, body, items }: Props) {
   return (
     <section className="section-padding overflow-hidden bg-canvas">
-      {/* Product showcase — the section's opening hook, above the thesis */}
-      <FadeIn className="mx-auto mb-14 w-full max-w-[1180px] px-6 lg:mb-20">
+      {/* Product showcase — the section's opening hook, above the thesis. Held to
+          a focused width so the dense console reads as a crisp product shot with
+          breathing room on either side, not a full-bleed banner crowding the
+          hero above and the thesis below. */}
+      <FadeIn className="mx-auto mb-16 w-full max-w-[920px] px-6 lg:mb-24">
         <div className="relative">
           {/* soft brand glow behind the console */}
           <div
