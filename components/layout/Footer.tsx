@@ -14,7 +14,7 @@ function BCorp() {
       height={200}
       // self-start stops the flex column from stretching the badge to full
       // width (which made it look centered); it now sits flush-left like the logo.
-      className="h-12 w-auto self-start"
+      className="h-24 w-auto self-start"
     />
   );
 }
