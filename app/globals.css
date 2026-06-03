@@ -48,6 +48,7 @@
      Change --brand to rebrand; the light/dark/darker steps are
      the CTA gradient + hover/active states. */
   --brand: #4472ca; /* base brand                                       */
+  --brand-rgb: 68 114 202; /* base brand as channels → enables bg-brand/10 etc */
   --brand-light: #5a83d0; /* CTA gradient top                           */
   --brand-dark: #3b62ae; /* CTA hover bottom                            */
   --brand-darker: #325495; /* CTA active / focus ring                   */
@@ -165,7 +166,7 @@
   to { transform: translateX(-50%); }
 }
 .animate-logo-marquee {
-  animation: logo-marquee 40s linear infinite;
+  animation: logo-marquee 115s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .animate-logo-marquee { animation: none; }

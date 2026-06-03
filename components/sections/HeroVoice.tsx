@@ -243,7 +243,7 @@ export function HeroVoice({
           <div className="absolute inset-x-0 top-[56%] -translate-y-1/2">
             <div
               className="mx-auto"
-              style={{ maxWidth: '1110px', height: 'clamp(110px, 15vh, 196px)' }}
+              style={{ maxWidth: '1180px', height: 'clamp(122px, 16.5vh, 216px)' }}
             >
               <Soundwave barCount={40} />
             </div>

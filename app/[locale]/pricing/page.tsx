@@ -37,6 +37,7 @@ export default async function PricingPage({
     (k) => cardsObj[k],
   );
   const timelineNodes = t.raw('scale.nodes') as string[];
+  const timelineCounts = t.raw('scale.counts') as string[];
   const faqItems = t.raw('faq.items') as FAQRaw[];
 
   return (
@@ -74,7 +75,7 @@ export default async function PricingPage({
             </p>
           </FadeIn>
           <FadeIn delay={0.1} className="mt-14 lg:mt-16">
-            <PricingTimeline nodes={timelineNodes} />
+            <PricingTimeline nodes={timelineNodes} counts={timelineCounts} />
           </FadeIn>
         </div>
       </section>

@@ -43,7 +43,7 @@ interface SoundwaveProps {
 }
 
 // ── Tuning ──────────────────────────────────────────────────────────────────
-const SCROLL_HZ = 4; // bars that scroll past per second → scroll SPEED dial
+const SCROLL_HZ = 2.2; // bars that scroll past per second → scroll SPEED dial
 const ATTACK_TAU = 0.022; // s — near-instant rise on a sound onset
 const DECAY_TAU = 0.19; // s — slower fall (level-meter ballistics)
 const MIN_H = 0.05; // shortest a bar gets (silence) — a small round dot

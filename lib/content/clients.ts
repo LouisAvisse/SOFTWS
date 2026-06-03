@@ -13,9 +13,9 @@ export interface ClientLogo {
 }
 
 export const CLIENT_LOGOS: ClientLogo[] = [
-  { name: 'EDF', src: '/logo/clients/edf.svg', heightClass: 'h-11', ratio: 98 / 42 },
-  { name: 'LG', src: '/logo/clients/lg.svg', heightClass: 'h-16', ratio: 71 / 71 },
-  { name: 'Sage', src: '/logo/clients/sage.svg', heightClass: 'h-11', ratio: 85 / 51 },
-  { name: 'Groupama', src: '/logo/clients/groupama.svg', heightClass: 'h-8', ratio: 137 / 33 },
-  { name: 'Thermor', src: '/logo/clients/thermor.svg', heightClass: 'h-8', ratio: 108 / 33 },
+  { name: 'EDF', src: '/logo/clients/edf.svg', heightClass: 'h-8', ratio: 98 / 42 },
+  { name: 'LG', src: '/logo/clients/lg.svg', heightClass: 'h-11', ratio: 71 / 71 },
+  { name: 'Sage', src: '/logo/clients/sage.svg', heightClass: 'h-8', ratio: 85 / 51 },
+  { name: 'Groupama', src: '/logo/clients/groupama.svg', heightClass: 'h-6', ratio: 137 / 33 },
+  { name: 'Thermor', src: '/logo/clients/thermor.svg', heightClass: 'h-6', ratio: 108 / 33 },
 ];

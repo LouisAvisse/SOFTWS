@@ -14,7 +14,7 @@
 ============================================================================ */
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useInView } from 'framer-motion';
 import {
   Settings, Mic, Video, MonitorUp, Sparkles, Phone, Check, Clock,
   Building2, Send, Captions, type LucideIcon,
@@ -73,6 +73,10 @@ function ControlBtn({ icon: Icon, label, accent }: { icon: LucideIcon; label: st
   );
 }
 
+const CAPTION =
+  '“We’ve been burned before by tools that promised the world. Walk me through how your onboarding looks in the first two weeks.”';
+const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+
 // ── The console ──────────────────────────────────────────────────────────────
 export function LiveCallConsole() {
   const reduce = useReducedMotion();
@@ -85,9 +89,50 @@ export function LiveCallConsole() {
     { t: 'Lock follow-up next Tue', done: false },
   ];
 
+  // Subtle "it's live" choreography — starts when the console scrolls into view.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(rootRef, { amount: 0.35 });
+  const [secs, setSecs] = useState(272); // 04:32
+  const [chars, setChars] = useState(0); // caption typed length
+  const [suggest, setSuggest] = useState(false);
+
+  // Reduced motion / no-JS: resolve straight to the finished state.
+  useEffect(() => {
+    if (reduce) { setChars(CAPTION.length); setSuggest(true); }
+  }, [reduce]);
+
+  // Call timer: ticks 1s, looping 04:30 → 05:30. Also drives the drill counter.
+  useEffect(() => {
+    if (reduce || !inView) return;
+    const id = setInterval(() => setSecs((s) => (s >= 330 ? 270 : s + 1)), 1000);
+    return () => clearInterval(id);
+  }, [reduce, inView]);
+
+  // Caption types itself in, then the suggestion arrives a beat later (not at
+  // the same moment). Replays each time the console re-enters view.
+  useEffect(() => {
+    if (reduce || !inView) return;
+    setChars(0);
+    setSuggest(false);
+    let typer: ReturnType<typeof setInterval>;
+    let i = 0;
+    const startType = setTimeout(() => {
+      typer = setInterval(() => {
+        i += 2;
+        setChars(Math.min(i, CAPTION.length));
+        if (i >= CAPTION.length) clearInterval(typer);
+      }, 28);
+    }, 350);
+    const suggestT = setTimeout(() => setSuggest(true), 1600);
+    return () => { clearTimeout(startType); clearTimeout(suggestT); clearInterval(typer); };
+  }, [reduce, inView]);
+
+  const typing = chars > 0 && chars < CAPTION.length;
+
   return (
     <ScaleToFit>
       <div
+        ref={rootRef}
         aria-hidden="true"
         className="flex h-full w-full flex-col gap-3 rounded-[22px] bg-[#F9F3EE] px-[22px] pb-[18px] pt-[14px] ring-1 ring-black/[0.06] shadow-[0_50px_100px_-45px_rgba(20,18,16,0.5)]"
       >
@@ -110,7 +155,7 @@ export function LiveCallConsole() {
                 {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#DC2626] opacity-60" />}
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#DC2626]" />
               </span>
-              LIVE · 04:32
+              LIVE · <span className="tabular-nums">{mmss(secs)}</span>
             </span>
             <Settings className="h-[18px] w-[18px] text-[#8B7C6B]" strokeWidth={1.9} />
           </div>
@@ -167,14 +212,15 @@ export function LiveCallConsole() {
               </div>
             </div>
 
-            {/* Caption */}
-            <div className="flex shrink-0 items-center gap-3 rounded-[12px] border border-line bg-[#FEFBF9] px-4 py-3">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF1FC] text-[11px] font-semibold text-brand">MO</span>
-              <span className="shrink-0 text-[12px] font-medium text-[#8B7C6B]">Maya Okonkwo</span>
-              <p className="min-w-0 flex-1 truncate text-[14px] text-[#3A322A]">
-                “We’ve been burned before by tools that promised the world. Walk me through how your onboarding looks in the first two weeks.”
+            {/* Caption — types itself in, as if transcribed live */}
+            <div className="flex shrink-0 items-start gap-3 rounded-[12px] border border-line bg-[#FEFBF9] px-4 py-3">
+              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF1FC] text-[11px] font-semibold text-brand">MO</span>
+              <span className="mt-1 shrink-0 text-[12px] font-medium text-[#8B7C6B]">Maya Okonkwo</span>
+              <p className="min-w-0 flex-1 text-[14px] leading-snug text-[#3A322A]" style={{ minHeight: '2.6em' }}>
+                {CAPTION.slice(0, chars)}
+                {typing && <span className="ml-px inline-block h-[1.05em] w-[2px] translate-y-[2px] animate-pulse bg-brand align-middle" />}
               </p>
-              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line px-2.5 py-1.5 text-[12px] font-medium text-[#8B7C6B]">
+              <span className="mt-0.5 inline-flex shrink-0 items-center gap-1.5 self-start rounded-full border border-line px-2.5 py-1.5 text-[12px] font-medium text-[#8B7C6B]">
                 <Captions className="h-3.5 w-3.5" strokeWidth={1.9} /> Captions on
               </span>
             </div>
@@ -260,13 +306,20 @@ export function LiveCallConsole() {
               <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-brand">
                 <Sparkles className="h-3.5 w-3.5" strokeWidth={2} /> Soft suggests
               </p>
-              <p className="mt-1.5 text-[12.5px] leading-snug text-[#3A322A]">
-                Maya just said “burned before.” Mirror it: ask what broke in that rollout before pitching your onboarding.
-              </p>
-              <div className="mt-2.5 flex items-center gap-2">
-                <span className="rounded-lg px-3 py-2 text-[13px] font-medium text-[#6C5F50]">Skip</span>
-                <span className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-white">Use this</span>
-              </div>
+              {/* The suggestion populates a beat after the caption starts */}
+              <motion.div
+                initial={false}
+                animate={{ opacity: suggest ? 1 : 0, y: suggest ? 0 : 6 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <p className="mt-1.5 text-[12.5px] leading-snug text-[#3A322A]">
+                  Maya just said “burned before.” Mirror it: ask what broke in that rollout before pitching your onboarding.
+                </p>
+                <div className="mt-2.5 flex items-center gap-2">
+                  <span className="rounded-lg px-3 py-2 text-[13px] font-medium text-[#6C5F50]">Skip</span>
+                  <span className="rounded-lg bg-brand px-3.5 py-2 text-[13px] font-semibold text-white">Use this</span>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -282,7 +335,7 @@ export function LiveCallConsole() {
             </div>
             <div className="flex items-center gap-2.5">
               <span className="inline-flex items-center gap-2 rounded-full border border-line bg-[#FEFBF9] px-4 py-2.5 text-[14px] font-medium text-[#6C5F50]">
-                <Clock className="h-[18px] w-[18px]" strokeWidth={1.9} /> Drill 04:32 / 12:00
+                <Clock className="h-[18px] w-[18px]" strokeWidth={1.9} /> Drill <span className="tabular-nums">{mmss(secs)}</span> / 12:00
               </span>
               <span className="inline-flex items-center gap-2 rounded-full bg-[#DC2626] px-4 py-2.5 text-[15px] font-semibold text-white">
                 <Phone className="h-[18px] w-[18px] rotate-[135deg]" strokeWidth={2} /> End call
