@@ -46,7 +46,9 @@ const config: Config = {
         // class; these tokens are for brand accents (text-brand,
         // bg-brand, border-brand, ring-brand).
         brand: {
-          DEFAULT: 'var(--brand)',
+          // Channel form so opacity modifiers work (bg-brand/10, text-brand/60).
+          // Renders identically to var(--brand) at full alpha.
+          DEFAULT: 'rgb(var(--brand-rgb) / <alpha-value>)',
           light: 'var(--brand-light)',
           dark: 'var(--brand-dark)',
           darker: 'var(--brand-darker)',

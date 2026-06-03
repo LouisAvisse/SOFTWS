@@ -9,22 +9,27 @@
 //   • SCRIM_HEIGHT — how tall the frosted band is.
 //   • LAYERS       — the progressive blur ramp (more layers = smoother fade).
 
-// Ends at the navbar's bottom edge (pill = 10px top gap + 48px tall ≈ 58px) so the
-// frost only covers the strip above/around the nav — never the content below it.
-const SCRIM_HEIGHT = '60px';
+// The band is a touch taller than the navbar's bottom edge (pill = 10px top gap
+// + 48px tall ≈ 58px) so the blur has finished fading to nothing by the time it
+// reaches the bar — content below the nav is always crisp.
+const SCRIM_HEIGHT = '74px';
+const NAV_BOTTOM_PCT = 80; // ≈58px / 74px — where the frost is fully gone
 
-// Each layer applies a stronger blur confined to a lower band, so the blur ramps
-// up smoothly from crisp (bottom) to fully frosted (top).
+// Progressive blur, STRONG at the very top → clear at the navbar's bottom.
+// Layers are stacked small→large blur; each larger blur is masked to a smaller
+// band hugging the top, so backdrop-filters compound there into a heavy frost
+// that thins out smoothly going down. `stop` = where that layer fades to nothing.
 const LAYERS = [
-  { blur: 0.5, from: 0, to: 30 },
-  { blur: 1.5, from: 15, to: 50 },
-  { blur: 3, from: 35, to: 70 },
-  { blur: 6, from: 55, to: 100 },
+  { blur: 1, stop: NAV_BOTTOM_PCT },
+  { blur: 2.5, stop: 60 },
+  { blur: 5, stop: 40 },
+  { blur: 10, stop: 22 },
 ];
 
-function bandMask(from: number, to: number) {
-  const mid = (from + to) / 2;
-  return `linear-gradient(to bottom, transparent ${from}%, black ${mid}%, black ${to}%, transparent 100%)`;
+// Opaque from the top, fading out over the last ~22% before `stop`.
+function topMask(stop: number) {
+  const fadeStart = Math.max(0, stop - 22);
+  return `linear-gradient(to bottom, #000 0%, #000 ${fadeStart}%, transparent ${stop}%)`;
 }
 
 export function TopScrim() {
@@ -42,8 +47,8 @@ export function TopScrim() {
           style={{
             backdropFilter: `blur(${layer.blur}px)`,
             WebkitBackdropFilter: `blur(${layer.blur}px)`,
-            maskImage: bandMask(layer.from, layer.to),
-            WebkitMaskImage: bandMask(layer.from, layer.to),
+            maskImage: topMask(layer.stop),
+            WebkitMaskImage: topMask(layer.stop),
           }}
         />
       ))}

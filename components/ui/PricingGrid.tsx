@@ -88,7 +88,7 @@ export function PricingGrid({ cards, isAnnual }: Props) {
             <Button
               variant={rec ? 'default' : 'architectural'}
               asChild
-              className="w-full justify-center"
+              className="w-full justify-center rounded-lg"
             >
               <Link href={isEnterprise ? '/contact' : '/signup'}>{card.cta}</Link>
             </Button>

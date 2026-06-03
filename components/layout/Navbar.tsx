@@ -355,15 +355,15 @@ function NavSimpleLink({ label, href, active }: { label: string; href: string; a
 
 function DrawerItem({ href, icon: Icon, label, desc }: { href: string; icon: React.ElementType; label: string; desc: string }) {
   return (
-    <Link href={href} className="flex items-center gap-3 px-2.5 py-2 rounded-lg transition-colors group hover:bg-surface">
-      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface group-hover:bg-mist transition-colors flex-shrink-0">
-        <Icon className="w-4 h-4 text-faint group-hover:text-body transition-colors" />
+    <Link href={href} className="group flex items-center gap-3 px-2.5 py-2 rounded-lg transition-colors duration-200 hover:bg-brand/[0.06]">
+      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface border border-line/70 text-muted transition-colors duration-200 group-hover:bg-brand group-hover:border-transparent group-hover:text-white flex-shrink-0">
+        <Icon className="w-4 h-4" />
       </span>
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-medium text-ink-3 group-hover:text-ink transition-colors">{label}</p>
-        <p className="text-[11px] text-faint leading-snug">{desc}</p>
+        <p className="text-[13px] font-medium text-ink-2 group-hover:text-ink transition-colors duration-200">{label}</p>
+        <p className="text-[11px] text-muted leading-snug">{desc}</p>
       </div>
-      <ArrowRight className="w-3.5 h-3.5 text-line opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all flex-shrink-0" />
+      <ArrowRight className="w-3.5 h-3.5 text-brand opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 flex-shrink-0" />
     </Link>
   );
 }
@@ -417,13 +417,13 @@ function MobileSection({ label, isOpen, onToggle, children, grid }: { label: str
 
 function MobileNavItem({ href, icon: Icon, label, desc }: { href: string; icon: React.ElementType; label: string; desc: string }) {
   return (
-    <Link href={href} className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors hover:bg-surface">
-      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-mist flex-shrink-0">
-        <Icon className="w-3.5 h-3.5 text-muted" />
+    <Link href={href} className="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-200 active:bg-brand/[0.06]">
+      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface border border-line/70 text-muted transition-colors duration-200 group-active:bg-brand group-active:border-transparent group-active:text-white flex-shrink-0">
+        <Icon className="w-3.5 h-3.5" />
       </span>
       <div className="min-w-0">
-        <p className="text-[13px] font-medium text-ink-3">{label}</p>
-        <p className="text-[11px] text-faint leading-snug">{desc}</p>
+        <p className="text-[13px] font-medium text-ink-2">{label}</p>
+        <p className="text-[11px] text-muted leading-snug">{desc}</p>
       </div>
     </Link>
   );
