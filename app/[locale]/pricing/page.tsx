@@ -52,7 +52,7 @@ export default async function PricingPage({
             <h1 className="display-heading mb-4 text-4xl leading-[1.08] text-ink lg:text-5xl">
               {t('hero.headline')}
             </h1>
-            <p className="text-base leading-normal text-muted lg:text-lg">
+            <p className="text-base leading-snug text-muted lg:text-lg">
               {t('hero.subheadline')}
             </p>
           </FadeIn>
@@ -70,7 +70,7 @@ export default async function PricingPage({
             <h2 className="display-heading mb-4 text-3xl text-ink lg:text-4xl">
               {t('scale.headline')}
             </h2>
-            <p className="mx-auto max-w-xl text-base leading-normal text-muted">
+            <p className="mx-auto max-w-xl text-base leading-snug text-muted">
               {t('scale.body')}
             </p>
           </FadeIn>
@@ -90,7 +90,7 @@ export default async function PricingPage({
             <h2 className="text-3xl lg:text-4xl display-heading text-white mb-4">
               {t('finalCTA.headline')}
             </h2>
-            <p className="text-base text-faint leading-normal mb-8">
+            <p className="text-base text-faint leading-snug mb-8">
               {t('finalCTA.body')}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">

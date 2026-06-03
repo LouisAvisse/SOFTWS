@@ -412,7 +412,7 @@ export function ValueRows({ headline, headlineItalic, body, items }: Props) {
               </>
             )}
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-normal text-muted">{body}</p>
+          <p className="mx-auto mt-5 max-w-xl text-base leading-snug text-muted">{body}</p>
         </FadeIn>
 
         {/* Product showcase — below the thesis. Held to a focused width so the
@@ -455,7 +455,7 @@ export function ValueRows({ headline, headlineItalic, body, items }: Props) {
                   >
                     {item.title}
                   </h3>
-                  <p className="mt-4 max-w-[44ch] text-[15px] leading-normal text-body lg:text-base">
+                  <p className="mt-4 max-w-[44ch] text-[15px] leading-snug text-body lg:text-base">
                     {item.body}
                   </p>
                 </FadeIn>

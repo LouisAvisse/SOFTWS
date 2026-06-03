@@ -57,7 +57,7 @@ export function HeroCentered({
               {headline}{' '}
               <span className="not-italic">{headlineBold}</span>
             </h1>
-            <p className="text-base lg:text-lg text-body leading-normal mb-10 max-w-2xl mx-auto">
+            <p className="text-base lg:text-lg text-body leading-snug mb-10 max-w-2xl mx-auto">
               {subheadline}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">

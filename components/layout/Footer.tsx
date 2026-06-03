@@ -70,7 +70,7 @@ export async function Footer() {
                   className="h-7 w-auto"
                 />
               </Link>
-              <p className="mt-2 text-sm leading-normal">{t('tagline')}</p>
+              <p className="mt-2 text-sm leading-snug">{t('tagline')}</p>
             </div>
             <BCorp />
           </FooterBrandReveal>

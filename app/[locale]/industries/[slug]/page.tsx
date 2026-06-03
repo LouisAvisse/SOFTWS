@@ -99,7 +99,7 @@ export default async function IndustryPage({
         </span>
         <div>
           <h3 className="mb-3 text-xl font-semibold text-ink">{tab.title}</h3>
-          <p className="leading-normal text-body">{tab.body}</p>
+          <p className="leading-snug text-body">{tab.body}</p>
         </div>
       </div>
     ),

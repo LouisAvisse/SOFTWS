@@ -75,7 +75,7 @@ export function VerticalTimeline({ milestones }: Props) {
                   {m.label}
                   {m.label === 'B-Corp Certified' && <BCorp />}
                 </h3>
-                <p className="text-sm text-muted leading-normal mt-1">{m.body}</p>
+                <p className="text-sm text-muted leading-snug mt-1">{m.body}</p>
               </div>
             </div>
           </motion.div>

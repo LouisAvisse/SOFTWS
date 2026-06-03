@@ -88,7 +88,7 @@ export function IndustryHero({
             >
               {headline} <em className="not-italic">{headlineBold}</em>
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-normal text-muted lg:text-lg">
+            <p className="mt-6 max-w-xl text-base leading-snug text-muted lg:text-lg">
               {subheadline}
             </p>
             <Ctas primaryCTA={primaryCTA} secondaryCTA={secondaryCTA} />
@@ -115,7 +115,7 @@ export function IndustryHero({
           >
             {headline} <em className="not-italic">{headlineBold}</em>
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-normal text-muted lg:text-lg">
+          <p className="mt-5 max-w-2xl text-base leading-snug text-muted lg:text-lg">
             {subheadline}
           </p>
           <Ctas primaryCTA={primaryCTA} secondaryCTA={secondaryCTA} />

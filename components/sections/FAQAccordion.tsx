@@ -55,7 +55,7 @@ export function FAQAccordion({ headline, faqs }: FAQAccordionProps) {
                       transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
                       className="overflow-hidden"
                     >
-                      <p className="text-[15px] text-body leading-normal pb-5">
+                      <p className="text-[15px] text-body leading-snug pb-5">
                         {faq.answer}
                       </p>
                     </motion.div>

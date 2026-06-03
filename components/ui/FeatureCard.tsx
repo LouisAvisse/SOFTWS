@@ -134,7 +134,7 @@ export function FeatureCard({
       )}
       {children ??
         (body && (
-          <p className={cn('text-sm leading-normal', dark ? 'text-faint' : 'text-body')}>{body}</p>
+          <p className={cn('text-sm leading-snug', dark ? 'text-faint' : 'text-body')}>{body}</p>
         ))}
       {footer && <div className="mt-6">{footer}</div>}
     </>
