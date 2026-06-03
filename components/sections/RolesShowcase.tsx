@@ -34,23 +34,21 @@ interface RolesShowcaseProps {
 const ROLE_ICONS: LucideIcon[] = [TrendingUp, Users, Headphones, BookOpen];
 
 // ─── Scroll choreography ───────────────────────────────────────────────────────
-// A short lead beat (title only), then each card gets an equal slice of scroll
-// to fly up and land; a short tail holds the finished pile. The lead is kept
-// small so the first card arrives almost as soon as the section pins, instead
-// of leaving a long empty stage on entry.
-const LEAD = 0.05;
-const TAIL = 0.05;
+// A lead beat (title only, deck empty), then each card gets an equal slice of
+// scroll to fly up and land; a short tail holds the finished pile.
+const LEAD = 0.12;
+const TAIL = 0.06;
 
 // ─── Metric bar ──────────────────────────────────────────────────────────────
 
 function MetricBar({ label, value }: { label: string; value: number }) {
   return (
     <div>
-      <div className="mb-1 flex items-center justify-between">
-        <span className="text-[12px] text-body">{label}</span>
-        <span className="font-mono text-[12px] font-semibold text-ink">{value}%</span>
+      <div className="mb-1.5 flex items-center justify-between">
+        <span className="text-[13px] text-body">{label}</span>
+        <span className="font-mono text-[13px] font-semibold text-ink">{value}%</span>
       </div>
-      <div className="h-1.5 overflow-hidden rounded-full bg-mist">
+      <div className="h-2 overflow-hidden rounded-full bg-mist">
         <div className="h-full rounded-full bg-brand" style={{ width: `${value}%` }} />
       </div>
     </div>
@@ -79,31 +77,31 @@ function RoleCard({
   const avg = Math.round((m1 + m2) / 2);
 
   return (
-    <div className="flex h-full flex-col rounded-[18px] border border-line bg-white p-5 shadow-[0_24px_56px_-30px_rgba(20,18,16,0.36)] lg:p-6">
-      <div className="flex items-start gap-3.5">
-        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand ring-1 ring-inset ring-brand/15">
-          <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
+    <div className="flex h-full flex-col rounded-[20px] border border-line bg-white p-7 shadow-[0_30px_70px_-32px_rgba(20,18,16,0.4)] lg:p-9">
+      <div className="flex items-start gap-4">
+        <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand ring-1 ring-inset ring-brand/15">
+          <Icon className="h-5 w-5" strokeWidth={1.75} />
         </span>
         <div className="min-w-0">
-          <p className="text-[10.5px] font-medium uppercase tracking-[0.12em] text-faint">
+          <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-faint">
             {role.scenario}
           </p>
-          <h3 className="mt-0.5 text-lg font-semibold text-ink lg:text-[20px]">{role.label}</h3>
+          <h3 className="mt-0.5 text-xl font-semibold text-ink lg:text-[22px]">{role.label}</h3>
         </div>
         <div className="ml-auto flex flex-col items-end pl-3">
-          <span className="font-mono text-[22px] font-bold leading-none text-ink">{avg}</span>
+          <span className="font-mono text-2xl font-bold leading-none text-ink">{avg}</span>
           <span className="mt-0.5 text-[10px] text-faint">{avgLabel}</span>
         </div>
       </div>
 
-      <p className="mt-3 max-w-[46ch] text-[13.5px] leading-relaxed text-ink-3">{role.body}</p>
+      <p className="mt-5 max-w-[48ch] text-[15px] leading-relaxed text-ink-3">{role.body}</p>
 
-      <div className="mt-5 space-y-3">
+      <div className="mt-auto space-y-4 pt-7">
         <MetricBar label={role.metric1Label} value={m1} />
         <MetricBar label={role.metric2Label} value={m2} />
       </div>
 
-      <div className="mt-auto flex items-center justify-between border-t border-mist pt-3.5">
+      <div className="mt-6 flex items-center justify-between border-t border-mist pt-5">
         <span className="text-[11px] font-medium text-faint">{`${index + 1} / ${total}`}</span>
         <Link
           href="/use-cases"
@@ -138,7 +136,7 @@ function StackCard({
 
   // Fly up from below → land as the top sheet → recede into a thin stacked edge
   // (only ~10px per card peeks) as later sheets land on top.
-  const y = useTransform(progress, [start, end, 1], [440, 0, -depth * 10]);
+  const y = useTransform(progress, [start, end, 1], [640, 0, -depth * 10]);
   const scale = useTransform(progress, [start, end], [0.92, 1]);
   const rotate = useTransform(progress, [start, end, 1], [index % 2 ? 3.5 : -3.5, 0, restTilt]);
   const opacity = useTransform(progress, [start, start + span * 0.28], [0, 1]);
@@ -224,7 +222,7 @@ export function RolesShowcase({ eyebrow, headline, roles, learnMoreLabel, avgLab
           <div className="mb-12 text-center">
             <Header eyebrow={eyebrow} headline={headline} />
           </div>
-          <div className="mx-auto grid max-w-[540px] gap-4">
+          <div className="mx-auto grid max-w-2xl gap-5">
             {roles.map((role, i) => (
               <RoleCard
                 key={i}
@@ -246,25 +244,33 @@ export function RolesShowcase({ eyebrow, headline, roles, learnMoreLabel, avgLab
     <section
       ref={containerRef}
       className="relative bg-canvas"
-      style={{ height: `${total * 56 + 40}vh` }}
+      style={{ height: `${total * 82 + 70}vh` }}
     >
-      {/* Title + deck are centered as one group in the pinned viewport, so the
-          heading sits right above the pile with balanced breathing room above
-          and below — connected, not stranded at the top with a void beneath. */}
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden px-6 pt-[60px]">
-        <div className="w-full max-w-content text-center">
+      <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
+        {/* Title — sits just below the navbar (≈68px) with a little breathing room,
+            instead of being pushed far down the viewport. */}
+        <div
+          className="mx-auto w-full max-w-content px-6 text-center"
+          style={{ paddingTop: 'clamp(88px, 10vh, 120px)' }}
+        >
           <Header eyebrow={eyebrow} headline={headline} />
-          <div className="mt-5 flex items-center justify-center gap-2">
+          <div className="mt-6 flex items-center justify-center gap-2">
             {roles.map((_, i) => (
               <StackDot key={i} index={i} total={total} progress={scrollYProgress} />
             ))}
           </div>
         </div>
 
+        {/* Card deck — anchored just below the title (instead of centered in the
+            leftover space) so there's no large gap between the heading and cards. */}
         <div
-          className="relative w-full max-w-[540px]"
-          style={{ height: 'clamp(242px, 31vh, 276px)', marginTop: 'clamp(30px, 5vh, 60px)' }}
+          className="flex flex-1 items-start justify-center px-6"
+          style={{ paddingTop: 'clamp(52px, 7vh, 96px)' }}
         >
+          <div
+            className="relative w-full max-w-2xl"
+            style={{ height: 'clamp(380px, 52vh, 470px)' }}
+          >
             {roles.map((role, i) => (
               <StackCard key={i} index={i} total={total} progress={scrollYProgress}>
                 <RoleCard
@@ -277,6 +283,7 @@ export function RolesShowcase({ eyebrow, headline, roles, learnMoreLabel, avgLab
                 />
               </StackCard>
             ))}
+          </div>
         </div>
       </div>
     </section>
