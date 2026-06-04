@@ -66,11 +66,11 @@ export default async function PricingPage({
       {/* 2 — Scale section (narrative + "coverage grows" visual) */}
       <section className="border-t border-line bg-canvas py-20 lg:py-24">
         <div className="mx-auto max-w-content px-6">
-          <FadeIn className="mx-auto max-w-2xl text-center">
+          <FadeIn className="max-w-2xl">
             <h2 className="display-heading mb-4 text-3xl text-ink lg:text-4xl">
               {t('scale.headline')}
             </h2>
-            <p className="mx-auto max-w-xl text-base leading-snug text-muted">
+            <p className="max-w-xl text-base leading-snug text-muted">
               {t('scale.body')}
             </p>
           </FadeIn>
