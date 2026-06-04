@@ -231,12 +231,19 @@ export function HeroVoice({
           </motion.div>
         </div>
 
-        {/* ── Soundwave + speaker (flexible middle: fills slack, scales to fit) ── */}
+        {/* ── Soundwave + speaker ──
+            Desktop: the flexible middle that absorbs slack and pushes the trust
+            strip to the bottom (lg:flex-1). Mobile: a FIXED height in vh (which
+            maps to the large/stable viewport, so it never reflows as the address
+            bar shows/hides) with the stack top-aligned. That keeps the logos at a
+            constant position inside the small viewport instead of being pushed to
+            the bottom of a briefly-too-tall section — which was clipping them on
+            first paint until a scroll forced the viewport units to re-resolve. */}
         <motion.div
           initial={fadeInitial}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: EASE, delay: 0.35 }}
-          className="relative mx-auto min-h-0 w-full flex-1"
+          className="relative mx-auto w-full shrink-0 h-[clamp(150px,26vh,250px)] lg:h-auto lg:min-h-0 lg:flex-1 lg:shrink"
           style={{ marginTop: 'clamp(0.5rem, 1.6vh, 1.25rem)' }}
         >
           {/* Wave sits behind, centred just below the speakers' mid-line. */}
